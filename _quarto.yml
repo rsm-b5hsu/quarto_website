@@ -1,6 +1,8 @@
 project:
   type: website
   output-dir: docs
+  resources:
+    - assignment_files/**
 
 website:
   title: "Ben's Website"
@@ -12,6 +14,8 @@ website:
         text: Resume
       - href: projects.qmd
         text: Projects
+      - href: assignment.qmd
+        text: Assignments
       - href: fantasy-championship.qmd
         text: 🏆 Fantasy Basketball
 
