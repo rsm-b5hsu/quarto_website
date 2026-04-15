@@ -1,0 +1,426 @@
+---
+title: "🏆 Championship Run"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+execute:
+  echo: true
+  warning: false
+---
+```{=html}
+<style>
+.hero-banner {
+  background: linear-gradient(135deg, #1a237e 0%, #283593 40%, #c62828 100%);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.hero-banner h1 {
+  font-size: 2.4rem;
+  color: #ffffff !important;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+}
+.hero-banner p {
+  font-size: 1.1rem;
+  color: #bbdefb;
+  margin: 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.stat-card {
+  border: 1px solid #d0d7de;
+  border-radius: 10px;
+  padding: 1.2rem 0.8rem;
+  text-align: center;
+  transition: box-shadow 0.2s;
+}
+.stat-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+.stat-number {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #c62828;
+  display: block;
+}
+.stat-label {
+  font-size: 0.78rem;
+  color: #57606a;
+  margin-top: 0.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin: 2rem 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, #c62828, #1565c0);
+  border-radius: 2px;
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 1.8rem;
+  padding-left: 1.5rem;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -2.35rem;
+  top: 0.35rem;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #57606a;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px #d0d7de;
+}
+.timeline-item.win::before  { background: #2da44e; box-shadow: 0 0 0 2px #2da44e44; }
+.timeline-item.loss::before { background: #cf222e; box-shadow: 0 0 0 2px #cf222e44; }
+.timeline-item.key::before  { background: #9a6700; box-shadow: 0 0 0 2px #9a670044; }
+
+.timeline-badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.badge-win    { background: #dafbe1; color: #116329; border: 1px solid #2da44e; }
+.badge-loss   { background: #ffebe9; color: #82071e; border: 1px solid #cf222e; }
+.badge-trade  { background: #fff8c5; color: #4b2900; border: 1px solid #9a6700; }
+.badge-injury { background: #f6f8fa; color: #57606a; border: 1px solid #d0d7de; }
+
+.timeline-item h4 { margin: 0.2rem 0 0.2rem; font-size: 1rem; }
+.timeline-item p  { color: #57606a; font-size: 0.88rem; margin: 0; }
+
+.strategy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.strategy-card {
+  border: 1px solid #d0d7de;
+  border-radius: 10px;
+  padding: 1.3rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.strategy-card:hover {
+  border-color: #c62828;
+  box-shadow: 0 4px 16px rgba(198,40,40,0.1);
+}
+.strategy-icon {
+  font-size: 1.8rem;
+  margin-bottom: 0.6rem;
+  display: block;
+}
+.strategy-card h4 { color: #c62828; margin: 0 0 0.4rem; font-size: 0.95rem; }
+.strategy-card p  { color: #57606a; font-size: 0.85rem; margin: 0; }
+
+@media (max-width: 600px) {
+  .hero-banner h1 { font-size: 1.6rem; }
+  .stats-grid     { grid-template-columns: repeat(2, 1fr); }
+  .strategy-grid  { grid-template-columns: 1fr; }
+}
+</style>
+```
+```{=html}
+<div class="hero-banner">
+  <h1>🏆 2025–26 Fantasy Basketball Championship</h1>
+  <p>How I combined <strong>Yahoo API automation</strong>,
+     <strong>Monte Carlo simulation</strong>, and
+     <strong>strategic tanking</strong> to win it all</p>
+</div>
+```
+
+## Season Numbers
+```{=html}
+<div class="stats-grid">
+  <div class="stat-card">
+    <span class="stat-number">24</span>
+    <div class="stat-label">Weeks Tracked</div>
+  </div>
+    <div class="stat-card">
+    <span class="stat-number">14</span>
+    <div class="stat-label">Teams involved</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-number">13+1</span>
+    <div class="stat-label">Roster Players</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-number">100K</span>
+    <div class="stat-label">Simulations / Week</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-number">trad 9</span>
+    <div class="stat-label">Stat Categories</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-number">🥇</span>
+    <div class="stat-label">Final Result</div>
+  </div>
+</div>
+```
+
+## Season Journey
+```{=html}
+<div class="timeline">
+
+  <div class="timeline-item loss">
+    <span class="timeline-badge badge-injury">Weeks 1–5</span>
+    <h4>Injury Chaos Begins</h4>
+    <p>Top draft picks sidelined early. Thanks to the strong roster dominating FG%, REB, AST, and BLK categories, I reached rank 2 early.</p>
+  </div>
+
+  <div class="timeline-item loss">
+    <span class="timeline-badge badge-injury">Weeks 6–18</span>
+    <h4>Multiple Injuries, Holding Position</h4>
+    <p>Roster never fully healthy for 18 straight weeks. Utilized strategic waiver wire moves on category-specific strengths of REB, AST, and low TOs to maintain standings at rank 9.</p>
+  </div>
+
+  <div class="timeline-item key">
+    <span class="timeline-badge badge-trade">Week 19 — Turning Point</span>
+    <h4>🔑 Player come back + KD + Raynaud Trade</h4>
+    <p>4 players come back from injury after All-star break, and acquired Kevin Durant and Maxime Raynaud at low cost thanks to season ending sale. Projection model flagged an immediate boost across 3PT, PTS, STL.</p>
+  </div>
+
+  <div class="timeline-item win">
+    <span class="timeline-badge badge-win">Weeks 19–21</span>
+    <h4>Roster at Full Strength</h4>
+    <p>Jokić, Durant, and Paul George all healthy simultaneously for the first time. Weekly win probabilities climbed above 85%.</p>
+  </div>
+
+  <div class="timeline-item key">
+    <span class="timeline-badge badge-trade">Week 22 — The Tank</span>
+    <h4>🎲 Strategic Seed 8 Decision</h4>
+    <p>Identified that Jokić and Clingan had only 2 games in Week 23 due to NBA scheduling. Deliberately lost Week 21 to drop to Seed 8, avoiding a top-seed semi-final during the weakest week.</p>
+  </div>
+
+  <div class="timeline-item win">
+    <span class="timeline-badge badge-win">Weeks 23–24</span>
+    <h4>🏆 Playoff Dominance</h4>
+    <p>Semi-finals won against a mid-seed opponent despite Jokić's limited games. Finals entered with full roster and 91.7% simulated win probability.</p>
+  </div>
+
+</div>
+```
+
+## The Technical Stack
+```{=html}
+<div class="strategy-grid">
+  <div class="strategy-card">
+    <span class="strategy-icon">🤖</span>
+    <h4>Yahoo API Automation</h4>
+    <p>Daily automated pulls of roster stats, injury flags, and matchup data
+       via OAuth. Output pushed directly to Excel reports each morning.</p>
+  </div>
+  <div class="strategy-card">
+    <span class="strategy-icon">🎲</span>
+    <h4>Monte Carlo Simulation</h4>
+    <p>100,000 simulations per matchup using Poisson distributions per player
+       per game. Generated category-level and overall win probabilities.</p>
+  </div>
+  <div class="strategy-card">
+    <span class="strategy-icon">📊</span>
+    <h4>Excel Matchup Board</h4>
+    <p>Auto-generated weekly Excel boards showing projected vs. actual stats,
+       games remaining, injury status, and category breakdowns.</p>
+  </div>
+  <div class="strategy-card">
+    <span class="strategy-icon">🏥</span>
+    <h4>Injury Tracking</h4>
+    <p>ESPN injury feed integrated with roster data. Automated GTD/OUT flags
+       with season-average fallbacks to keep projections realistic.</p>
+  </div>
+  <div class="strategy-card">
+    <span class="strategy-icon">⚗️</span>
+    <h4>Last-30 Baseline Stats</h4>
+    <p>Rolling 30-day averages as projection baseline, with season-stat
+       fallback for players returning from injury.</p>
+  </div>
+  <div class="strategy-card">
+    <span class="strategy-icon">🌲</span>
+    <h4>Games Remaining Model</h4>
+    <p>NBA schedule scraper estimated remaining games per team each week,
+       driving volume-adjusted projections that raw averages miss.</p>
+  </div>
+</div>
+```
+
+## The Strategic Tank
+
+My two best players had a critical NBA scheduling problem in Week 23:
+
+- **Nikola Jokić** — elite across all 7 categories, but only **2 games** in Week 23
+- **Donovan Clingan** — elite REB + BLK, but only **2 games** in Week 23
+
+This made Week 23 my weakest week of the playoffs regardless of seeding. The key question was: **which opponent do I face in that weak week?**
+```{python}
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+import matplotlib.gridspec as gridspec
+
+fig = plt.figure(figsize=(13, 6.5))
+gs = gridspec.GridSpec(2, 1, hspace=0.7)
+
+xs = [0.3, 4.2, 8.1]
+week_labels = ['Week 22\n(Quarter-finals)', 'Week 23\n(Semi-finals)', 'Week 24\n(Finals)']
+BOX_W, BOX_H = 3.5, 0.8
+
+def draw_row(ax, title, title_color, boxes):
+    ax.set_xlim(0, 12.5)
+    ax.set_ylim(-0.05, 1.6)
+    ax.axis('off')
+    ax.text(0.2, 1.52, title, color=title_color,
+            fontsize=10.5, fontweight='bold', va='top')
+
+    for i, (label, sub, color) in enumerate(boxes):
+        x = xs[i]
+        rect = mpatches.FancyBboxPatch(
+            (x, 0.45), BOX_W, BOX_H,
+            boxstyle="round,pad=0.1",
+            linewidth=1.3, edgecolor='#bbbbbb',
+            facecolor=color
+        )
+        ax.add_patch(rect)
+        ax.text(x + BOX_W/2,
+                0.45 + BOX_H/2 + (0.1 if sub else 0),
+                label, ha='center', va='center',
+                color='white', fontsize=9, fontweight='bold')
+        if sub:
+            ax.text(x + BOX_W/2,
+                    0.45 + BOX_H/2 - 0.18,
+                    sub, ha='center', va='center',
+                    color='#eeeeee', fontsize=7.8)
+        ax.text(x + BOX_W/2, 0.38, week_labels[i],
+                ha='center', va='top',
+                color='#666666', fontsize=7.5)
+        if i < len(boxes) - 1:
+            ax.annotate('',
+                xy=(xs[i+1] - 0.05, 0.45 + BOX_H/2),
+                xytext=(x + BOX_W + 0.05, 0.45 + BOX_H/2),
+                arrowprops=dict(arrowstyle='->', color='#888888', lw=1.5))
+
+# PATH A: Seed 3-6
+ax1 = fig.add_subplot(gs[0])
+draw_row(ax1,
+    title='PATH A — Seed 3 to 6  (rejected)',
+    title_color='#c62828',
+    boxes=[
+        ('QF: vs Seed 7/8',    '✅ Jokić 4G — Win easily',       '#2e7d32'),
+        ('SF: vs Seed 1 or 2', '❌ Jokić only 2G — Cannot win',  '#c62828'),
+        ('Finals: if reached', '⚠️ Never gets here',             '#9e9e9e'),
+    ]
+)
+ax1.text(12.3, 0.85, '~8%\nchamp\nprob',
+         ha='right', va='center', fontsize=8.5,
+         color='#c62828', fontweight='bold')
+
+# PATH B: Seed 8
+ax2 = fig.add_subplot(gs[1])
+draw_row(ax2,
+    title='PATH B — Seed 8  ✓ chosen',
+    title_color='#2e7d32',
+    boxes=[
+        ('QF: vs Seed 1',      '⚠️ Jokić 4G — 50/50',           '#e65100'),
+        ('SF: vs Seed 4 or 5', '✅ Jokić 2G — Still winnable',   '#1565c0'),
+        ('Finals: Week 24',    '✅ Full roster — 91.7% win prob', '#1b5e20'),
+    ]
+)
+ax2.text(12.3, 0.85, '~16%\nchamp\nprob',
+         ha='right', va='center', fontsize=8.5,
+         color='#2e7d32', fontweight='bold')
+
+fig.suptitle(
+    "The Tank Decision: Jokić's Week 23 Schedule Determined Everything",
+    fontsize=11.5, fontweight='bold', y=1.01
+)
+plt.tight_layout()
+plt.show()
+```
+
+### Round-by-round probability breakdown
+
+| Round | Seed 3–6 Path | Seed 8 Path *(chosen)* |
+|-------|--------------|------------------------|
+| **Week 22** (QF) | ✅ ~85% — vs easy Seed 7/8 | ⚠️ ~50% — vs Seed 1 |
+| **Week 23** (SF) | ❌ ~15% — Jokić 2G vs top seed | ✅ ~65% — Jokić 2G vs mid seed |
+| **Week 24** (Finals) | ⚠️ ~50% if reached | ✅ ~92% — full roster |
+| **Championship probability** | 85% × 15% × 50% ≈ **6%** | 50% × 65% × 92% ≈ **30%** |
+
+> Tanking to Seed 8 roughly **quintupled** the championship probability.
+
+## Automation Pipeline
+```{python}
+#| eval: false
+#| code-summary: "Core daily pipeline (run_manual.py)"
+
+def main():
+    # 1. OAuth authentication with Yahoo API
+    client = YahooClient(auth)
+
+    # 2. Fetch current matchup context
+    matchup = get_current_matchup_context(client, league_key, my_team_key)
+
+    # 3. Pull roster data for both teams
+    my_roster  = get_team_roster(client, matchup.my_team_key)
+    opp_roster = get_team_roster(client, matchup.opponent_team_key)
+
+    # 4. Last-30-day stats as baseline
+    #    (falls back to season avg for returning injured players)
+    baseline_stats = get_player_last_30d_stats(client, all_player_keys)
+
+    # 5. Estimate remaining games per NBA team this week
+    games_remaining = estimate_games_remaining_by_team(
+        week_end=matchup.week_end,
+        team_abbrs=all_team_abbrs
+    )
+
+    # 6. Build projections:
+    #    actuals so far + remaining games × per-game avg
+    my_proj  = build_player_projection_table(...)
+    opp_proj = build_player_projection_table(...)
+
+    # 7. Write Excel matchup board + injury tracking sheet
+    write_excel_report(output_path, my_proj, opp_proj, ...)
+```
+
+## Key Takeaways
+
+::: {.callout-tip}
+## What Made the Difference
+
+1. **Baseline quality** — Last-30-day stats with injury-aware fallbacks gave realistic projections, not season averages skewed by early-season performance.
+
+2. **Games remaining model** — Knowing a player has 4 games vs 2 games this week often matters more than per-game averages alone.
+
+3. **Simulation over gut feel** — Monte Carlo revealed 3PM/TO were already lost before the week started, so focus shifted to winning the other 5 categories.
+
+4. **The tank was counter-intuitive** — Conventional wisdom says chase the highest seed. The scheduling data showed the opposite was optimal.
+:::
+
+---
+
+*Built with Python · Yahoo Fantasy API · Monte Carlo Simulation · Quarto*
