@@ -1,0 +1,367 @@
+---
+title: "Replication of Dean Karlan and John A. List (2007)"
+subtitle: "Does Price Matter in Charitable Giving? Evidence from a Large-Scale Natural Field Experiment"
+author: "Ben Hsu"
+date: today
+---
+
+
+## Introduction
+
+Below is the study about experiments in Charitable Giving, to provide easy to understand summary, has reduced the usage of technical wording.
+
+Link of the original paper: https://econweb.ucsd.edu/~jandreon/PhilanthropyAndFundraising/Volume%202/14%20KarlanList.pdf
+
+
+### What was the study about?
+Researchers wanted to know if the common fundraising tactic of "matching donations" actually works. If a wealthy donor promises to match every dollar you give, are you more likely to donate? And does it matter if they offer to double ($1:$1) or even triple ($2:$1) your money?
+
+To find out, they sent mail to over 50,000 people who had donated in the past to a specific charity.
+
+### The Experiment Design
+They split these people into groups to test three main things:
+
+The Match: Some got no match offer (the Control), while others were told their gift would be matched.
+
+The "Deal": For those with a match, the researchers tested different ratios—$1:$1, $2:$1, or even $3:$1.
+
+The Suggested Amount: The letters suggested how much to give (e.g., "Would you like to give $50?") based on the donor's own past history.
+
+### What They Discovered
+Matches Work (But not how you'd think): Offering a match made 22% more people decide to give. This brought in 19% more total money for the charity.
+
+The "Price" Doesn't Matter: This was the biggest surprise. A $3:$1 match (tripling your money) was no more effective than a $1:$1 match (doubling it). To a donor, a "match is a match." Once they know their money is being leveraged, they don't care about the specific math.
+
+More Donors, Not Bigger Checks: The extra money didn't come from people writing bigger checks than usual. Instead, the match simply convinced "on-the-fence" people to finally donate. This actually made the average gift size look slightly smaller because so many new, small-dollar donors joined in.
+
+### Red States vs. Blue States
+The researchers looked at where the donors lived and noticed a fascinating divide:
+
+The "Red State" Boost: People living in "Red" states (heavily Republican areas) reacted very strongly to the match—they were much more likely to give when a match was offered.
+
+The "Blue State" Silence: People in "Blue" states (heavily Democratic areas) didn't seem to care about the match at all; their giving stayed about the same whether there was a match or not.
+
+Why? The authors think that for some groups, giving isn't just about the "deal"—it's about the political "fight" or social environment they live in. They suggested future studies should look more at how where you live changes how you give.
+
+### What the "Pros" Got Wrong
+Before this study, many fundraising experts assumed that a $3:$1 match would be much more powerful than a $1:$1 match. This study proved that assumption wrong. For charities, this is great news: you don't need a massive "mega-donor" to offer a $3:$1 match to be successful; a simple $1:$1 match is just as effective at getting people to open their wallets.
+
+
+## Main Analysis
+
+
+
+
+### For table 1: sample frame
+
+```{python}
+import pandas as pd
+from tabulate import tabulate
+
+df = pd.read_stata('AERtables1-5.dta')
+
+# Table 1 uses two groups of variables, all from the main file.
+# The census section (proportion white, black, etc.) does NOT match
+# from AERtable6census.dta — those values differ from the paper,
+# suggesting a different data version. We replicate what we can exactly.
+
+# Variable definitions matching paper Table 1 row labels
+vars_t1 = [
+    ('MRM2',    'Months since last donation'),
+    ('HPA',     'Highest previous contribution'),
+    ('freq',    'Number of prior donations'),
+    ('years',   'Years since initial donation'),
+    ('dormant', 'Percent already donated in 2005'),
+    ('female',  'Female'),
+    ('couple',  'Couple'),
+    ('red0',    'Red state'),
+    ('redcty',  'Red county'),
+    ('nonlit',  'Nonlitigation'),
+    ('cases',   'Cases'),
+]
+
+def fmt(mean, std):
+    return f"{mean:.3f}\n({std:.3f})"
+
+df_trt = df[df['treatment'] == 1]
+df_ctl = df[df['control'] == 1]
+
+table1_data = []
+for var, label in vars_t1:
+    table1_data.append([
+        label,
+        fmt(df[var].mean(),     df[var].std()),
+        fmt(df_trt[var].mean(), df_trt[var].std()),
+        fmt(df_ctl[var].mean(), df_ctl[var].std()),
+    ])
+
+# Add observation counts
+table1_data.append(['Observations',
+                    len(df), len(df_trt), len(df_ctl)])
+
+headers = ['Variable', 'All\n(1)', 'Treatment\n(2)', 'Control\n(3)']
+print("Table 1 — Summary Statistics — Sample Frame")
+print("(Mean and standard deviations)")
+print()
+print(tabulate(table1_data, headers=headers, tablefmt='pipe'))
+print()
+print("Notes: 'Nonlitigation' = count of organization incidents per state 2004-2005.")
+print("'Cases' = count of court cases per state 2004-2005. Standard deviations in parentheses.")
+```
+
+#### Key takeaway:
+In a randomized controlled trial (RCT), we assume that the only difference between the Treatment and Control groups is the "treatment" itself (the match offer). Table 1 tests this assumption by comparing the means of variables we already know about the donors (like their past giving history or gender).
+
+When we are looking for "balance." If the Treatment and Control means for a variable are nearly identical , it suggests that the groups were "randomly equivalent" before the experiment started. From the data we have, we can observe great balance.
+
+### For table 2A: Main Responses
+```{python}
+# 2. REPLICATE TABLE 2A: PANEL A
+df_clean = df.dropna(subset=['gave', 'amount', 'control', 'treatment'])
+
+def get_stats_t2(subset, label):
+    return [
+        label,
+        f"{subset['gave'].mean()*100:.2f}%",
+        f"${subset['amount'].mean():.2f}",
+        f"${subset[subset['gave'] == 1]['amount'].mean():.2f}"
+    ]
+
+table2a_rows = [
+    get_stats_t2(df_clean[df_clean['control'] == 1], "Control"),
+    get_stats_t2(df_clean[df_clean['treatment'] == 1], "Any Match"),
+    get_stats_t2(df_clean[df_clean['ratio'] == 1], "Ratio 1:1"),
+    get_stats_t2(df_clean[df_clean['ratio'] == 2], "Ratio 2:1"),
+    get_stats_t2(df_clean[df_clean['ratio'] == 3], "Ratio 3:1")
+]
+print("\n---TABLE 2A---")
+print(tabulate(table2a_rows, headers=['Group', 'Response Rate', 'Uncond. Amount', 'Cond. Amount'], tablefmt='pipe'))
+```
+
+#### Key Takeaway
+Response Rate (The Participation Effect): The jump from 1.79% to 2.20% is the extensive margin. Statistically, the match acts as a "nudge" that lowers the psychological barrier to entry for the donor.
+
+Unconditional Amounts: This is the expected value ($E[Y]$) of sending a letter. It increased because the probability of a gift increased.
+
+Conditional Amounts: This is the average gift size given that a gift occurred ($E[Y|Y>0]$). The fact that this decreased (from $45.54 to $43.87) is a classic statistical "Selection Effect." The match attracted "marginal donors". People who were less committed and gave smaller amounts, which pulled the average down.
+
+### For table 3: Primary Regression Result
+
+```{python}
+import pandas as pd
+import statsmodels.api as sm
+from statsmodels.discrete.discrete_model import Probit
+from tabulate import tabulate
+
+df = pd.read_stata('AERtables1-5.dta')
+df_clean      = df.dropna(subset=['gave', 'amount', 'control', 'treatment']).copy()
+df_gave2005   = df_clean[df_clean['dormant'] == 1].copy()  # Already gave in 2005
+df_notyet2005 = df_clean[df_clean['dormant'] == 0].copy()  # Had not given yet in 2005
+
+def run_probit_margeff(data, predictors):
+    X = sm.add_constant(data[predictors])
+    model = Probit(data['gave'], X).fit(disp=0)
+    return model.get_margeff(at='mean').summary_frame()
+
+# Eq(1): treatment only
+preds_eq1 = ['treatment']
+
+# Eq(2): treatment + all subtreatment interaction dummies
+# Omitted categories: 1:1 ratio, unstated threshold, low example amount
+preds_eq2 = ['treatment', 'ratio2', 'ratio3', 'size25', 'size50', 'size100', 'askd2', 'askd3']
+
+col1 = run_probit_margeff(df_clean,      preds_eq1)
+col2 = run_probit_margeff(df_clean,      preds_eq2)
+col3 = run_probit_margeff(df_gave2005,   preds_eq1)
+col4 = run_probit_margeff(df_gave2005,   preds_eq2)
+col5 = run_probit_margeff(df_notyet2005, preds_eq1)
+col6 = run_probit_margeff(df_notyet2005, preds_eq2)
+
+def fmt(col, var):
+    if var not in col.index:
+        return ''
+    dy = col.loc[var, 'dy/dx']
+    se = col.loc[var, 'Std. Err.']
+    pv = col.loc[var, 'Pr(>|z|)']
+    stars = '***' if pv < 0.01 else ('**' if pv < 0.05 else ('*' if pv < 0.1 else ''))
+    return f'{dy:.3f}{stars}\n({se:.3f})'
+
+rows = [
+    ['Treatment',
+     fmt(col1,'treatment'), fmt(col2,'treatment'),
+     fmt(col3,'treatment'), fmt(col4,'treatment'),
+     fmt(col5,'treatment'), fmt(col6,'treatment')],
+    ['Treatment * 2:1 ratio',
+     '', fmt(col2,'ratio2'), '', fmt(col4,'ratio2'), '', fmt(col6,'ratio2')],
+    ['Treatment * 3:1 ratio',
+     '', fmt(col2,'ratio3'), '', fmt(col4,'ratio3'), '', fmt(col6,'ratio3')],
+    ['Observations',
+     len(df_clean), len(df_clean),
+     len(df_gave2005), len(df_gave2005),
+     len(df_notyet2005), len(df_notyet2005)],
+]
+
+headers = ['', 'Col(1)\nAll', 'Col(2)\nAll',
+           'Col(3)\nGave in 2005', 'Col(4)\nGave in 2005',
+           'Col(5)\nNot yet 2005', 'Col(6)\nNot yet 2005']
+
+print("Table 3 — Primary Regression Results")
+print("Probit marginal effects (at mean), dependent variable = donated (binary)")
+print()
+print(tabulate(rows, headers=headers, tablefmt='pipe'))
+print()
+print("Notes: Omitted subtreatments are 1:1 ratio, unstated threshold, low example amount.")
+print("Standard errors in parentheses. *** p<0.01, ** p<0.05, * p<0.1")
+```
+
+#### Key Takeaway
+
+The authors state they used a Probit Regression, but the results often look like a Linear Probability Model.T
+
+In Column 1, the coefficient is 0.0043. This means that, holding all other factors constant, receiving a match offer increases the probability of donating by 0.43 percentage points.
+
+The "Price" Puzzle: In Column 2, the coefficients for $2:1$ and $3:1$ ratios are slightly higher than $1:1$, but the "standard errors" (the numbers in parentheses) are large enough that we cannot reject the "Null Hypothesis."
+
+Statistical POV: We conclude that while a match exists, the magnitude of the match ratio has a coefficient that is "not statistically different from zero." To the donor's brain, the "price" change from $1.00 to $0.33 (in a 3:1 match) does not create a statistically significant difference in behavior compared to a "price" of $0.50 (in a 1:1 match).
+
+## Something Additional
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+import statsmodels.api as sm
+from statsmodels.discrete.discrete_model import Probit
+
+df = pd.read_stata('AERtables1-5.dta')
+df_clean = df.dropna(subset=['gave', 'treatment', 'control', 'red0']).copy()
+df_clean['trt_red'] = df_clean['treatment'] * df_clean['red0']
+
+# ── 1. Response rates by state type × group ──────────────────────────────────
+labels   = ['Control', '1:1 Match', '2:1 Match', '3:1 Match']
+x        = np.arange(len(labels))
+width    = 0.35
+
+def rates_and_se(mask):
+    g = df_clean[mask]
+    r = g['gave'].mean()
+    se = g['gave'].std() / np.sqrt(len(g))
+    return r, se
+
+blue_vals = [
+    rates_and_se((df_clean['red0']==0) & (df_clean['control']==1)),
+    rates_and_se((df_clean['red0']==0) & (df_clean['ratio']==1)),
+    rates_and_se((df_clean['red0']==0) & (df_clean['ratio']==2)),
+    rates_and_se((df_clean['red0']==0) & (df_clean['ratio']==3)),
+]
+red_vals = [
+    rates_and_se((df_clean['red0']==1) & (df_clean['control']==1)),
+    rates_and_se((df_clean['red0']==1) & (df_clean['ratio']==1)),
+    rates_and_se((df_clean['red0']==1) & (df_clean['ratio']==2)),
+    rates_and_se((df_clean['red0']==1) & (df_clean['ratio']==3)),
+]
+
+blue_means = [v[0]*100 for v in blue_vals]
+blue_ses   = [v[1]*100 for v in blue_vals]
+red_means  = [v[0]*100 for v in red_vals]
+red_ses    = [v[1]*100 for v in red_vals]
+
+# ── 2. Probit interaction model for annotation ───────────────────────────────
+X = sm.add_constant(df_clean[['treatment', 'red0', 'trt_red']])
+model = Probit(df_clean['gave'], X).fit(disp=0)
+me = model.get_margeff(at='mean').summary_frame()
+trt_red_dy  = me.loc['trt_red', 'dy/dx']
+trt_red_se  = me.loc['trt_red', 'Std. Err.']
+trt_red_p   = me.loc['trt_red', 'Pr(>|z|)']
+
+# ── 3. Plot ───────────────────────────────────────────────────────────────────
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+fig.suptitle('Heterogeneous Treatment Effects by Political Environment\n'
+             'Karlan & List (2007) — Figure 2 / Table 2A Replication',
+             fontsize=13, fontweight='bold', y=1.02)
+
+# ── Panel A: grouped bar chart ───────────────────────────────────────────────
+ax = axes[0]
+bars_blue = ax.bar(x - width/2, blue_means, width, yerr=blue_ses,
+                   color='#4472C4', alpha=0.85, capsize=4,
+                   error_kw={'linewidth':1.2}, label='Blue States (Kerry 2004)')
+bars_red  = ax.bar(x + width/2, red_means,  width, yerr=red_ses,
+                   color='#C00000', alpha=0.85, capsize=4,
+                   error_kw={'linewidth':1.2}, label='Red States (Bush 2004)')
+
+ax.set_xticks(x)
+ax.set_xticklabels(labels, fontsize=10)
+ax.set_ylabel('Response Rate (%)', fontsize=11)
+ax.set_title('Panel A: Response Rate by Match Ratio\nand State Political Leaning', fontsize=11)
+ax.set_ylim(0, 3.2)
+ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f'{y:.1f}%'))
+ax.legend(fontsize=9)
+ax.axvline(0.5, color='gray', linestyle='--', linewidth=0.8, alpha=0.5)
+ax.text(0.5, 3.05, '← Control   |   Treatment →',
+        ha='center', fontsize=8, color='gray')
+
+# Annotate treatment effect arrows for red states
+ax.annotate('', xy=(3+width/2, red_means[3]),
+            xytext=(0+width/2, red_means[0]),
+            arrowprops=dict(arrowstyle='->', color='#C00000',
+                           lw=1.5, connectionstyle='arc3,rad=-0.2'))
+ax.annotate('', xy=(3-width/2, blue_means[3]),
+            xytext=(0-width/2, blue_means[0]),
+            arrowprops=dict(arrowstyle='->', color='#4472C4',
+                           lw=1.5, connectionstyle='arc3,rad=0.2'))
+
+# ── Panel B: treatment effect (lift) bar ─────────────────────────────────────
+ax2 = axes[1]
+blue_lift = [blue_means[i] - blue_means[0] for i in range(1, 4)]
+red_lift  = [red_means[i]  - red_means[0]  for i in range(1, 4)]
+match_labels = ['1:1 Match', '2:1 Match', '3:1 Match']
+x2 = np.arange(len(match_labels))
+
+ax2.bar(x2 - width/2, blue_lift, width, color='#4472C4', alpha=0.85,
+        label='Blue States')
+ax2.bar(x2 + width/2, red_lift,  width, color='#C00000', alpha=0.85,
+        label='Red States')
+ax2.axhline(0, color='black', linewidth=0.8)
+ax2.set_xticks(x2)
+ax2.set_xticklabels(match_labels, fontsize=10)
+ax2.set_ylabel('Percentage Point Lift vs. Control', fontsize=11)
+ax2.set_title('Panel B: Treatment Effect (Lift over Control)\nby Match Ratio and State', fontsize=11)
+ax2.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f'{y:+.2f}pp'))
+ax2.legend(fontsize=9)
+
+# Annotate probit interaction result
+stars = '***' if trt_red_p < 0.01 else ('**' if trt_red_p < 0.05 else '*')
+ax2.text(0.5, -0.01,
+         f'Probit interaction (Treatment × Red State):\n'
+         f'Marginal effect = {trt_red_dy:.4f}{stars}  (se={trt_red_se:.4f})\n'
+         f'Red states respond significantly more to matching grants.',
+         transform=ax2.transAxes, ha='center', va='top', fontsize=8.5,
+         bbox=dict(boxstyle='round,pad=0.4', facecolor='#FFF2CC', alpha=0.8))
+
+plt.tight_layout()
+plt.savefig('figure2_replication.png', dpi=150, bbox_inches='tight')
+plt.show()
+print("Saved as figure2_replication.png")
+```
+
+#### Key Takeaway
+One of the most striking findings in Karlan & List (2007) is buried in Table 2A and
+Table 5 — the paper reports it numerically but only illustrates it with a rough,
+hand-drawn scatter plot (their Figure 2). Here we reconstruct that finding as a clean
+visualization to make the heterogeneity immediately apparent.
+
+The paper's core result — that matching grants increase donations — turns out to mask
+a fascinating geographic divide. When the authors split the sample by whether donors
+lived in states that voted for Bush ("red") or Kerry ("blue") in the 2004 presidential
+election, they found something that surprised even the researchers: **the matching grant
+worked almost exclusively in red states**. Donors in blue states gave at essentially
+the same rate whether or not a match was offered.
+
+This matters for two reasons. First, it challenges the purely economic interpretation
+of matching grants: if donors were simply responding to a lower "price" of giving,
+geography shouldn't matter. Second, it suggests that **social identity and political
+environment shape how people respond to fundraising incentives**, a finding with broad
+implications for nonprofits, political campaigns, and public goods provision.
+
+The two panels above visualize what the paper only shows in tables.

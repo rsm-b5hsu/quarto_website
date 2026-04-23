@@ -9,3 +9,4 @@ This page collects my course assignments and related work.
 ## Current Assignments
 
 - [Assignment 1](assignment_files/hw1/index.html)
+- [Assignment 2](assignment_files/hw2/index.html)
