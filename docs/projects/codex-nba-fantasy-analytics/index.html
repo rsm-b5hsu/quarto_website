@@ -2,15 +2,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.13">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Your Name">
-<meta name="dcterms.date" content="2026-04-22">
+<meta name="author" content="Ben Hsu">
+<meta name="dcterms.date" content="2026-04-24">
+<meta name="description" content="An agentic Python pipeline that pulls live Yahoo NBA Fantasy data, projects end-of-week category outcomes against the scheduled opponent, surfaces high-leverage free agents, and ships everything as a polished Excel matchup board — runnable on demand or on a daily cron.">
 
-<title>Analysis of Cars – Ben’s Website</title>
+<title>Codex NBA Fantasy — Agentic Matchup Analytics – Ben’s Website</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -21,6 +25,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -34,15 +73,14 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="../../">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ac077c1e730dfeb5e42400639d17284e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-6fac94b228dd13ab5292c1d3c0716a0b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -128,10 +166,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#header" id="toc-header" class="nav-link active" data-scroll-target="#header">Header</a>
-  <ul class="collapse">
-  <li><a href="#sub-header" id="toc-sub-header" class="nav-link" data-scroll-target="#sub-header">Sub-Header</a></li>
-  </ul></li>
+  <li><a href="#why-i-built-this" id="toc-why-i-built-this" class="nav-link active" data-scroll-target="#why-i-built-this">Why I built this</a></li>
+  <li><a href="#what-it-produces" id="toc-what-it-produces" class="nav-link" data-scroll-target="#what-it-produces">What it produces</a></li>
+  <li><a href="#architecture" id="toc-architecture" class="nav-link" data-scroll-target="#architecture">Architecture</a></li>
+  <li><a href="#design-notes" id="toc-design-notes" class="nav-link" data-scroll-target="#design-notes">Design notes</a></li>
+  <li><a href="#quickstart" id="toc-quickstart" class="nav-link" data-scroll-target="#quickstart">Quickstart</a></li>
+  <li><a href="#roadmap" id="toc-roadmap" class="nav-link" data-scroll-target="#roadmap">Roadmap</a></li>
+  <li><a href="#source" id="toc-source" class="nav-link" data-scroll-target="#source">Source</a></li>
   </ul>
 </nav>
     </div>
@@ -140,9 +181,20 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Analysis of Cars</h1>
-</div>
+<h1 class="title">Codex NBA Fantasy — Agentic Matchup Analytics</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">python</div>
+    <div class="quarto-category">fantasy-sports</div>
+    <div class="quarto-category">data-pipeline</div>
+    <div class="quarto-category">automation</div>
+  </div>
+  </div>
 
+<div>
+  <div class="description">
+    An agentic Python pipeline that pulls live Yahoo NBA Fantasy data, projects end-of-week category outcomes against the scheduled opponent, surfaces high-leverage free agents, and ships everything as a polished Excel matchup board — runnable on demand or on a daily cron.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -150,14 +202,14 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Your Name </p>
+             <p>Ben Hsu </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 22, 2026</p>
+      <p class="date">April 24, 2026</p>
     </div>
   </div>
   
@@ -169,15 +221,140 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="header" class="level1">
-<h1>Header</h1>
-<p>Let’s investigate the relationship between fuel efficiency (<code>mpg</code>) and engine displacement (<code>disp</code>) from the <code>mtcars</code> dataset. Those variables have a correlation of <code>r cor(mtcars$mpg, mtcars$disp) |&gt; format(digits=2)</code>.</p>
-<section id="sub-header" class="level2">
-<h2 class="anchored" data-anchor-id="sub-header">Sub-Header</h2>
-<p>Here is a plot:</p>
-
-
+<p><img src="fantasy_simulation_plots.png" class="img-fluid"></p>
+<section id="why-i-built-this" class="level2">
+<h2 class="anchored" data-anchor-id="why-i-built-this">Why I built this</h2>
+<p>Weekly fantasy decisions — who to start, who to stream, who to drop — are usually made on vibes. This project replaces the vibes with a reproducible pipeline: pull the live league state from Yahoo, project the next ~7 days of head-to-head category math, and ship a single Excel workbook that tells me exactly where my matchup is fragile and which waiver pickups would actually move those categories.</p>
+<p>It runs on demand or on a daily cron, and it’s been the backbone of my real fantasy season.</p>
 </section>
+<section id="what-it-produces" class="level2">
+<h2 class="anchored" data-anchor-id="what-it-produces">What it produces</h2>
+<p>Each run writes one Excel workbook with four sheets:</p>
+<p><strong>Matchup Board.</strong> Head-to-head category projections for me vs.&nbsp;my scheduled opponent across the nine standard Yahoo categories (FG%, FT%, 3PTM, PTS, REB, AST, ST, BLK, TO). Three time slices per category — <code>Now</code> (already locked in), <code>Future</code> (remaining games × projected per-game), and <code>Total</code>. Makes it explicit whether a lead is real or fragile.</p>
+<p><strong>Average Impact.</strong> Season-average impact per player, with a graceful fallback to prior-season averages when the current sample is too small (GP &lt; 10). This avoids the classic “one good game makes a stretch waiver pickup look elite” trap.</p>
+<p><strong>Free Agents.</strong> Ranked waiver-wire candidates filtered by which categories I am <em>actually</em> losing in this matchup, scored by <code>remaining games × per-game impact</code> on those categories. Not generic rest-of-season rankings — pickups specifically tuned to flip the categories that matter this week.</p>
+<p><strong>Injury Tracking Lists.</strong> A persistent watchlist of injured / suspended / low-availability players, merged from Yahoo statuses, ESPN’s injury feed, and free-text player notes. Each row carries a return-rate score, expected return date, the keyword that triggered the pickup (“questionable”, “doubtful”, “G-League”, “minutes restriction”…), a recency bucket, and per-game category impact. The sheet is reloaded from the previous run on every refresh, so dropoffs and upgrades day-over-day are visible.</p>
+</section>
+<section id="architecture" class="level2">
+<h2 class="anchored" data-anchor-id="architecture">Architecture</h2>
+<pre><code>┌─────────────────┐    OAuth 2.0     ┌──────────────────────┐
+│  yahoo_auth.py  │ ───────────────▶ │  Yahoo Fantasy API   │
+└────────┬────────┘                  └──────────┬───────────┘
+         │ tokens                                │ XML/JSON
+         ▼                                       ▼
+┌─────────────────┐                  ┌──────────────────────┐
+│ yahoo_client.py │ ◀──────────────  │   data_fetch.py      │
+└─────────────────┘                  │  (rosters, matchups, │
+                                     │   stats, schedules)  │
+                                     └──────────┬───────────┘
+                                                │
+                       ┌────────────────────────┼────────────────────────┐
+                       ▼                        ▼                        ▼
+            ┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐
+            │  projections.py     │  │ external_injuries.py│  │   NBA schedule API  │
+            │ (totals / future /  │  │   (ESPN feed)       │  │ (games remaining)   │
+            │  free-agent score)  │  └─────────────────────┘  └─────────────────────┘
+            └──────────┬──────────┘
+                       ▼
+            ┌──────────────────────┐
+            │   output_writer.py   │  ──▶  output/matchup_report.xlsx
+            └──────────────────────┘</code></pre>
+<p>Module map:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>src/config.py</code></td>
+<td>Loads and validates <code>.env</code> settings</td>
+</tr>
+<tr class="even">
+<td><code>src/yahoo_auth.py</code></td>
+<td>OAuth 2.0 flow, token persistence, automatic refresh</td>
+</tr>
+<tr class="odd">
+<td><code>src/yahoo_client.py</code></td>
+<td>Thin Yahoo Fantasy API wrapper with retry + tree-walking helpers</td>
+</tr>
+<tr class="even">
+<td><code>src/data_fetch.py</code></td>
+<td>League / team / roster / stat fetchers and the schedule heuristic</td>
+</tr>
+<tr class="odd">
+<td><code>src/projections.py</code></td>
+<td>Per-player projections, matchup category math, free-agent scoring</td>
+</tr>
+<tr class="even">
+<td><code>src/external_injuries.py</code></td>
+<td>ESPN injury feed + normalized name matching</td>
+</tr>
+<tr class="odd">
+<td><code>src/output_writer.py</code></td>
+<td>openpyxl Excel writer with conditional formatting</td>
+</tr>
+<tr class="even">
+<td><code>run_manual.py</code></td>
+<td>Main entrypoint — full report</td>
+</tr>
+<tr class="odd">
+<td><code>run_matchup_board.py</code></td>
+<td>Matchup-board-only entrypoint (custom week / opponent)</td>
+</tr>
+<tr class="even">
+<td><code>run_week22_playoff_boards.py</code></td>
+<td>Playoff-week variant for two arbitrary teams</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="design-notes" class="level2">
+<h2 class="anchored" data-anchor-id="design-notes">Design notes</h2>
+<p><strong>Stats are computed, not scraped.</strong> All projections come from the Yahoo Fantasy API. ESPN is used only for injury context.</p>
+<p><strong>Time-aware projections.</strong> Splitting each category into <code>Now / Future / Total</code> was the most useful UX choice in the whole project. A 12–11 lead in 3PTM looks different when <code>Now</code> is 10–4 vs.&nbsp;when <code>Now</code> is 2–9 — and the board makes that obvious without me having to mentally subtract.</p>
+<p><strong>Sample-size guardrails.</strong> Per-game rates fall back to season averages or prior-season averages when fewer than two games exist in the rolling window. Prevents waiver candidates from looking artificially elite off a single hot night.</p>
+<p><strong>Injury intelligence as a first-class feature.</strong> The Injury Tracking sheet isn’t just an INJ tag — it scores each watched player on (1) keyword urgency parsed from Yahoo player notes, (2) ESPN’s published expected return date, (3) recency of the news, and (4) per-category fantasy impact. Names listed in <code>MANUAL_TRACK_PLAYERS</code> are pinned regardless of status.</p>
+<p><strong>Name normalization.</strong> Yahoo, ESPN, and the NBA schedule feed disagree on accents, suffixes, and punctuation. <code>external_injuries.normalize_name</code> makes the joins reliable.</p>
+<p><strong>Token hygiene.</strong> Secrets in <code>.env</code>, OAuth tokens in <code>data/yahoo_tokens.json</code>, both gitignored.</p>
+</section>
+<section id="quickstart" class="level2">
+<h2 class="anchored" data-anchor-id="quickstart">Quickstart</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone <span class="op">&lt;</span>repo-url<span class="op">&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> codex-nba-fantasy-analytics</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> .env.example .env       <span class="co"># then fill in Yahoo client id/secret + league + team</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run_manual.py       <span class="co"># one-time OAuth on first run</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Custom-week scouting:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run_matchup_board.py <span class="at">--week</span> 23                                    <span class="co"># auto-detect opponent</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run_matchup_board.py <span class="at">--week</span> 24 <span class="at">--my-team-id</span> 1 <span class="at">--opponent-team-id</span> 12</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run_matchup_board.py <span class="at">--week</span> 25 <span class="at">--team-a-id</span> 3 <span class="at">--team-b-id</span> 8        <span class="co"># any two teams</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Optional daily cron:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./install_daily_cron.sh</span>         <span class="co"># default 08:00</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./install_daily_cron.sh</span> 7 30    <span class="co"># custom 07:30</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">./remove_daily_cron.sh</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="roadmap" class="level2">
+<h2 class="anchored" data-anchor-id="roadmap">Roadmap</h2>
+<ul>
+<li>Streamer-of-the-day suggestions based on schedule density</li>
+<li>Punt-build detector (auto-identify which categories the roster is implicitly punting)</li>
+<li>Slack / email summary in addition to the Excel report</li>
+<li>Backtest harness for projection accuracy</li>
+</ul>
+</section>
+<section id="source" class="level2">
+<h2 class="anchored" data-anchor-id="source">Source</h2>
+<p><a href="#" class="btn btn-primary">GitHub repository →</a></p>
+<!-- TODO: replace href above with the public repo URL once the project is published. -->
+
+
 </section>
 
 </main> <!-- /main -->
