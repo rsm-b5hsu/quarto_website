@@ -8,10 +8,20 @@ date: today
 
 ## Introduction
 
-Below is the study about experiments in Charitable Giving, to provide easy to understand summary, has reduced the usage of technical wording.
+This post summarizes and replicates key findings from Karlan and List (2007), which studies whether matching donations increase charitable giving.
 
-Link of the original paper: https://econweb.ucsd.edu/~jandreon/PhilanthropyAndFundraising/Volume%202/14%20KarlanList.pdf
+The central question is simple but important:
 
+> Do matching donations make people more likely to give?
+
+To answer this, the authors conducted a large-scale field experiment involving more than 50,000 past donors to a charity. Individuals were randomly assigned to receive different fundraising letters, allowing the researchers to estimate causal effects.
+
+The experiment varied three main components:
+- whether a match was offered (or not),
+- the size of the match (e.g., $1:$1 vs $3:$1),
+- and the suggested donation amount.
+
+Because assignment was randomized, differences in outcomes across groups can be interpreted as causal effects rather than correlations.
 
 ### What was the study about?
 Researchers wanted to know if the common fundraising tactic of "matching donations" actually works. If a wealthy donor promises to match every dollar you give, are you more likely to donate? And does it matter if they offer to double ($1:$1) or even triple ($2:$1) your money?
@@ -46,6 +56,17 @@ Why? The authors think that for some groups, giving isn't just about the "deal"â
 ### What the "Pros" Got Wrong
 Before this study, many fundraising experts assumed that a $3:$1 match would be much more powerful than a $1:$1 match. This study proved that assumption wrong. For charities, this is great news: you don't need a massive "mega-donor" to offer a $3:$1 match to be successful; a simple $1:$1 match is just as effective at getting people to open their wallets.
 
+## Data
+
+The data come from a randomized field experiment conducted by the authors. Each observation corresponds to a potential donor who received a fundraising letter.
+
+Key variables include:
+- donation outcomes (whether the individual gave and how much),
+- treatment indicators (whether a match was offered),
+- match ratios (e.g., $1:$1, $2:$1, $3:$1),
+- and demographic characteristics.
+
+Because treatment assignment was randomized, we can interpret differences across groups as causal effects.
 
 ## Main Analysis
 
@@ -344,6 +365,14 @@ plt.savefig('figure2_replication.png', dpi=150, bbox_inches='tight')
 plt.show()
 print("Saved as figure2_replication.png")
 ```
+
+## Conclusion
+
+In this post, I replicated key findings from Karlan and List (2007), showing that matching donations increase participation but that larger match ratios do not significantly increase giving.
+
+These results highlight an important insight: behavioral responses are often driven by the presence of an incentive, rather than its size.
+
+More broadly, this study demonstrates the power of randomized experiments in identifying causal effects in real-world settings.
 
 #### Key Takeaway
 One of the most striking findings in Karlan & List (2007) is buried in Table 2A and
