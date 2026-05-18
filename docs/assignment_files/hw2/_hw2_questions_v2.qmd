@@ -8,7 +8,7 @@ date: today
 
 ## Introduction
 
-Below is the study about experiments in Charitable Giving, to provide easy to understand summary, has reduced the usage of technical wording.
+Below is a summary of the study on experiments in charitable giving, written in plain language to make the findings easy to understand.
 
 Link of the original paper: https://econweb.ucsd.edu/~jandreon/PhilanthropyAndFundraising/Volume%202/14%20KarlanList.pdf
 
@@ -112,7 +112,7 @@ print("'Cases' = count of court cases per state 2004-2005. Standard deviations i
 #### Key takeaway:
 In a randomized controlled trial (RCT), we assume that the only difference between the Treatment and Control groups is the "treatment" itself (the match offer). Table 1 tests this assumption by comparing the means of variables we already know about the donors (like their past giving history or gender).
 
-When we are looking for "balance." If the Treatment and Control means for a variable are nearly identical , it suggests that the groups were "randomly equivalent" before the experiment started. From the data we have, we can observe great balance.
+What we are looking for is "balance" — if the Treatment and Control means for a variable are nearly identical, it suggests that the groups were "randomly equivalent" before the experiment started. From the data we have, we can observe great balance.
 
 ### For table 2A: Main Responses
 ```{python}
@@ -216,7 +216,7 @@ print("Standard errors in parentheses. *** p<0.01, ** p<0.05, * p<0.1")
 
 #### Key Takeaway
 
-The authors state they used a Probit Regression, but the results often look like a Linear Probability Model.T
+The authors state they used a Probit Regression, but the results often look like a Linear Probability Model.
 
 In Column 1, the coefficient is 0.0043. This means that, holding all other factors constant, receiving a match offer increases the probability of donating by 0.43 percentage points.
 
