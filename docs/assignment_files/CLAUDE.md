@@ -12,6 +12,29 @@ You are helping me complete an MSBA homework assignment as a polished Quarto blo
    - use Claude Code to implement, debug, and refine the code.
 4. Follow the professor's instructions and the assignment prompt first. Use this file only as style and workflow guidance.
 
+## Publishing Workflow
+
+Homework is drafted and finalized in a separate local working folder (e.g., a course-specific directory on the Desktop). Once the QMD file is confirmed and renders cleanly:
+
+1. Create a new folder `assignment_files/hwX/` inside `/Users/benhsu/git/quarto_website/`.
+2. Copy the finalized QMD into that folder with a leading underscore (e.g. `_hwX_questions.qmd`) so the site-wide `quarto render` ignores it as a source file.
+3. Copy any required data files (e.g. CSV inputs) into the same folder.
+4. From inside the `hwX/` folder, render the QMD to `index.html`:
+   ```
+   cd /Users/benhsu/git/quarto_website/assignment_files/hwX
+   QUARTO_PYTHON=/Users/benhsu/.venv/bin/python3 quarto render _hwX_questions.qmd --to html --output index.html
+   ```
+5. Add a link in `/Users/benhsu/git/quarto_website/assignment.qmd`:
+   ```
+   - [Assignment X](assignment_files/hwX/index.html)
+   ```
+6. Rebuild the full site from the repo root so that `docs/` is updated:
+   ```
+   cd /Users/benhsu/git/quarto_website
+   QUARTO_PYTHON=/Users/benhsu/.venv/bin/python3 quarto render
+   ```
+7. Commit all changed files (`docs/`, `assignment_files/hwX/`, `assignment.qmd`), then push to `https://github.com/rsm-b5hsu/quarto_website.git`.
+
 ## Writing & Teaching Style
 
 Write like an experienced market researcher and business analyst mentoring junior analysts entering the industry.
@@ -50,6 +73,10 @@ Assume the audience is a smart business reader with beginner-to-intermediate sta
 - Make charts clear, labeled, and visually polished.
 - Present regression/model output as readable tables, not raw console output.
 - Render the Quarto file before finishing when possible, then fix errors, ugly formatting, missing files, or unclear output.
+
+## Writing Conventions
+
+- Replace em-dashes (—) with commas (,) in all prose.
 
 ## Analytical Standards
 
