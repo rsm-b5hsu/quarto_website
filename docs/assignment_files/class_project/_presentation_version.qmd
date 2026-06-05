@@ -1,0 +1,364 @@
+---
+title: "MSBA Course Preference Segmentation"
+subtitle: "K-Means, Hierarchical Clustering, and Latent Class MaxDiff"
+format:
+  revealjs:
+    theme: white
+    width: 1600
+    height: 900
+    margin: 0.04
+    center: false
+    slide-number: true
+    embed-resources: true
+    transition: none
+    title-slide-attributes:
+      data-background-color: "#1560a8"
+      data-background-opacity: "1"
+    include-in-header:
+      text: |
+        <style>
+        /* ── Base ─────────────────────────────────────────── */
+        .reveal { font-size: 26px; }
+        .reveal h2 {
+          color: #1560a8;
+          font-size: 1.28em;
+          margin: 0 0 0.2em 0;
+          border-bottom: 3px solid #1560a8;
+          padding-bottom: 0.12em;
+        }
+        .reveal .title-slide h1,
+        .reveal .title-slide .title   { color: white !important; }
+        .reveal .title-slide .subtitle { color: rgba(255,255,255,0.85) !important; }
+
+        /* ── Images ───────────────────────────────────────── */
+        .reveal img {
+          display: block;
+          max-width: 100%;
+          height: auto;
+          object-fit: contain;
+        }
+
+        /* ── Bullets ──────────────────────────────────────── */
+        .reveal ul { margin: 0.25em 0; padding-left: 1.1em; }
+        .reveal ul li { margin-bottom: 0.18em; line-height: 1.35; font-size: 0.86em; }
+
+        /* ── k=3 callout ──────────────────────────────────── */
+        .k3-box {
+          background: #e8f0fd;
+          border-left: 4px solid #1560a8;
+          border-radius: 0 6px 6px 0;
+          padding: 0.35em 0.8em;
+          margin-top: 0.4em;
+          font-size: 0.82em;
+          color: #1560a8;
+          font-weight: 600;
+        }
+
+        /* ── Segment colours (inline spans) ──────────────── */
+        .seg-a { color: #4C72B0; font-weight: 700; }
+        .seg-b { color: #55A868; font-weight: 700; }
+        .seg-c { color: #DD8452; font-weight: 700; }
+
+        /* ── Definition boxes (slides 3 & 5) ─────────────── */
+        .def-box {
+          border-radius: 7px;
+          padding: 0.65em 0.8em 0.55em;
+          font-size: 0.8em;
+          line-height: 1.45;
+        }
+        .def-box .box-title {
+          font-weight: 700;
+          font-size: 1.05em;
+          margin-bottom: 0.3em;
+        }
+        .def-box p { margin: 0.12em 0; }
+        /* per-cluster colours */
+        .box-a { border-top: 4px solid #4C72B0; background: #f0f4ff; }
+        .box-b { border-top: 4px solid #55A868; background: #f0fff4; }
+        .box-c { border-top: 4px solid #DD8452; background: #fff8f0; }
+        .box-a .box-title { color: #4C72B0; }
+        .box-b .box-title { color: #2e7d52; }
+        .box-c .box-title { color: #b05a1a; }
+        /* per-LC colours (mirror cluster colours) */
+        .box-lc1 { border-top: 4px solid #4C72B0; background: #f0f4ff; }
+        .box-lc2 { border-top: 4px solid #DD8452; background: #fff8f0; }
+        .box-lc3 { border-top: 4px solid #55A868; background: #f0fff4; }
+        .box-lc1 .box-title { color: #4C72B0; }
+        .box-lc2 .box-title { color: #b05a1a; }
+        .box-lc3 .box-title { color: #2e7d52; }
+
+        /* ── Bottom explanation band (slide 4 & 5 MNL text) ─ */
+        .bottom-band {
+          background: #f4f7ff;
+          border-top: 2px solid #c3d5f5;
+          border-radius: 0 0 6px 6px;
+          padding: 0.5em 0.9em 0.45em;
+          margin-top: 0.45em;
+          font-size: 0.82em;
+          line-height: 1.4;
+        }
+        .bottom-band strong { color: #1560a8; }
+
+        /* ── ARI badge ────────────────────────────────────── */
+        .ari {
+          display: inline-block;
+          background: #d4edda;
+          border: 1px solid #b8ddc8;
+          border-radius: 5px;
+          padding: 0.12em 0.5em;
+          font-size: 0.88em;
+          font-weight: 700;
+          color: #155724;
+        }
+
+        /* ── Model comparison table ───────────────────────── */
+        .cmptbl {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 0.72em;
+          line-height: 1.35;
+          table-layout: fixed;
+        }
+        .cmptbl th {
+          background: #1560a8;
+          color: white;
+          padding: 0.6em 0.65em;
+          text-align: left;
+          border: 1px solid #1047a0;
+          white-space: nowrap;
+        }
+        .cmptbl td {
+          padding: 0.85em 0.65em;
+          border: 1px solid #dee2e6;
+          vertical-align: middle;
+          height: 185px;
+        }
+        .cmptbl tr:nth-child(odd)  td { background: #fff; }
+        .cmptbl tr:nth-child(even) td { background: #f4f7ff; }
+        .cmptbl td:first-child {
+          font-weight: 700;
+          color: #1560a8;
+          white-space: nowrap;
+        }
+        .cmptbl .match { color: #155724; font-weight: 600; }
+
+        /* ── Slide 2 grid ─────────────────────────────────── */
+        .k-slide-grid {
+          display: grid;
+          grid-template-columns: 38% 62%;
+          grid-template-rows: auto 110px;
+          gap: 0.4em 0.8em;
+          height: 760px;
+        }
+        .k-left { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; gap: 0.3em; }
+        .k-pca  { grid-column: 2; grid-row: 1; }
+        .k-note {
+          grid-column: 1 / 3;
+          grid-row: 2;
+          font-size: 0.7em;
+          padding: 0.55em 0.9em;
+          line-height: 1.45;
+          background: #f4f7ff;
+          border-top: 2px solid #c3d5f5;
+          border-radius: 6px;
+          align-self: end;
+        }
+        .k-note strong { color: #1560a8; }
+        .k-left img, .k-pca img {
+          width: 100%;
+          object-fit: contain;
+          display: block;
+        }
+        .k-left img { max-height: 220px; }
+        .k-left img:last-child { max-height: 300px; }
+        .k-pca  img { max-height: 520px; }
+        </style>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var secs = document.querySelectorAll('.reveal .slides > section');
+          if (secs.length < 2) return;
+          var phantom = secs[1];
+          if (!phantom || phantom.querySelector('h2')) return;
+          var img = phantom.querySelector('img');
+          var titleSlide = secs[0];
+          if (!img || !titleSlide) return;
+          var wrap = document.createElement('div');
+          wrap.style.cssText = 'text-align:center;margin-top:0.9em;';
+          img.style.cssText = 'display:inline-block;width:50%;max-height:380px;object-fit:contain;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.28);';
+          wrap.appendChild(img);
+          titleSlide.appendChild(wrap);
+          phantom.parentNode.removeChild(phantom);
+          if (typeof Reveal !== 'undefined' && typeof Reveal.sync === 'function') {
+            Reveal.sync();
+          }
+        });
+        </script>
+---
+
+::: {style="text-align:center; margin-top:0.9em;"}
+![](clustering_outputs/total_preference_ranking.png){width="50%" style="max-height:380px;object-fit:contain;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.28);"}
+:::
+
+## Choosing k = 3
+
+<div class="k-slide-grid">
+<div class="k-left">
+![](clustering_outputs/elbow_10course_only.png)
+![](clustering_outputs/silhouette_10course_only.png)
+</div>
+<div class="k-pca">
+![](clustering_outputs/pca_scatter_10course_abc_only.png)
+</div>
+<div class="k-note">
+<strong>Elbow:</strong> look for where inertia improvement slows.
+<strong>Silhouette:</strong> higher is better, but interpretability and balanced segment sizes also matter.
+<strong>k = 3 is chosen</strong> because it is interpretable and balanced.
+<strong>PCA</strong> shows clusters overlap softly, so structure is real but not sharp.
+</div>
+</div>
+
+
+## K-Means: Three Preference Segments
+
+![Cluster centers — green = preferred, red = avoided. Three anonymous clusters A, B, C. What does each group prefer?](clustering_outputs/heatmap_10course_abc_only.png){width="100%" style="max-height:420px;object-fit:contain;"}
+
+::: {.columns}
+::: {.column width="33%"}
+::: {.fragment .fade-up fragment-index=1}
+<div class="def-box box-a">
+<p class="box-title">Cluster A — Mktg Analytics & Big Data &nbsp;<small style="font-weight:400;color:#555;">(n = 31)</small></p>
+<p>↑ Likes: Marketing Analytics, Large Data</p>
+<p>↓ Dislikes: AI Math, Customer Analytics</p>
+</div>
+:::
+:::
+::: {.column width="33%"}
+::: {.fragment .fade-up fragment-index=2}
+<div class="def-box box-b">
+<p class="box-title">Cluster B — Applied Analytics Seekers &nbsp;<small style="font-weight:400;color:#555;">(n = 29)</small></p>
+<p>↑ Likes: Customer Analytics, Bus. Analytics</p>
+<p>↓ Dislikes: Mktg/Fin/Ops, Consulting</p>
+</div>
+:::
+:::
+::: {.column width="34%"}
+::: {.fragment .fade-up fragment-index=3}
+<div class="def-box box-c">
+<p class="box-title">Cluster C — Quant & Technical &nbsp;<small style="font-weight:400;color:#555;">(n = 25)</small></p>
+<p>↑ Likes: SQL, Marketing Analytics</p>
+<p>↓ Dislikes: Consulting, Mktg/Fin/Ops</p>
+</div>
+:::
+:::
+:::
+
+
+## Hierarchical Clustering: Validation
+
+::: {.columns}
+
+::: {.column width="34%"}
+![Dendrogram — Ward linkage, cut at k = 3.](clustering_outputs/dendrogram_10course_only.png){width="100%" style="max-height:510px;object-fit:contain;"}
+:::
+
+::: {.column width="66%"}
+![HC cluster centers — same three preference profiles emerge from a different algorithm.](clustering_outputs/hc_centers_named.png){width="100%" style="max-height:510px;object-fit:contain;"}
+:::
+
+:::
+
+::: {.bottom-band}
+Hierarchical clustering gives a robustness check using Ward linkage. It recovers a similar three-segment structure to k-means. <span class="ari">ARI vs K-Means = 0.70</span>
+:::
+
+
+## Latent Class MaxDiff: Validation
+
+![LC-MNL K = 3 class utilities. Three classes with distinct preference patterns — LC 1, LC 2, LC 3.](clustering_outputs/lc_utilities_k3.png){width="92%" style="max-height:415px;object-fit:contain;margin:0 auto;"}
+
+::: {.fragment .fade-up .bottom-band fragment-index=1}
+::: {.columns}
+::: {.column width="50%"}
+**What it is:** A probabilistic choice model estimated directly from the original best/worst survey responses. It estimates class-specific course utilities and assigns each student to a latent class — no derived scores needed.
+:::
+::: {.column width="50%"}
+**Why it validates:** Uses raw MaxDiff choices rather than derived preference scores. If it recovers similar groups, that strengthens confidence in the K-Means segments. &nbsp;<span class="ari">ARI vs K-Means = 0.69</span>
+:::
+:::
+:::
+
+::: {.columns}
+::: {.column width="33%"}
+::: {.fragment .fade-up fragment-index=2}
+<div class="def-box box-lc1">
+<p class="box-title">LC 1 — Quant & Technical</p>
+<p>↑ Likes: SQL, Marketing Analytics</p>
+<p>↓ Dislikes: Consulting, Mktg/Fin/Ops</p>
+</div>
+:::
+:::
+::: {.column width="33%"}
+::: {.fragment .fade-up fragment-index=3}
+<div class="def-box box-lc2">
+<p class="box-title">LC 2 — Mktg Analytics & Big Data</p>
+<p>↑ Likes: Marketing Analytics, Large Data</p>
+<p>↓ Dislikes: AI Math, Customer Analytics</p>
+</div>
+:::
+:::
+::: {.column width="34%"}
+::: {.fragment .fade-up fragment-index=4}
+<div class="def-box box-lc3">
+<p class="box-title">LC 3 — Applied Analytics Seekers</p>
+<p>↑ Likes: Customer Analytics, Bus. Analytics</p>
+<p>↓ Dislikes: Consulting, Mktg/Fin/Ops</p>
+</div>
+:::
+:::
+:::
+
+
+## Model Comparison
+
+<table class="cmptbl">
+<thead>
+<tr>
+  <th style="width:14%">Model</th>
+  <th style="width:17%">Input Used</th>
+  <th style="width:15%">What It Optimizes</th>
+  <th style="width:18%">Strength</th>
+  <th style="width:18%">Limitation</th>
+  <th style="width:18%">Segment Story</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>K-Means</td>
+  <td>Per-student preference scores<br>(best − worst ÷ times shown)</td>
+  <td>Minimize within-cluster variance</td>
+  <td>Fast; cluster centers directly interpretable in original preference score units</td>
+  <td>Tends to produce similarly-sized groups; k must be chosen before fitting</td>
+  <td>
+    <span class="seg-a">A</span> — Mktg Analytics &amp; Big Data (31)<br>
+    <span class="seg-b">B</span> — Applied Analytics Seekers (29)<br>
+    <span class="seg-c">C</span> — Quant &amp; Technical (25)
+  </td>
+</tr>
+<tr>
+  <td>Hierarchical Clustering</td>
+  <td>Same preference scores</td>
+  <td>Minimise variance at each successive merge step (Ward linkage)</td>
+  <td>No k required upfront; dendrogram reveals similarity between groups</td>
+  <td>Students cannot be reassigned after a merge; borderline cases may differ from K-Means</td>
+  <td><span class="match">Same 3 groups · ARI = 0.70</span><br>7 in 10 students assigned identically</td>
+</tr>
+<tr>
+  <td>Latent Class MaxDiff</td>
+  <td>Raw best/worst choice tasks from the survey</td>
+  <td>Maximise choice log-likelihood via EM; class utilities from actual responses</td>
+  <td>Uses original survey data directly; most appropriate method for MaxDiff design; fit statistics guide K selection</td>
+  <td>K = 3 and K = 4 nearly tied in fit (ΔBIC &lt; 1); results depend on random starting values</td>
+  <td><span class="match">Same 3 groups · ARI = 0.69</span><br>Three classes mirror K-Means segments</td>
+</tr>
+</tbody>
+</table>

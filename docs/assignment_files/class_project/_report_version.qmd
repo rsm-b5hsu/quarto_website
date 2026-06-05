@@ -1,0 +1,567 @@
+---
+title: "MaxDiff Student Segmentation: K-Means Clustering Analysis"
+subtitle: "Exploratory preference-based segments from the MSBA 10-course MaxDiff survey"
+author: "Ben Hsu"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    embed-resources: true
+    fig-width: 10
+    fig-height: 6
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{python}
+#| label: setup
+#| include: false
+
+import os, sys
+import pandas as pd
+import numpy as np
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import seaborn as sns
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+from sklearn.decomposition import PCA
+from IPython.display import display
+
+BASE = "/Users/benhsu/Desktop/MSBA Materials/Spring courses/Marketing Analytics/Clustering presentation"
+OUT  = os.path.join(BASE, "clustering_outputs")
+
+PALETTE = ["#4C72B0", "#DD8452", "#55A868", "#C44E52", "#8172B2"]
+
+# ── Load pre-generated outputs ──
+centers10 = pd.read_csv(os.path.join(OUT, "centers_10course.csv"), index_col=0)
+centersg  = pd.read_csv(os.path.join(OUT, "centers_grouped.csv"), index_col=0)
+feat10    = pd.read_csv(os.path.join(OUT, "feature_10course.csv"), index_col=0)
+featg     = pd.read_csv(os.path.join(OUT, "feature_grouped.csv"), index_col=0)
+cl10      = pd.read_csv(os.path.join(OUT, "clusters_10course.csv"), index_col=0)
+clg       = pd.read_csv(os.path.join(OUT, "clusters_grouped.csv"), index_col=0)
+
+K10 = 3
+Kg  = 3
+
+NAMES_10 = {0: "A — Mktg Analytics & Big Data",
+            1: "B — Applied Analytics Seekers",
+            2: "C — Quant & Technical"}
+NAMES_G  = {0: "X — Business-Leaning",
+            1: "Y — Tech-Oriented",
+            2: "Z — Applied Analytics"}
+
+centers10.index = [NAMES_10[i] for i in centers10.index]
+centersg.index  = [NAMES_G[i]  for i in centersg.index]
+
+# Recompute scaled features + labels for scatter plots
+scaler10 = StandardScaler()
+X10 = scaler10.fit_transform(feat10)
+km10 = KMeans(n_clusters=K10, random_state=42, n_init=20).fit(X10)
+labels10 = km10.labels_
+
+scalerg = StandardScaler()
+Xg = scalerg.fit_transform(featg)
+kmg = KMeans(n_clusters=Kg, random_state=42, n_init=20).fit(Xg)
+labelsg = kmg.labels_
+
+# Silhouette + inertia for selection tables
+inertia10, sil10, inertia_g, sil_g = [], [], [], []
+for k in range(2, 7):
+    m = KMeans(n_clusters=k, random_state=42, n_init=20).fit(X10)
+    inertia10.append(m.inertia_)
+    sil10.append(silhouette_score(X10, m.labels_))
+    m = KMeans(n_clusters=k, random_state=42, n_init=20).fit(Xg)
+    inertia_g.append(m.inertia_)
+    sil_g.append(silhouette_score(Xg, m.labels_))
+```
+
+## 1. Introduction
+
+This report segments MSBA students into preference-based groups using k-means clustering applied to MaxDiff survey data. Each student rated 10 courses across 8 tasks, selecting the most and least preferred course from a set of 4 each time. The goal is to identify whether distinct preference profiles exist in the cohort — and what those profiles look like.
+
+Two clustering versions are run:
+
+- **10-course version:** one preference score per course per student (10 features)
+- **Grouped 3-category version:** scores averaged into Technical, Business, and Applied groups (3 features)
+
+## 2. Data Cleaning and Valid Task Filtering
+
+The raw file contains 3,910 rows across 85 respondents. An unlabeled `Item = 11` appears in malformed tasks that have only one row and no worst pick. These tasks are excluded.
+
+A task is kept only if it meets all four conditions:
+
+| Condition | Requirement |
+|---|---|
+| Rows per respondent-task | Exactly 4 |
+| Best picks (Response = 1) | Exactly 1 |
+| Worst picks (Response = −1) | Exactly 1 |
+| Neutral (Response = 0) | Exactly 2 |
+| Items | All in the 10 labeled courses |
+
+**After filtering:** 2,720 rows remain — 85 respondents × 8 valid tasks each. No respondents were lost.
+
+## 3. Feature Engineering
+
+### 10-Course Preference Scores
+
+For each respondent and course:
+
+$$\text{preference score} = \frac{\text{times chosen best} - \text{times chosen worst}}{\text{times shown}}$$
+
+Scores range from −1 (always worst) to +1 (always best). A small number of respondent–course pairs were never shown together. These are imputed with the **respondent's own mean score** across courses they did see. Imputing with 0 would incorrectly imply indifference; the respondent mean is a neutral placeholder that preserves relative scale without over-weighting unseen courses.
+
+Final feature matrix: **85 rows × 10 courses**, no missing values.
+
+### Grouped 3-Category Scores
+
+Course-level scores are averaged within three groups:
+
+| Category | Courses |
+|---|---|
+| **Technical / Data Systems** | AI Math, SQL, Large Data, BI Systems |
+| **Business / No Coding** | Mktg/Fin/Ops, Consulting |
+| **Applied / Analytics-Focused** | Bus. Analytics, Customer Analytics, Mktg Analytics, Capstone |
+
+Final grouped matrix: **85 rows × 3 categories**.
+
+## 4. K Selection
+
+Features were standardized before k-means. K was tested from 2 through 6 with 20 random restarts each.
+
+```{python}
+#| label: fig-model-selection
+#| fig-cap: "Left: inertia (lower is better). Right: silhouette score (higher is better)."
+#| fig-height: 4
+
+fig, axes = plt.subplots(1, 2, figsize=(11, 4))
+
+# Elbow
+for ax, inertias, title in zip(axes, [inertia10, inertia_g], ["10-Course", "Grouped (3 Cat.)"]):
+    ax.plot(range(2, 7), inertias, "o-", color="#4C72B0", linewidth=2, markersize=7)
+    ax.set_title(f"Elbow Plot — {title}", fontsize=12)
+    ax.set_xlabel("k"); ax.set_ylabel("Inertia")
+    ax.set_xticks(range(2, 7))
+    ax.spines[["top","right"]].set_visible(False)
+
+plt.suptitle("Model Selection: Inertia", fontsize=13, y=1.02)
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+#| label: fig-silhouette
+#| fig-cap: "Silhouette scores across k for both versions."
+#| fig-height: 4
+
+fig, axes = plt.subplots(1, 2, figsize=(11, 4))
+
+for ax, scores, title in zip(axes, [sil10, sil_g], ["10-Course", "Grouped (3 Cat.)"]):
+    ax.plot(range(2, 7), scores, "o-", color="#DD8452", linewidth=2, markersize=7)
+    ax.set_title(f"Silhouette Scores — {title}", fontsize=12)
+    ax.set_xlabel("k"); ax.set_ylabel("Silhouette Score")
+    ax.set_xticks(range(2, 7))
+    ax.spines[["top","right"]].set_visible(False)
+
+plt.suptitle("Model Selection: Silhouette", fontsize=13, y=1.02)
+plt.tight_layout()
+plt.show()
+```
+
+### Selection Rationale
+
+**10-course version** — Silhouette peaks at k=2 (0.173) but the drop to k=3 (0.152) is small. The elbow bends at k=3. With 85 respondents, k=3 adds a meaningful third profile while keeping cluster sizes balanced (31 / 29 / 25). **k = 3 chosen.**
+
+**Grouped version** — Silhouette rises through k=6, but gains diminish after k=3. With only 3 features, k=3 maps directly onto the three category dimensions and gives the most interpretable solution. **k = 3 chosen.**
+
+```{python}
+#| label: tbl-selection
+#| tbl-cap: "K selection summary"
+
+sel = pd.DataFrame({
+    "k": range(2, 7),
+    "10-course Inertia": [round(x, 1) for x in inertia10],
+    "10-course Silhouette": [round(x, 3) for x in sil10],
+    "Grouped Inertia": [round(x, 1) for x in inertia_g],
+    "Grouped Silhouette": [round(x, 3) for x in sil_g],
+})
+display(sel.set_index("k").style
+    .highlight_max(subset=["10-course Silhouette"], color="#d4edda")
+    .highlight_max(subset=["Grouped Silhouette"],   color="#d4edda")
+    .format(precision=3))
+```
+
+## 5. 10-Course Clustering Results (k = 3)
+
+```{python}
+#| label: fig-sizes-10
+#| fig-cap: "Cluster sizes — 10-course version."
+#| fig-height: 3.5
+
+counts10 = pd.Series(labels10).value_counts().sort_index()
+fig, ax = plt.subplots(figsize=(7, 3.5))
+bars = ax.bar([NAMES_10[i] for i in counts10.index], counts10.values,
+              color=PALETTE[:K10], edgecolor="white")
+ax.bar_label(bars, padding=3, fontsize=11)
+ax.set_ylabel("# Respondents"); ax.set_ylim(0, counts10.max() + 12)
+ax.set_title("Cluster Sizes — 10-Course Version", fontsize=12)
+ax.spines[["top","right"]].set_visible(False)
+plt.xticks(rotation=10, ha="right")
+plt.tight_layout()
+plt.show()
+```
+
+### Cluster Centers
+
+```{python}
+#| label: tbl-centers-10
+#| tbl-cap: "Cluster centers in original preference score units (−1 to +1)."
+
+display(centers10.T.style
+    .background_gradient(cmap="RdYlGn", axis=None, vmin=-0.7, vmax=0.7)
+    .format("{:.3f}"))
+```
+
+```{python}
+#| label: fig-heatmap-10
+#| fig-cap: "Heatmap of cluster centers. Green = preferred, red = avoided."
+#| fig-height: 3.5
+
+fig, ax = plt.subplots(figsize=(12, 3.5))
+sns.heatmap(centers10, annot=True, fmt=".2f", cmap="RdYlGn",
+            center=0, linewidths=0.5, ax=ax, vmin=-0.8, vmax=0.8)
+ax.set_title("Cluster Centers — 10-Course Preference Scores", fontsize=12)
+ax.set_xlabel("Course"); ax.set_ylabel("Cluster")
+plt.xticks(rotation=30, ha="right", fontsize=9)
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+#| label: fig-bar-10
+#| fig-cap: "Preference scores per cluster. Green bars = positive preference, red = avoided."
+#| fig-height: 5
+
+fig, axes = plt.subplots(1, K10, figsize=(15, 5))
+for cl_idx, ax in enumerate(axes):
+    vals = centers10.iloc[cl_idx].sort_values()
+    colors = ["#C44E52" if v < 0 else "#55A868" for v in vals]
+    ax.barh(vals.index, vals.values, color=colors, edgecolor="white")
+    ax.axvline(0, color="black", linewidth=0.8)
+    ax.set_title(centers10.index[cl_idx], fontsize=9)
+    ax.set_xlabel("Preference Score", fontsize=8)
+    ax.tick_params(axis='y', labelsize=8)
+    ax.spines[["top","right"]].set_visible(False)
+plt.suptitle("Course Preferences by Cluster", fontsize=13, y=1.02)
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+#| label: fig-pca-10
+#| fig-cap: "PCA 2D scatter. Each point is one respondent, colored by cluster."
+#| fig-height: 5
+
+pca = PCA(n_components=2, random_state=42)
+X10_2d = pca.fit_transform(X10)
+var_exp = pca.explained_variance_ratio_ * 100
+
+fig, ax = plt.subplots(figsize=(8, 5))
+for cl in range(K10):
+    mask = labels10 == cl
+    ax.scatter(X10_2d[mask, 0], X10_2d[mask, 1],
+               label=NAMES_10[cl], color=PALETTE[cl],
+               alpha=0.75, s=65, edgecolors="white", linewidths=0.5)
+ax.set_xlabel(f"PC1 ({var_exp[0]:.1f}% variance)")
+ax.set_ylabel(f"PC2 ({var_exp[1]:.1f}% variance)")
+ax.set_title("PCA Scatter — 10-Course Clustering", fontsize=12)
+ax.legend(fontsize=8, loc="best")
+ax.spines[["top","right"]].set_visible(False)
+plt.tight_layout()
+plt.show()
+```
+
+### Cluster Profiles
+
+**Cluster A — "Marketing Analytics & Big Data" (n = 31)**
+
+Top: Marketing Analytics (+0.62), Large Data (+0.34). Bottom: AI Math (−0.52), Customer Analytics (−0.46). These students gravitate toward marketing-flavored analytics and data-scale courses but steer away from programming-heavy AI math and granular customer-level analysis.
+
+**Cluster B — "Applied Analytics Seekers" (n = 29)**
+
+Top: Customer Analytics (+0.60), Business Analytics (+0.56). Bottom: Mktg/Fin/Ops (−0.53), Consulting (−0.43). This group strongly prefers hands-on applied analytics and actively avoids traditional business offerings. They chose the MSBA track for its quantitative, data-driven content.
+
+**Cluster C — "Quant & Technical" (n = 25)**
+
+Top: SQL (+0.49), Marketing Analytics (+0.37). Bottom: Consulting (−0.65), Mktg/Fin/Ops (−0.31). Strongest aversion to soft-skill courses of all three groups. Distinguishes itself from Cluster B through higher SQL preference and lower Business Analytics appetite.
+
+## 6. Grouped 3-Category Results (k = 3)
+
+```{python}
+#| label: tbl-centers-g
+#| tbl-cap: "Grouped cluster centers in original score units."
+
+display(centersg.style
+    .background_gradient(cmap="RdYlGn", axis=None, vmin=-0.6, vmax=0.6)
+    .format("{:.3f}"))
+```
+
+```{python}
+#| label: fig-grouped
+#| fig-cap: "Left: grouped cluster center heatmap. Right: Technical vs Applied scatter."
+#| fig-height: 5
+
+fig, axes = plt.subplots(1, 2, figsize=(13, 5))
+
+# Heatmap
+sns.heatmap(centersg, annot=True, fmt=".2f", cmap="RdYlGn",
+            center=0, linewidths=0.5, ax=axes[0], vmin=-0.6, vmax=0.6)
+axes[0].set_title("Cluster Centers — Grouped Categories", fontsize=11)
+axes[0].set_xlabel("Category"); axes[0].set_ylabel("Cluster")
+
+# Scatter: Technical vs Applied
+for cl in range(Kg):
+    mask = labelsg == cl
+    axes[1].scatter(featg.iloc[mask, 0], featg.iloc[mask, 2],
+                    label=NAMES_G[cl], color=PALETTE[cl],
+                    alpha=0.75, s=65, edgecolors="white", linewidths=0.5)
+axes[1].set_xlabel("Technical Score")
+axes[1].set_ylabel("Applied Score")
+axes[1].set_title("Technical vs Applied (by Cluster)", fontsize=11)
+axes[1].legend(fontsize=8)
+axes[1].spines[["top","right"]].set_visible(False)
+
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+#| label: fig-sizes-g
+#| fig-cap: "Cluster sizes — grouped version."
+#| fig-height: 3.5
+
+countsg = pd.Series(labelsg).value_counts().sort_index()
+fig, ax = plt.subplots(figsize=(7, 3.5))
+bars = ax.bar([NAMES_G[i] for i in countsg.index], countsg.values,
+              color=PALETTE[:Kg], edgecolor="white")
+ax.bar_label(bars, padding=3, fontsize=11)
+ax.set_ylabel("# Respondents"); ax.set_ylim(0, countsg.max() + 12)
+ax.set_title("Cluster Sizes — Grouped Version", fontsize=12)
+ax.spines[["top","right"]].set_visible(False)
+plt.xticks(rotation=10, ha="right")
+plt.tight_layout()
+plt.show()
+```
+
+### Cluster Profiles
+
+**Cluster X — "Business-Leaning" (n = 27)** — Highest Business score (+0.19), below-average Technical and Applied. Mild preference for non-coding business-facing courses.
+
+**Cluster Y — "Tech-Oriented" (n = 25)** — Highest Technical score (+0.22), clearly negative Business (−0.39). Prefers data systems and coding-heavy courses; deprioritizes the softer business curriculum.
+
+**Cluster Z — "Applied Analytics" (n = 33)** — Highest Applied score (+0.45), lowest Business (−0.52). Largest segment. Strongly prefers analytics application courses while avoiding business and consulting content.
+
+## 7. Comparison and Interpretation
+
+### Where the Two Versions Agree
+
+Both versions find three segments anchored on the same underlying dimension: **technical coding vs. applied analytics vs. business/consulting**. "Tech-Oriented" (Grouped Y) corresponds to "Quant & Technical" in the 10-course version — high SQL, low Consulting. "Applied Analytics" (Grouped Z) maps to "Applied Analytics Seekers" — high Customer and Business Analytics. "Business-Leaning" (Grouped X) partially overlaps with "Marketing Analytics & Big Data," sharing preference for Mktg/Fin/Ops.
+
+### Where Grouping Smooths Over Course-Level Differences
+
+Marketing Analytics is the top-ranked course across **all three** 10-course clusters — it is universally popular, not a discriminator. By averaging it with less popular Applied courses, the grouped version inflates the Applied category for all segments. SQL clearly separates Cluster C from Cluster B at the course level, but this distinction disappears inside the broader Technical bucket.
+
+### Interpretability Trade-off
+
+| | 10-Course Version | Grouped Version |
+|---|---|---|
+| Granularity | Course-level nuance | Within-group variation smoothed |
+| Interpretability | Richer; needs 10-column table | One score per category; easy to present |
+| Cluster separation (silhouette) | ~0.15 — soft, overlapping | ~0.37 — moderate, cleaner |
+| Best use | Curriculum planning, scheduling | Executive summary, segment naming |
+
+The grouped version is easier to communicate to non-technical stakeholders. The 10-course version is more actionable for course design decisions.
+
+### Caveats
+
+- **Small sample (n = 85):** Cluster boundaries are sensitive to which respondents were surveyed. Treat these as directional, not statistically stable.
+- **8 tasks per respondent:** Some course-level scores rest on 2–3 observations. Respondent-level estimates are noisy.
+- **Weak separation in 10-course version:** Silhouette ~0.15 indicates soft, overlapping clusters. Structure is present but not strong.
+- **Exploratory only:** No external labels (GPA, background, job outcome) are available to validate whether these segments predict anything beyond preference patterns.
+
+## 8. 10-Course Method vs. Pre-Defined Group Method
+
+The two methods answer related but different questions.
+
+| Question | 10-Course Method | Pre-Defined Group Method |
+|---|---|---|
+| What does the model see? | 10 individual course preference scores | 3 averaged category scores |
+| Who decides what is similar? | Mostly the data — every course stays separate | Partly the analyst — courses are grouped before modeling |
+| Main advantage | Finds nuanced patterns, e.g. SQL vs Business Analytics | Reduces noise; easier to explain |
+| Main risk | Noisy because each course score rests on few observations | Can hide within-category differences |
+| Best use | Course-level planning; discovering unexpected combinations | Executive summary; high-level segmentation |
+
+The 10-course method is less constrained. It lets the algorithm discover combinations such as "likes SQL and Customer Analytics but dislikes Consulting." The grouped method is more stable and easier to interpret, but the grouping itself introduces analyst judgment — for example, Marketing Analytics is universally popular yet ends up inside the Applied bucket, making that category look more segment-defining than it really is.
+
+The safest interpretation: use the **10-course method** to discover course-level nuance; use the **grouped method** to communicate the broad story; compare both before naming final segments.
+
+---
+
+## 9. Hierarchical Clustering (Ward Linkage)
+
+Hierarchical clustering provides a cross-check that does not require a pre-specified k and uses a structurally different algorithm from k-means. Ward linkage minimises total within-cluster variance at each merge step, making it directly comparable to k-means in spirit. Features were standardised identically to the k-means analysis. The dendrogram was cut at k = 3 to allow direct comparison.
+
+### Dendrograms
+
+![Dendrograms for both feature versions](clustering_outputs/dendrogram.png)
+
+The 10-course dendrogram shows three distinct branches merging at roughly the same height, which supports k = 3 as a natural cut. The grouped dendrogram is shallower, reflecting the lower dimensionality.
+
+### Cluster Centers (10-Course, Ward k = 3)
+
+![HC cluster centers heatmap](clustering_outputs/hc_centers_10course.png)
+
+### Agreement with K-Means
+
+| Metric | 10-Course | Grouped |
+|---|---|---|
+| ARI vs k-means | **0.700** | 0.461 |
+| HC cluster sizes | 26 / 27 / 32 | 37 / 24 / 24 |
+| K-Means sizes | 31 / 29 / 25 | 27 / 25 / 33 |
+
+An ARI of 0.70 on the 10-course version is strong for an 85-respondent exploratory analysis — roughly 7 in 10 respondents are assigned to the same cluster by both methods. The assignment crosstab is nearly diagonal: Cluster C (Quant & Technical) maps perfectly to one HC cluster; Clusters A and B each have a small overflow of 3–4 respondents into a neighbouring HC group. The grouped ARI is lower (0.46) because the simpler 3-dimensional geometry makes borderline respondents easier to re-assign.
+
+**Takeaway:** Two structurally different algorithms recover essentially the same three groups from the 10-course data. This increases confidence that the segments are real rather than artefacts of k-means initialisation.
+
+---
+
+## 10. Latent Class MaxDiff MNL
+
+The latent class MNL (LC-MNL) is a probabilistic model that uses the raw best-worst choice data directly rather than the summarised preference scores. It estimates one set of course utilities per class and assigns each respondent to the class with the highest posterior probability. This is the most statistically principled of the three approaches.
+
+**Model specification:** For each task, the respondent sees 4 courses. Best-choice probability follows a standard MNL on raw utilities; worst-choice probability follows an MNL on the negative utilities for the remaining 3 courses (sequential best-worst model). Class membership is estimated jointly via EM with 5 random starts per K. BI Systems (item 10) utility is fixed at 0 in each class for identifiability; all other utilities are free and re-centred to sum to zero within each class.
+
+**BIC formula:** BIC = −2 × LL + p × log(N), where N = 680 choice occasions and p = 10K − 1 free parameters.
+
+### BIC Model Selection
+
+![BIC plot across K](clustering_outputs/lc_bic_plot.png)
+
+```{python}
+#| label: tbl-bic
+#| tbl-cap: "LC-MNL BIC by number of classes."
+
+bic_df = pd.read_csv(os.path.join(OUT, "lc_bic_table.csv"))
+bic_df.columns = ["K", "Log-Likelihood", "Params", "BIC"]
+display(bic_df.set_index("K").style
+    .highlight_min(subset=["BIC"], color="#d4edda")
+    .format({"Log-Likelihood": "{:.2f}", "BIC": "{:.2f}"}))
+```
+
+BIC favours K = 4 by a margin of only **0.97 BIC units** over K = 3. A difference this small is not meaningful — the two solutions are effectively tied. K = 3 is preferred here for comparability with the k-means baseline and because K = 4 produces two very small classes (n = 11 and n = 12 out of 85).
+
+### LC-MNL Results: K = 3
+
+Class sizes: **LC 0 = 24, LC 1 = 36, LC 2 = 25** — well balanced.
+
+![LC K = 3 class utilities heatmap](clustering_outputs/lc_utilities_k3.png)
+
+| Course | LC 0 (n = 24) | LC 1 (n = 36) | LC 2 (n = 25) |
+|---|---|---|---|
+| Top courses | SQL, Mktg Analytics | Mktg Analytics, Large Data | Customer Analytics, Bus. Analytics |
+| Bottom courses | Consulting, Mktg/Fin/Ops | AI Math, Customer Analytics | Mktg/Fin/Ops, Consulting |
+
+**LC 0** prefers technical tools (SQL) and marketing analytics while avoiding soft-skill courses — closely mirrors k-means Cluster C (Quant & Technical).
+
+**LC 1** favours Marketing Analytics and Large Data, avoids AI Math and Customer Analytics — mirrors k-means Cluster A (Marketing Analytics & Big Data).
+
+**LC 2** has strong preference for applied analytics and clear aversion to business/consulting — mirrors k-means Cluster B (Applied Analytics Seekers).
+
+### LC-MNL Results: K = 4 (BIC-optimal)
+
+![LC K = 4 class utilities heatmap](clustering_outputs/lc_utilities.png)
+
+Class sizes: **LC 1 = 11, LC 2 = 26, LC 3 = 36, LC 4 = 12.** The K = 4 solution largely recovers the same three k-means segments but splits the Applied Analytics group into two smaller classes — one centred on Customer Analytics + Capstone (n = 11) and another on Customer Analytics + Business Analytics (n = 26). These two classes share nearly identical top courses, suggesting the split may reflect noise rather than a genuine fourth preference type.
+
+### Agreement with K-Means
+
+| Method pair | ARI |
+|---|---|
+| K-Means vs LC K = 3 | **0.690** |
+| K-Means vs HC | 0.700 |
+| HC vs LC K = 3 | 0.580 |
+
+ARI of 0.69 between k-means and LC K = 3 is strong. The crosstab is nearly one-to-one: k-means Cluster A maps entirely to LC 1, Cluster B maps mostly to LC 2, and Cluster C maps mostly to LC 0.
+
+![Cross-method assignment crosstab](clustering_outputs/comparison_crosstab.png)
+
+---
+
+## 11. Three-Method Comparison
+
+### Summary
+
+| | K-Means (k = 3) | Hierarchical (k = 3) | LC-MNL (K = 3) |
+|---|---|---|---|
+| Algorithm | Distance-based centroid | Agglomerative Ward | Probabilistic MNL + EM |
+| Input | Summarised preference scores | Summarised preference scores | Raw best-worst choices |
+| Cluster sizes | 31 / 29 / 25 | 26 / 27 / 32 | 24 / 36 / 25 |
+| ARI vs k-means | — | **0.700** | **0.690** |
+
+All three methods find the same three preference groups from different starting points. K-means and hierarchical operate on the same summarised feature matrix but use different algorithms; LC-MNL works directly from raw task-level choices and estimates utilities via a proper statistical model. The convergence of all three to nearly identical segments significantly strengthens confidence in the three-group structure.
+
+### What Each Method Adds
+
+**K-Means** is the simplest and fastest. It is good for initial exploration and produces cluster centers directly interpretable in preference score units.
+
+**Hierarchical clustering** adds the dendrogram, which shows not just which clusters exist but how similar they are to each other. An ARI of 0.70 confirms the k-means solution is not sensitive to initialisation. The slightly different sizes show that the clusters lack hard boundaries.
+
+**LC-MNL** is the most principled method because it models the actual choice mechanism rather than distances in score space. The BIC near-tie between K = 3 and K = 4 is a useful signal: the data support three clear segments, with weak evidence that one segment could be subdivided. Because the two extra K = 4 classes are small and have overlapping top courses, K = 3 is the more defensible choice for reporting.
+
+### Where the Methods Disagree
+
+The main disagreement is in the size of the middle cluster. K-means produces three roughly equal groups (31/29/25). LC-MNL K = 3 concentrates 36 of 85 respondents into one class (the Marketing Analytics & Big Data group), suggesting this is the modal preference profile in the cohort. The hierarchical solution is similarly unequal (32 in the largest cluster). This is worth noting: the "Marketing Analytics & Big Data" segment may be larger than k-means suggests because k-means by construction minimises within-cluster variance and tends to produce balanced groups.
+
+### Recommendation
+
+Use k-means Clusters A/B/C for reporting — they are familiar, interpretable, and now validated by two independent methods. When communicating to a data-literate audience, add that the LC-MNL confirms the structure with a proper statistical model (ARI = 0.69) and that the BIC is nearly flat between K = 3 and K = 4, reinforcing the exploratory caveat.
+
+---
+
+## 12. Output Files
+
+All files saved to `clustering_outputs/`:
+
+| File | Description |
+|---|---|
+| `feature_10course.csv` | 85 × 10 preference score matrix |
+| `feature_grouped.csv` | 85 × 3 category score matrix |
+| `clusters_10course.csv` | Scores + cluster label (10-course) |
+| `clusters_grouped.csv` | Scores + cluster label (grouped) |
+| `centers_10course.csv` | K-means cluster centers |
+| `centers_grouped.csv` | Grouped cluster centers |
+| `elbow_plots.png` | K-means inertia vs k |
+| `silhouette_plots.png` | K-means silhouette vs k |
+| `heatmap_10course.png` | K-means cluster center heatmap |
+| `pca_scatter_10course.png` | PCA 2D scatter (k-means) |
+| `bar_top_bottom_10course.png` | Top/bottom courses per k-means cluster |
+| `grouped_heatmap_scatter.png` | Grouped heatmap + scatter |
+| `cluster_sizes.png` | K-means cluster size bar charts |
+| `dendrogram.png` | HC Ward dendrograms |
+| `hc_centers_10course.png` | HC cluster center heatmap |
+| `crosstab_kmeans_vs_hc.csv` | K-means vs HC assignment crosstab |
+| `lc_bic_table.csv` | LC-MNL BIC by K |
+| `lc_bic_plot.png` | BIC plot |
+| `lc_utilities.png` | LC-MNL utility heatmap (K = 4) |
+| `lc_utilities_k3.png` | LC-MNL utility heatmap (K = 3) |
+| `lc_class_sizes.png` | LC-MNL class size bar chart |
+| `comparison_crosstab.png` | K-means vs HC and LC crosstabs |
+| `all_cluster_assignments.csv` | All three method labels per respondent |
+| `lc3_feature_centroids.csv` | LC K = 3 centroids in preference score space |

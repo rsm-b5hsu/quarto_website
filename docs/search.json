@@ -130,14 +130,21 @@
     "href": "projects.html",
     "title": "My Projects",
     "section": "",
-    "text": "Codex NBA Fantasy — Agentic Matchup Analytics\n\n\nAn agentic Python pipeline that pulls live Yahoo NBA Fantasy data, projects end-of-week category outcomes against the scheduled opponent, surfaces high-leverage free agents…\n\n\n\nBen Hsu\n\n\nMay 17, 2026\n\n\n\n\n\n\nNo matching items"
+    "text": "Codex NBA Fantasy — Agentic Matchup Analytics\n\n\nAn agentic Python pipeline that pulls live Yahoo NBA Fantasy data, projects end-of-week category outcomes against the scheduled opponent, surfaces high-leverage free agents…\n\n\n\nBen Hsu\n\n\nJun 4, 2026\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "assignment.html",
     "href": "assignment.html",
     "title": "Assignments",
     "section": "",
-    "text": "This page collects my course assignments and related work.\n\n\n\nAssignment 1\nAssignment 2\nAssignment 3\nAssignment 4"
+    "text": "This page collects my course assignments and related work.\n\n\nSegmentation analysis of 85 MSBA students’ course preferences using MaxDiff survey data. Three methods — K-Means, Hierarchical Clustering, and Latent Class MaxDiff — all recover the same three preference groups.\n\nPresentation Version — RevealJS slide deck with animated reveals\nReport Version — Full written report with all methods and output\n\n\n\n\n\nAssignment 1\nAssignment 2\nAssignment 3\nAssignment 4"
+  },
+  {
+    "objectID": "assignment.html#class-project-msba-course-preference-segmentation",
+    "href": "assignment.html#class-project-msba-course-preference-segmentation",
+    "title": "Assignments",
+    "section": "",
+    "text": "Segmentation analysis of 85 MSBA students’ course preferences using MaxDiff survey data. Three methods — K-Means, Hierarchical Clustering, and Latent Class MaxDiff — all recover the same three preference groups.\n\nPresentation Version — RevealJS slide deck with animated reveals\nReport Version — Full written report with all methods and output"
   },
   {
     "objectID": "assignment.html#current-assignments",

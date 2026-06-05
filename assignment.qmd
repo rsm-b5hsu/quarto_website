@@ -6,6 +6,13 @@ title: "Assignments"
 
 This page collects my course assignments and related work.
 
+## Class Project — MSBA Course Preference Segmentation
+
+Segmentation analysis of 85 MSBA students' course preferences using MaxDiff survey data. Three methods — K-Means, Hierarchical Clustering, and Latent Class MaxDiff — all recover the same three preference groups.
+
+- [Presentation Version](assignment_files/class_project/presentation_version.html) — RevealJS slide deck with animated reveals
+- [Report Version](assignment_files/class_project/report_version.html) — Full written report with all methods and output
+
 ## Current Assignments
 
 - [Assignment 1](assignment_files/hw1/index.html)
