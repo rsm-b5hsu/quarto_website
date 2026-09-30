@@ -67,7 +67,7 @@
     "href": "index.html#experience",
     "title": "Ben Hsu",
     "section": "Experience",
-    "text": "Experience\nLINE Plus Corporation | Product Strategy Analyst | Oct 2021 - May 2025\nIpsos | Senior Research Executive | Sep 2019 - Sep 2021\n\nWhat I work on\nI work at the intersection of data science and business decision-making. My focus areas include pricing analytics, demand forecasting, experimentation, customer segmentation, and text-based modeling. I care about building models that are interpretable, testable, and deployable under real-world constraints."
+    "text": "Experience\nLINE Plus Corporation | Product Strategy Analyst | Oct 2021 - May 2025\nProduct strategy, monetization, pricing & experimentation\nIpsos | Senior Research Executive | Sep 2019 - Sep 2021\nPricing & brand research, customer decision-making, experimentation\nKPMG – Climate Change & Sustainability | Researcher | Jul 2016 - Apr 2018\nCost-benefit, SROI & investment-case analysis\n\nConducted Social Return on Investment (SROI) analysis for three Taiwan-listed clients\nRan a cost-benefit analysis of an environmental-education program; pricing and program recommendations raised its average SROI by ~10%\nForecasted the P&L of a smart-city streetlight project and identified an opportunity to expand installation into rural areas\nSee the SROI & investment-modeling demo →\n\n\nWhat I work on\nI work at the intersection of data science and business decision-making. My focus areas include pricing analytics, demand forecasting, experimentation, customer segmentation, and text-based modeling. I care about building models that are interpretable, testable, and deployable under real-world constraints.\n\n\nBusiness impact at LINE\n\n\n2× annual sales growth after a lifecycle-driven pricing redesign. Case study →\n\n\n~20× sales after redesigning an underperforming promo package. Case study →\n\n\n&gt;40% YoY growth, with quotes going from weeks to minutes via a pricing framework. Case study →\n\n\n2× CVR in the A/B test I designed for ML ad targeting. Case study →\n\n\nSee all case studies and technical projects on the Projects page."
   },
   {
     "objectID": "projects/codex-nba-fantasy-analytics/index.html#why-i-built-this",
@@ -123,14 +123,14 @@
     "href": "resume.html",
     "title": "My Resume",
     "section": "",
-    "text": "Download PDF file."
+    "text": "Download PDF Open in new tab\n\n\n  Loading resume preview…\n\n\n  \n    Download the resume (PDF)"
   },
   {
     "objectID": "projects.html",
     "href": "projects.html",
     "title": "My Projects",
     "section": "",
-    "text": "Codex NBA Fantasy — Agentic Matchup Analytics\n\n\nAn agentic Python pipeline that pulls live Yahoo NBA Fantasy data, projects end-of-week category outcomes against the scheduled opponent, surfaces high-leverage free agents…\n\n\n\nBen Hsu\n\n\nJun 4, 2026\n\n\n\n\n\n\nNo matching items"
+    "text": "Selected work across my career, from business cases and pricing research to product strategy and machine learning. Each project starts from a business question and ends with a decision or a measurable result."
   },
   {
     "objectID": "assignment.html",
@@ -152,5 +152,432 @@
     "title": "Assignments",
     "section": "",
     "text": "Assignment 1\nAssignment 2\nAssignment 3\nAssignment 4"
+  },
+  {
+    "objectID": "projects/ucsd-fashion-fit/index.html",
+    "href": "projects/ucsd-fashion-fit/index.html",
+    "title": "Reducing Rental Returns with Fit Prediction",
+    "section": "",
+    "text": "0.855 test AUC (hybrid model)\n\n\n0.979 Precision@1: the top-ranked item fits ~98% of the time\n\n\n192K reviews from 105K users and 5.8K items"
+  },
+  {
+    "objectID": "projects/ucsd-fashion-fit/index.html#business-problem",
+    "href": "projects/ucsd-fashion-fit/index.html#business-problem",
+    "title": "Reducing Rental Returns with Fit Prediction",
+    "section": "Business problem",
+    "text": "Business problem\nFor a fashion-rental platform, a garment that doesn’t fit is expensive twice. It triggers a return, with shipping and cleaning costs, and it produces an unhappy customer who may not rent again. If the platform can predict whether a specific item will fit a specific renter, it can put the best-fitting items at the top of each customer’s results and cut avoidable returns."
+  },
+  {
+    "objectID": "projects/ucsd-fashion-fit/index.html#data",
+    "href": "projects/ucsd-fashion-fit/index.html#data",
+    "title": "Reducing Rental Returns with Fit Prediction",
+    "section": "Data",
+    "text": "Data\nThe data is the public Rent the Runway review dataset: 192,544 reviews from 105,571 users on 5,850 items. Each review records whether the item ran small, large, or fit. I collapsed small and large into not fit, which leaves a 74% / 26% class imbalance. I handled the imbalance with balanced class weights rather than resampling.\n\n\n\n\n\nFit label distribution: most rentals fit, and the misses split almost evenly between too small and too large.\n\n\n\n\n\n\n\nFit rate barely varies by body type, so broad body categories alone can’t predict fit.\n\n\n\n\n\n\n\nPer-user fit rates are strongly bimodal. Fit is highly personal, which is why user-level signal matters."
+  },
+  {
+    "objectID": "projects/ucsd-fashion-fit/index.html#approach",
+    "href": "projects/ucsd-fashion-fit/index.html#approach",
+    "title": "Reducing Rental Returns with Fit Prediction",
+    "section": "Approach",
+    "text": "Approach\nThree feature families feed one scikit-learn pipeline:\n\n\nBody & item numerics height, weight, bust, size, age: parsed from raw strings, imputed, scaled\n\n\nCategoricals user, item, category, occasion, body type: one-hot\n\n\nReview text TF-IDF on 1–2-grams, 10K features\n\n\nColumnTransformer → Logistic regression class-balanced\n\n\nRank items per user by predicted fit probability\n\n\nLeakage control. I split train/validation/test by user (70 / 10 / 20). Each renter’s reviews appear in exactly one partition, so the test score reflects performance on customers the model has never seen."
+  },
+  {
+    "objectID": "projects/ucsd-fashion-fit/index.html#results",
+    "href": "projects/ucsd-fashion-fit/index.html#results",
+    "title": "Reducing Rental Returns with Fit Prediction",
+    "section": "Results",
+    "text": "Results\nAblation: what each feature source adds (test set)\n\n\n\nModel\nAUC\nBalanced accuracy\nMacro F1\n\n\n\n\nMajority-class baseline\nn/a\n0.500\n0.424\n\n\nNumeric features only\n0.643\n0.622\n0.606\n\n\nReview text only\n0.830\n0.753\n0.735\n\n\nHybrid (all features)\n0.855\n0.775\n0.765\n\n\n\nRecommendation view: Precision@K on test users\n\n\n\nK\n1\n3\n5\n10\n\n\n\n\nMean P@K\n0.979\n0.929\n0.920\n0.915\n\n\n\nThe hybrid model beats both single-source models, so body measurements and item metadata add signal that review text alone misses. The ranking metric matters most for the business. When the model recommends a single “top fit pick”, that item fits almost 98% of the time, which maps directly onto a recommended size or best fit for you feature."
+  },
+  {
+    "objectID": "projects/ucsd-fashion-fit/index.html#what-id-do-next",
+    "href": "projects/ucsd-fashion-fit/index.html#what-id-do-next",
+    "title": "Reducing Rental Returns with Fit Prediction",
+    "section": "What I’d do next",
+    "text": "What I’d do next\n\nReplace one-hot user/item IDs with latent factors to handle cold-start users.\nEstimate the return-cost savings by pricing the reduction in not-fit rentals among top-ranked items.\nTest a gradient-boosted model against the logistic baseline, keeping the user-level split."
+  },
+  {
+    "objectID": "projects/ucsd-fashion-fit/index.html#tools",
+    "href": "projects/ucsd-fashion-fit/index.html#tools",
+    "title": "Reducing Rental Returns with Fit Prediction",
+    "section": "Tools",
+    "text": "Tools\nPython · pandas · scikit-learn (Pipeline, ColumnTransformer, TF-IDF, LogisticRegression) · matplotlib / seaborn\nUCSD MSBA · MGTA 461 Web Mining · Oct–Dec 2025"
+  },
+  {
+    "objectID": "projects/ucsd-dtfc-fan-intelligence/index.html",
+    "href": "projects/ucsd-dtfc-fan-intelligence/index.html",
+    "title": "Dallas Trinity FC: Fan Growth, Retention & Propensity Models",
+    "section": "",
+    "text": "0.91 / 0.95 AUC for predicting fan upgrade / downgrade\n\n\n4.3× lift in the top 15% of the ticket-propensity model\n\n\nFull CRM scored and handed off with an analytical guide for marketing"
+  },
+  {
+    "objectID": "projects/ucsd-dtfc-fan-intelligence/index.html#how-the-models-work-together",
+    "href": "projects/ucsd-dtfc-fan-intelligence/index.html#how-the-models-work-together",
+    "title": "Dallas Trinity FC: Fan Growth, Retention & Propensity Models",
+    "section": "How the models work together",
+    "text": "How the models work together\nThe BAS was the core deliverable. I paired it with predictive models so that each business question has a score behind it:\n\n\nBrand Affinity Score (Fan+) · Connection Who is this fan today? Scores each fan’s connection to the club from ticket and merchandise behavior, used to prioritize loyalty-program outreach.\n\n\nSegment change · Loyalty Where is the relationship heading? Probability that a fan upgrades or downgrades over the next four home games.\n\n\nTicket propensity · Engagement How likely are they to buy right now? Probability of buying at least one ticket for the next four home games.\n\n\nGrowth & retention · Engagement & loyalty How many games will they attend? Expected attendance compared with the fan’s own recent baseline."
+  },
+  {
+    "objectID": "projects/ucsd-dtfc-fan-intelligence/index.html#pipeline",
+    "href": "projects/ucsd-dtfc-fan-intelligence/index.html#pipeline",
+    "title": "Dallas Trinity FC: Fan Growth, Retention & Propensity Models",
+    "section": "Pipeline",
+    "text": "Pipeline\n\n\nFan data core: tickets & merchandise (2 seasons); enrichment: email, YouTube, TV, schedule\n\n\nFeature engineering time-aligned to a snapshot date to prevent leakage\n\n\nRolling time-based CV train on past windows, test on the next\n\n\nModels XGBoost vs. logistic and heuristic baselines\n\n\nExplainability SHAP and permutation importance\n\n\nCRM master file scores → action segments\n\n\nValidating honestly. Fan behavior is seasonal and the data spans two seasons, so a random split would leak future information into training. I validated with rolling-origin folds instead: each model trains on earlier home-game windows and is tested on the next window. For the segment-change model, XGBoost beat both a rules-based heuristic and regularized logistic regression on AUC in every fold."
+  },
+  {
+    "objectID": "projects/ucsd-dtfc-fan-intelligence/index.html#results",
+    "href": "projects/ucsd-dtfc-fan-intelligence/index.html#results",
+    "title": "Dallas Trinity FC: Fan Growth, Retention & Propensity Models",
+    "section": "Results",
+    "text": "Results\nHeadline validation, taken from the final client deliverable:\n\n\n\n\n\n\n\n\nModel\nQuestion\nValidation\n\n\n\n\nSegment change\nUpgrade or downgrade in the next 4 games?\nUpgrade AUC 0.91 (43% upgrade rate in the top 10%); downgrade AUC 0.95 (~20× lift in the top 5%)\n\n\nTicket propensity\nBuy ≥ 1 ticket in the next 4 games?\nAUC 0.833; 4.3× lift in the top 15%\n\n\nGrowth & retention\nAttend more or fewer games than baseline?\nAUC 0.715; 5.5× lift for fans attending 2+ games"
+  },
+  {
+    "objectID": "projects/ucsd-dtfc-fan-intelligence/index.html#from-scores-to-action",
+    "href": "projects/ucsd-dtfc-fan-intelligence/index.html#from-scores-to-action",
+    "title": "Dallas Trinity FC: Fan Growth, Retention & Propensity Models",
+    "section": "From scores to action",
+    "text": "From scores to action\nA model only creates value if the marketing team can use it. I translated the probability scores into plain-language segments, such as Upgrade Candidate, Retention Watchlist, and Stable / Low-Touch, and wrote them into a single CRM master file. The handoff package included:\n\nan Analytical Guide that explains each model, its intended use, and its limits in non-technical language\na navigation guide to the deliverables and model-specific methodology notes\na reproducible refresh script, so the club can re-score fans each season without the project team\nan executive presentation to the club’s senior marketing and data-strategy leadership"
+  },
+  {
+    "objectID": "projects/ucsd-dtfc-fan-intelligence/index.html#lessons",
+    "href": "projects/ucsd-dtfc-fan-intelligence/index.html#lessons",
+    "title": "Dallas Trinity FC: Fan Growth, Retention & Propensity Models",
+    "section": "Lessons",
+    "text": "Lessons\n\nHandoff design is part of the model. Documentation, segment labels, and a refresh path mattered as much as AUC.\nExplainability builds trust. SHAP and permutation importance let non-technical stakeholders see why a fan was flagged.\nTime alignment is the hardest part. Joining six sources with different grains and horizons required explicit snapshot logic to avoid leakage."
+  },
+  {
+    "objectID": "projects/ucsd-dtfc-fan-intelligence/index.html#tools",
+    "href": "projects/ucsd-dtfc-fan-intelligence/index.html#tools",
+    "title": "Dallas Trinity FC: Fan Growth, Retention & Propensity Models",
+    "section": "Tools",
+    "text": "Tools\nPython · pandas · scikit-learn · XGBoost · pyrsm · SHAP · SQL · Jupyter\nUCSD MSBA consulting capstone · Apr–Jun 2026. Only aggregate validation metrics are shown; fan-level data and client materials are not published."
+  },
+  {
+    "objectID": "projects/ucsd-dtfc-fan-intelligence/index.html#objective-data",
+    "href": "projects/ucsd-dtfc-fan-intelligence/index.html#objective-data",
+    "title": "Dallas Trinity FC: Fan Growth, Retention & Propensity Models",
+    "section": "Objective & data",
+    "text": "Objective & data\n\n\nOrganization background Dallas Trinity FC is a professional women’s soccer club that launched as an expansion team in 2024, so it had only limited historical fan data to work with.\n\n\nObjective & data provided Create a Brand Affinity Score (BAS) from ticket and merchandise sales over the club’s first two seasons."
+  },
+  {
+    "objectID": "projects/ucsd-dtfc-fan-intelligence/index.html#key-business-questions",
+    "href": "projects/ucsd-dtfc-fan-intelligence/index.html#key-business-questions",
+    "title": "Dallas Trinity FC: Fan Growth, Retention & Propensity Models",
+    "section": "Key business questions",
+    "text": "Key business questions\nAt its core, the club wanted to answer one question: what is a fan?\n\n\nConnection Which fans are building the strongest connection to DTFC?\n\n\nEngagement How do we measure and understand fan engagement?\n\n\nLoyalty How do we keep fans coming back over time?"
+  },
+  {
+    "objectID": "projects.html#professional-case-studies-line-plus-20212025",
+    "href": "projects.html#professional-case-studies-line-plus-20212025",
+    "title": "My Projects",
+    "section": "Professional Case Studies · LINE Plus (2021–2025)",
+    "text": "Professional Case Studies · LINE Plus (2021–2025)\nProduct strategy, monetization, pricing, and experimentation.\n\n\n\n\n\n\n\nLINE Official Account: Lifecycle-Driven Pricing Strategy\n\n\n\npricing\n\nlifecycle-analytics\n\nsegmentation\n\nscenario-modeling\n\nLINE\n\n\n\nReframed a nationwide pricing change around the customer lifecycle rather than short-term revenue. I diagnosed where business accounts stalled between free, paid, and higher…\n\n\n\n\n\n\n\n\n\nRedesigning a Promotional Ad Package with Segment & Timing Analysis\n\n\n\npricing\n\ndiagnostics\n\nsegmentation\n\nKPI-analysis\n\nLINE\n\n\n\nSelf-initiated diagnosis of a promotional ad package that had stalled after launch. Analyzing hundreds of clients across segment, offer, and timing uncovered structural…\n\n\n\n\n\n\n\n\n\nStructured Pricing Framework for Customized Ad Packages\n\n\n\npricing\n\nyield-management\n\nprocess-design\n\nstakeholder-management\n\nLINE\n\n\n\nReplaced case-by-case discounting on bespoke ad packages with a pricing framework, clear guardrails, and an approval workflow. Quotes went from weeks to minutes, supporting…\n\n\n\n\n\n\n\n\n\nML Ad Targeting: Business Ownership & A/B Validation\n\n\n\nexperimentation\n\nA/B-testing\n\nmachine-learning\n\nad-tech\n\nLINE\n\n\n\nBusiness-side owner for a purchase-prediction ad-targeting model. I framed the problem, set requirements, designed the experiment, and judged commercial value. Pilot…\n\n\n\n\n\n\n\n\n\nAutomating KPI Reporting with SQL Pipelines & Tableau\n\n\n\nBI\n\ndashboards\n\nSQL\n\nTableau\n\nprocess-automation\n\nLINE\n\n\n\nFound that teams were rebuilding the same reports by hand every week, and scoped an automated SQL + Tableau reporting layer with the engineering and BI teams. It saves ~20…\n\n\n\n\n\nNo matching items\n\nVisualizations on LINE case studies are reconstructed for portfolio purposes. Proprietary data, pricing mechanics, and business rules have been omitted or replaced with illustrative examples."
+  },
+  {
+    "objectID": "projects.html#earlier-experience-ipsos-kpmg-20162021",
+    "href": "projects.html#earlier-experience-ipsos-kpmg-20162021",
+    "title": "My Projects",
+    "section": "Earlier Experience · Ipsos & KPMG (2016–2021)",
+    "text": "Earlier Experience · Ipsos & KPMG (2016–2021)\nCustomer and pricing research, and financial and investment-case analysis. Each page pairs a short experience summary with a method demo built on synthetic data.\n\n\n\n\n\n\n\nIpsos: Pricing & Brand Research Methods\n\n\n\npricing-research\n\nconjoint\n\nVan-Westendorp\n\nexperimentation\n\nIpsos\n\n\n\nBefore LINE I designed pricing and brand research for enterprise clients at Ipsos. This demo uses a fictional product to show how price sensitivity, conjoint trade-offs, and…\n\n\n\n\n\n\n\n\n\nKPMG: SROI & Investment Decision Modeling\n\n\n\nSROI\n\ncost-benefit\n\nfinancial-modeling\n\nscenario-analysis\n\nKPMG\n\n\n\nEarly-career work at KPMG using Social Return on Investment and P&L forecasting to link sustainability projects to business decisions. This demo uses fictional projects to…\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "projects.html#technical-projects-ucsd-msba-20252026",
+    "href": "projects.html#technical-projects-ucsd-msba-20252026",
+    "title": "My Projects",
+    "section": "Technical Projects · UCSD MSBA (2025–2026)",
+    "text": "Technical Projects · UCSD MSBA (2025–2026)\nPredictive modeling, machine learning, and customer analytics.\n\n\n\n\n\n\n\n\nDallas Trinity FC: Fan Growth, Retention & Propensity Models\n\n\n\nconsulting\n\nchurn\n\npropensity-modeling\n\nXGBoost\n\nSHAP\n\npython\n\nUCSD MSBA\n\n\n\nMSBA consulting capstone for a 2024 expansion women’s soccer club: a Brand Affinity Score plus predictive models that score the full fan CRM for upgrade, downgrade…\n\n\n\n\n\n\n\n\n\n\n\n\nReducing Rental Returns with Fit Prediction\n\n\n\nmachine-learning\n\nNLP\n\nrecommendation\n\npython\n\nUCSD MSBA\n\n\n\nA hybrid fit-prediction model on 192K Rent the Runway reviews that ranks garments by how likely they are to fit each renter — test AUC 0.855 and Precision@1 of 0.979.\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "projects.html#side-projects",
+    "href": "projects.html#side-projects",
+    "title": "My Projects",
+    "section": "Side Projects",
+    "text": "Side Projects\n\n\n\n\n\n\n\n\n\n\nCodex NBA Fantasy — Agentic Matchup Analytics\n\n\n\npython\n\nfantasy-sports\n\ndata-pipeline\n\nautomation\n\n\n\nAn agentic Python pipeline that pulls live Yahoo NBA Fantasy data, projects end-of-week category outcomes against the scheduled opponent, surfaces high-leverage free agents…\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "projects/line-oa-lifecycle-pricing/index.html",
+    "href": "projects/line-oa-lifecycle-pricing/index.html",
+    "title": "LINE Official Account: Lifecycle-Driven Pricing Strategy",
+    "section": "",
+    "text": "2× annual sales growth after the pricing redesign\n\n\nThousands of business accounts analyzed and segmented\n\n\nLeadership-approved lifecycle-based pricing strategy adopted by senior leadership"
+  },
+  {
+    "objectID": "projects/line-oa-lifecycle-pricing/index.html#business-context",
+    "href": "projects/line-oa-lifecycle-pricing/index.html#business-context",
+    "title": "LINE Official Account: Lifecycle-Driven Pricing Strategy",
+    "section": "Business context",
+    "text": "Business context\nLINE Official Account is a subscription product that lets businesses message their customers on LINE. Revenue depends on moving accounts through a lifecycle: from free adoption, to a first paid plan, to higher tiers as usage grows.\nHeadquarters planned a pricing change to improve monetization. Most accounts were small and medium businesses, which are more price-sensitive and slower to mature. A uniform price increase risked raising short-term revenue while slowing conversion and long-term growth."
+  },
+  {
+    "objectID": "projects/line-oa-lifecycle-pricing/index.html#my-role",
+    "href": "projects/line-oa-lifecycle-pricing/index.html#my-role",
+    "title": "LINE Official Account: Lifecycle-Driven Pricing Strategy",
+    "section": "My role",
+    "text": "My role\n\nOwned the analytical strategy end to end, partnering with Product, Sales, and Finance\nBuilt the behavioral segmentation and lifecycle funnel analysis\nDeveloped the pricing scenario framework and presented recommendations to leadership\nSupported go-to-market rollout with dashboards for Sales and Product"
+  },
+  {
+    "objectID": "projects/line-oa-lifecycle-pricing/index.html#analytical-approach",
+    "href": "projects/line-oa-lifecycle-pricing/index.html#analytical-approach",
+    "title": "LINE Official Account: Lifecycle-Driven Pricing Strategy",
+    "section": "Analytical approach",
+    "text": "Analytical approach\nInstead of asking “how much should we charge?”, I asked “where in the lifecycle are customers getting stuck, and how does pricing cause it?”\n\n\nBehavioral data usage, upgrades, account maturity\n\n\nLifecycle segmentation group accounts by stage and behavior\n\n\nFunnel diagnosis measure friction between stages\n\n\nScenario modeling short- vs. long-term trade-offs\n\n\nRecommendation to leadership\n\n\nKPI monitoring dashboards for Sales and Product"
+  },
+  {
+    "objectID": "projects/line-oa-lifecycle-pricing/index.html#visual-explanation",
+    "href": "projects/line-oa-lifecycle-pricing/index.html#visual-explanation",
+    "title": "LINE Official Account: Lifecycle-Driven Pricing Strategy",
+    "section": "Visual explanation",
+    "text": "Visual explanation\nWhere the lifecycle stalled. The funnel analysis found two main friction points. The segmentation showed that different customer groups hit them in different ways.\n\n\nAcquisition\n\n\nActivation\n\n\nFree usage\n\n\nFirst paid plan ⚠ conversion friction\n\n\nExpansion ⚠ expansion friction\n\n\nRetention\n\n\n\nConversion friction: many engaged accounts had little reason to move from free to paid, which delayed monetization.\nExpansion friction: accounts whose usage kept growing still hesitated to move up a tier.\n\nThe recommendation rebalanced the free-to-paid and tier-to-tier transitions, so pricing encourages customers to progress instead of blocking them.\nWhy scenario modeling mattered. The scenario with the highest short-term revenue was not the best long-term strategy. The framework compared pricing options across the whole lifecycle, not just on immediate revenue.\n\n  Short-term revenue index\n  Baseline100\n  A · Uniform increase120\n  B · Lifecycle-balanced110\n  Paid-conversion index\n  Baseline100\n  A · Uniform increase85\n  B · Lifecycle-balanced125\n  Long-term revenue index\n  Baseline100\n  A · Uniform increase105\n  B · Lifecycle-balanced160\n\nIllustrative / normalized visualization. Proprietary data and business rules omitted. The values are invented to show the trade-off the framework was built to test."
+  },
+  {
+    "objectID": "projects/line-oa-lifecycle-pricing/index.html#business-impact",
+    "href": "projects/line-oa-lifecycle-pricing/index.html#business-impact",
+    "title": "LINE Official Account: Lifecycle-Driven Pricing Strategy",
+    "section": "Business impact",
+    "text": "Business impact\n\nDoubled annual sales growth after the redesigned pricing launched\nMoved leadership discussion from maximizing immediate subscription revenue to customer lifetime economics\nDashboards showing lifecycle stage, upgrade readiness, and usage growth helped Sales prioritize accounts and Product support customers affected by the change\nThe analysis became the foundation for a later KPI reporting automation project"
+  },
+  {
+    "objectID": "projects/line-oa-lifecycle-pricing/index.html#skills-methods",
+    "href": "projects/line-oa-lifecycle-pricing/index.html#skills-methods",
+    "title": "LINE Official Account: Lifecycle-Driven Pricing Strategy",
+    "section": "Skills & methods",
+    "text": "Skills & methods\nLifecycle and funnel analytics · behavioral segmentation · pricing strategy · scenario modeling · SQL · Tableau · executive storytelling · cross-functional go-to-market\n\nVisualizations are reconstructed for portfolio purposes. Proprietary data, pricing mechanics, and business rules have been omitted or replaced with illustrative examples."
+  },
+  {
+    "objectID": "projects/line-custom-ad-pricing/index.html",
+    "href": "projects/line-custom-ad-pricing/index.html",
+    "title": "Structured Pricing Framework for Customized Ad Packages",
+    "section": "",
+    "text": "&gt;40% year-over-year sales growth\n\n\nWeeks → minutes quote turnaround\n\n\nStanding reference the framework became the team’s go-to pricing guide"
+  },
+  {
+    "objectID": "projects/line-custom-ad-pricing/index.html#business-context",
+    "href": "projects/line-custom-ad-pricing/index.html#business-context",
+    "title": "Structured Pricing Framework for Customized Ad Packages",
+    "section": "Business context",
+    "text": "Business context\nCustomized ad packages are bespoke bundles priced outside the standard rate card. Planners were under heavy pressure from sales to close deals quickly, so they often discounted based on anecdotal feedback from a few sales reps.\nThis created a structural conflict: each deal closed faster, but unstructured discounting eroded the long-term value and consistency of the product line."
+  },
+  {
+    "objectID": "projects/line-custom-ad-pricing/index.html#my-role",
+    "href": "projects/line-custom-ad-pricing/index.html#my-role",
+    "title": "Structured Pricing Framework for Customized Ad Packages",
+    "section": "My role",
+    "text": "My role\nAs Product Yield Manager, I was responsible for pricing consistency and long-term product value on these packages.\n\nDiagnosed why discount pressure kept coming up before trying to control it\nDesigned a pricing framework with flexible options inside clear guardrails\nWrote pricing guidelines and an approval workflow to cut per-deal friction\nMoved planners from anecdotes to broader sales-channel data when judging performance"
+  },
+  {
+    "objectID": "projects/line-custom-ad-pricing/index.html#analytical-approach",
+    "href": "projects/line-custom-ad-pricing/index.html#analytical-approach",
+    "title": "Structured Pricing Framework for Customized Ad Packages",
+    "section": "Analytical approach",
+    "text": "Analytical approach\nEnforcing policy from the top would have made the relationship adversarial. Instead I began with the planners’ actual constraints: sales pressure, limited access to data, and a narrow view of the market.\n\n\nUnderstand constraints what drives each discount request?\n\n\nDiagnose root cause anecdote-driven decisions\n\n\nDesign framework flexible options within guardrails\n\n\nCodify guidelines approval workflow\n\n\nAlign stakeholders sales, planners, product"
+  },
+  {
+    "objectID": "projects/line-custom-ad-pricing/index.html#visual-explanation",
+    "href": "projects/line-custom-ad-pricing/index.html#visual-explanation",
+    "title": "Structured Pricing Framework for Customized Ad Packages",
+    "section": "Visual explanation",
+    "text": "Visual explanation\nFrom judgment calls to a repeatable decision process\n\n\nBefore\n\nSales request\nIndividual judgment\nBack-and-forth negotiation\nManual approval\nQuote, weeks later\n\n\n\nAfter\n\nSales request\nStructured inputs\nPricing framework\nDecision guardrails\nQuote in minutes, or an exception review for out-of-policy deals\n\n\n\nStandard deals now follow a predictable path. Only true exceptions need a pricing conversation, which protects deal speed and product value at the same time."
+  },
+  {
+    "objectID": "projects/line-custom-ad-pricing/index.html#business-impact",
+    "href": "projects/line-custom-ad-pricing/index.html#business-impact",
+    "title": "Structured Pricing Framework for Customized Ad Packages",
+    "section": "Business impact",
+    "text": "Business impact\n\nCustomized ad package sales grew more than 40% year over year\nQuote turnaround fell from weeks to minutes\nThe framework became the team’s standing pricing reference, and cross-team approvals went noticeably more smoothly"
+  },
+  {
+    "objectID": "projects/line-custom-ad-pricing/index.html#skills-methods",
+    "href": "projects/line-custom-ad-pricing/index.html#skills-methods",
+    "title": "Structured Pricing Framework for Customized Ad Packages",
+    "section": "Skills & methods",
+    "text": "Skills & methods\nPricing and yield management · value-based pricing · process and workflow design · sales-channel analysis · stakeholder management · conflict resolution without formal authority\n\nVisualizations are reconstructed for portfolio purposes. Proprietary data, pricing mechanics, and business rules have been omitted or replaced with illustrative examples."
+  },
+  {
+    "objectID": "projects/line-ad-targeting-experiment/index.html",
+    "href": "projects/line-ad-targeting-experiment/index.html",
+    "title": "ML Ad Targeting: Business Ownership & A/B Validation",
+    "section": "",
+    "text": "2× CVR conversion rate vs. control in pilot campaigns\n\n\nBusiness owner of problem framing, requirements, and experiment design\n\n\nSales-ready model outputs usable by sales and account teams"
+  },
+  {
+    "objectID": "projects/line-ad-targeting-experiment/index.html#business-context",
+    "href": "projects/line-ad-targeting-experiment/index.html#business-context",
+    "title": "ML Ad Targeting: Business Ownership & A/B Validation",
+    "section": "Business context",
+    "text": "Business context\nLINE’s advertising business had an opportunity to help brands reach users who are more likely to buy. Better targeting means better campaign returns for advertisers and more ad spend on the platform.\nThe data science team could build a purchase-prediction model. What was missing was a way to turn campaign objectives into model requirements, and to prove the model created real commercial value rather than just a good offline score."
+  },
+  {
+    "objectID": "projects/line-ad-targeting-experiment/index.html#my-role",
+    "href": "projects/line-ad-targeting-experiment/index.html#my-role",
+    "title": "ML Ad Targeting: Business Ownership & A/B Validation",
+    "section": "My role",
+    "text": "My role\nI was the business-side owner. The data science team built and validated the model; I owned what it should do and how we would judge it.\n\n\nBusiness / Product (my role)\n\nProblem framing and success metrics\nCustomer and campaign context\nFeature hypotheses: which behavioral signals should indicate purchase intent\nPrioritizing industries with the most revenue potential\nExperiment design\nBusiness evaluation of the results\n\n\n\nData Science team\n\nFeature engineering\nModel development\nModel validation\nScoring output generation\n\n\n\nThe two sides worked closely at the boundary. I proposed extra data sources that better reflected real purchase intent, and I made sure model scores came out in a form sales and account teams could use directly."
+  },
+  {
+    "objectID": "projects/line-ad-targeting-experiment/index.html#analytical-approach-experiment-design",
+    "href": "projects/line-ad-targeting-experiment/index.html#analytical-approach-experiment-design",
+    "title": "ML Ad Targeting: Business Ownership & A/B Validation",
+    "section": "Analytical approach: experiment design",
+    "text": "Analytical approach: experiment design\nA model that scores well offline doesn’t always move campaign results. I designed the test to isolate the lift from the new targeting approach:\n\n\n\n\n\nflowchart TD\n    A[Eligible audience for pilot campaigns] --&gt; B{Random assignment}\n    B --&gt; C[Control: existing targeting]\n    B --&gt; D[Treatment: model-based segments]\n    C --&gt; E[Compare CTR · CVR · campaign ROI]\n    D --&gt; E\n    E --&gt; F[Statistical check and business read-out]\n    F --&gt; G[Scale-up decision]"
+  },
+  {
+    "objectID": "projects/line-ad-targeting-experiment/index.html#result",
+    "href": "projects/line-ad-targeting-experiment/index.html#result",
+    "title": "ML Ad Targeting: Business Ownership & A/B Validation",
+    "section": "Result",
+    "text": "Result\n\n  Conversion rate (indexed, control = 100)\n  Control100\n  Model-based targeting~200\n\nIndexed / normalized visualization. Absolute conversion rates omitted."
+  },
+  {
+    "objectID": "projects/line-ad-targeting-experiment/index.html#business-impact",
+    "href": "projects/line-ad-targeting-experiment/index.html#business-impact",
+    "title": "ML Ad Targeting: Business Ownership & A/B Validation",
+    "section": "Business impact",
+    "text": "Business impact\n\nPilot campaigns using the new targeting segments achieved about 2× the conversion rate of the control group\nThe results directly informed campaign investment decisions for model-based targeting"
+  },
+  {
+    "objectID": "projects/line-ad-targeting-experiment/index.html#skills-methods",
+    "href": "projects/line-ad-targeting-experiment/index.html#skills-methods",
+    "title": "ML Ad Targeting: Business Ownership & A/B Validation",
+    "section": "Skills & methods",
+    "text": "Skills & methods\nExperiment design · A/B testing and incrementality · translating business goals into ML requirements · feature hypothesis generation · campaign performance measurement · cross-functional partnership with data science\n\nVisualizations are reconstructed for portfolio purposes. Proprietary data, pricing mechanics, and business rules have been omitted or replaced with illustrative examples."
+  },
+  {
+    "objectID": "projects/early-ipsos-pricing-research/index.html",
+    "href": "projects/early-ipsos-pricing-research/index.html",
+    "title": "Ipsos: Pricing & Brand Research Methods",
+    "section": "",
+    "text": "Senior Research Executive · Ipsos Taiwan · Sep 2019 – Sep 2021\n\nDesigned pricing and brand research studies using Van Westendorp price sensitivity analysis, conjoint analysis, regression, and experimentation to guide pricing, positioning, and investment decisions for enterprise clients\nCombined survey, social-listening, and quantitative analysis. For a global food & beverage account, the insights helped drive 120% YoY growth in the client’s investment\nSupervised a team of three to design research and turn the results into recommendations that client stakeholders adopted"
+  },
+  {
+    "objectID": "projects/early-ipsos-pricing-research/index.html#experience-at-a-glance",
+    "href": "projects/early-ipsos-pricing-research/index.html#experience-at-a-glance",
+    "title": "Ipsos: Pricing & Brand Research Methods",
+    "section": "",
+    "text": "Senior Research Executive · Ipsos Taiwan · Sep 2019 – Sep 2021\n\nDesigned pricing and brand research studies using Van Westendorp price sensitivity analysis, conjoint analysis, regression, and experimentation to guide pricing, positioning, and investment decisions for enterprise clients\nCombined survey, social-listening, and quantitative analysis. For a global food & beverage account, the insights helped drive 120% YoY growth in the client’s investment\nSupervised a team of three to design research and turn the results into recommendations that client stakeholders adopted"
+  },
+  {
+    "objectID": "projects/early-ipsos-pricing-research/index.html#method-demo-pricing-a-new-subscription",
+    "href": "projects/early-ipsos-pricing-research/index.html#method-demo-pricing-a-new-subscription",
+    "title": "Ipsos: Pricing & Brand Research Methods",
+    "section": "Method demo: pricing a new subscription",
+    "text": "Method demo: pricing a new subscription\nIllustrative demonstration using synthetic data. No client data is shown.\nTo show how I approach this kind of problem without reproducing any client work, this demo follows one fictional product: Brewly, a monthly coffee-bean subscription preparing to launch.\n\n1. The research question\n\nHow should Brewly set an acceptable price range, understand the trade-offs customers will make, and check that its positioning works?\n\nNo single method answers all three parts, so each method is matched to one part:\n\n\nVan Westendorp price sensitivity What price range will customers accept?\n\n\nConjoint analysis What will customers trade off: features, brand, service, or price?\n\n\nRegression What drives purchase intent and brand perception?\n\n\nExperiments Which message or concept performs better?\n\n\n\n\n2. Van Westendorp: finding the acceptable price range\nRespondents answer four questions. At what price would the product be too cheap to trust, cheap / a good deal, getting expensive, and too expensive to consider? Plotting the four cumulative curves shows where price resistance begins.\n\n\n\nSynthetic Van Westendorp price sensitivity meter for the fictional Brewly subscription.\n\n\nIllustrative demonstration using synthetic data. No client data is shown.\nHow to read it\n\nAcceptable range (shaded): between the lower bound, where “too cheap” meets “expensive”, and the upper bound, where “cheap” meets “too expensive”. Pricing outside this band risks either a quality signal problem or outright rejection.\nCandidate reference price: the optimal and indifference price points sit close together near the middle of the band. That gives a defensible anchor for the launch price.\nLimitation: Van Westendorp tells you what customers find acceptable, not what they will choose against alternatives. That is why the next step matters.\n\n\n\n3. Conjoint: understanding the trade-offs\nA choice-based conjoint shows customers realistic packages side by side. Their choices reveal how much each feature is worth relative to price.\n\n\n\nSynthetic relative attribute importance from a conjoint study.\n\n\n\n\n\nSynthetic part-worth utilities for each attribute level.\n\n\nIllustrative demonstration using synthetic data. No client data is shown.\nFrom preferences to package design\n\n\nCustomer preferences part-worths by attribute\n\n\nTrade-offs e.g., flexible pause/skip offsets part of a price step\n\n\nPackage design Basic / Core / Premium\n\n\nPricing & positioning lead with the Core package\n\n\nIn this synthetic example, a simulated market with three packages gives the mid-priced Core package (3 bags, flexible schedule) about half of the preference share. Most of its advantage comes from service flexibility rather than a lower price, which supports a positioning built on convenience, not discount.\n\n\n4. Regression & experimentation\nThe two methods above set price and package. These two check why customers respond and what message to launch with.\n\n\nRegression: drivers\nModel purchase intent or brand perception on attribute ratings, such as taste, convenience, and value for money. The goal is to find which perceptions actually move the outcome, so the brand invests in the right claims.\n\n\nExperiments: concept & message tests\nRandomly show matched groups different concepts, ads, or positioning statements. Compare purchase intent and choice, then roll out the winner with measurable confidence.\n\n\n\n\n5. The decision framework\n\n\nCustomer research\n\n\nPrice sensitivity + Feature trade-offs + Brand / positioning response Van Westendorp · conjoint · regression · experiments\n\n\nCommercial recommendation price range, package line-up, launch message\n\n\nThe point of the research is not any single chart. It is one recommendation that pricing, product, and marketing teams can all act on.\nBrewly is fictional and every value on this page is synthetic. The demo shows methodology only and does not represent any Ipsos client engagement."
+  },
+  {
+    "objectID": "projects/early-kpmg-sroi-investment/index.html",
+    "href": "projects/early-kpmg-sroi-investment/index.html",
+    "title": "KPMG: SROI & Investment Decision Modeling",
+    "section": "",
+    "text": "Researcher · KPMG Climate Change & Sustainability · Jul 2016 – Apr 2018\n\nConducted Social Return on Investment (SROI) analysis for three Taiwan-listed clients\nEnvironmental-education program: ran a cost-benefit analysis and made pricing and program recommendations that raised the program’s average SROI by about 10%\nSmart-city streetlight project: forecasted the project’s profit and loss and identified an opportunity to expand installation into rural areas\nAnalyzed 200+ international climate policies across six energy sectors, and turned complex ESG performance data into executive-ready briefs for C-level stakeholders"
+  },
+  {
+    "objectID": "projects/early-kpmg-sroi-investment/index.html#experience-at-a-glance",
+    "href": "projects/early-kpmg-sroi-investment/index.html#experience-at-a-glance",
+    "title": "KPMG: SROI & Investment Decision Modeling",
+    "section": "",
+    "text": "Researcher · KPMG Climate Change & Sustainability · Jul 2016 – Apr 2018\n\nConducted Social Return on Investment (SROI) analysis for three Taiwan-listed clients\nEnvironmental-education program: ran a cost-benefit analysis and made pricing and program recommendations that raised the program’s average SROI by about 10%\nSmart-city streetlight project: forecasted the project’s profit and loss and identified an opportunity to expand installation into rural areas\nAnalyzed 200+ international climate policies across six energy sectors, and turned complex ESG performance data into executive-ready briefs for C-level stakeholders"
+  },
+  {
+    "objectID": "projects/early-kpmg-sroi-investment/index.html#method-demo-from-sustainability-project-to-investment-decision",
+    "href": "projects/early-kpmg-sroi-investment/index.html#method-demo-from-sustainability-project-to-investment-decision",
+    "title": "KPMG: SROI & Investment Decision Modeling",
+    "section": "Method demo: from sustainability project to investment decision",
+    "text": "Method demo: from sustainability project to investment decision\nIllustrative demonstration using synthetic data. Client financial information and project assumptions are not shown.\n\n1. What SROI measures\nSROI asks a business question about a social or environmental program: for every dollar invested, how much value does it create? Answering it means tracing the chain from spending to outcomes, then putting a monetary value on those outcomes.\n\n\nInvestment program budget\n\n\nActivities what the program does\n\n\nOutputs people reached, sessions held\n\n\nStakeholder outcomes what changes for them\n\n\nMonetized benefits financial proxies, adjusted for attribution\n\n\nSROI → decision\n\n\n\n\nSROI = value created ÷ investment An SROI of 3.0 means each $1 invested creates about $3 of social and economic value.\n\n\n\n\n2. Cost-benefit analysis: finding where value is created\nA single program-level SROI hides a lot. Breaking the program into components shows which activities create the most value per dollar, and which ones drain the budget.\n\n\n\nSynthetic value-per-dollar by component for a fictional environmental-education program.\n\n\nIllustrative demonstration using synthetic data. Client financial information and project assumptions are not shown.\n\n\nCurrent design one blended SROI\n\n\nComponent view value per $ by activity\n\n\nFind high-cost / low-impact e.g., printed materials above\n\n\nReallocate or reprice shift budget to high-value activities\n\n\nMore value per $\n\n\nIn the real engagement, this kind of analysis led to pricing and program-design recommendations that raised average SROI by about 10%. The chart above is fictional and does not reproduce that client’s figures.\n\n\n3. Smart-city investment case: which areas are worth expanding into?\nThe second example is a P&L forecast for a fictional smart-streetlight rollout, comparing three deployment scenarios.\n\n\nUpfront investment\n\n\nOperating & maintenance cost\n\n\nRevenue & economic benefit\n\n\nDeployment scenario urban / suburban / rural\n\n\nP&L forecast\n\n\nExpansion decision\n\n\n\n\n\nSynthetic comparison: a first-look revenue metric vs. a full P&L view across three deployment scenarios.\n\n\nIllustrative demonstration using synthetic data. Client financial information and project assumptions are not shown.\nThe insight: judged on a headline metric, the rural scenario looks least attractive. Once upfront cost, operating cost, and benefits are modeled over the asset’s life, the ranking can change. A segment that is easy to dismiss can turn out to be an economically viable expansion opportunity. That was the kind of conclusion the real forecast supported.\n\nWhy this matters to the rest of my work. KPMG is where I started turning qualitative “should we do this?” questions into quantified investment cases. That habit carried through customer and pricing research at Ipsos and into product and pricing decisions at LINE.\nBoth projects on this page are fictional and every value is synthetic. The demo shows methodology only and does not represent any KPMG client engagement."
+  },
+  {
+    "objectID": "projects/line-promo-package-redesign/index.html",
+    "href": "projects/line-promo-package-redesign/index.html",
+    "title": "Redesigning a Promotional Ad Package with Segment & Timing Analysis",
+    "section": "",
+    "text": "~20× sales after the redesign\n\n\nHundreds of clients analyzed across sales channels\n\n\nSelf-initiated outside my assigned scope"
+  },
+  {
+    "objectID": "projects/line-promo-package-redesign/index.html#business-context",
+    "href": "projects/line-promo-package-redesign/index.html#business-context",
+    "title": "Redesigning a Promotional Ad Package with Segment & Timing Analysis",
+    "section": "Business context",
+    "text": "Business context\nTo drive revenue during a period of low market demand, the product team launched a limited-time promotional ad package with bundles tailored to different client groups. On paper the design was careful and incorporated sales feedback, but after launch it significantly underperformed, and senior management started to worry.\nThe package belonged to another team. My routine KPI tracking across sales channels showed me the performance gap, and I volunteered to investigate."
+  },
+  {
+    "objectID": "projects/line-promo-package-redesign/index.html#my-role",
+    "href": "projects/line-promo-package-redesign/index.html#my-role",
+    "title": "Redesigning a Promotional Ad Package with Segment & Timing Analysis",
+    "section": "My role",
+    "text": "My role\n\nIdentified the problem and took on the analysis without a formal mandate\nAnalyzed sales results across hundreds of clients and several sales channels (Excel, Tableau)\nDiagnosed the structural causes and proposed a revised offer and launch timing\nPartnered with the product manager to refine the plan and win buy-in, presenting it as iteration rather than critique"
+  },
+  {
+    "objectID": "projects/line-promo-package-redesign/index.html#analytical-approach",
+    "href": "projects/line-promo-package-redesign/index.html#analytical-approach",
+    "title": "Redesigning a Promotional Ad Package with Segment & Timing Analysis",
+    "section": "Analytical approach",
+    "text": "Analytical approach\nThe team’s first hypothesis was simply “demand is low.” I wanted to know whether the design of the offer was part of the problem.\n\n\nLow adoption symptom\n\n\nSegment analysis who is (and isn’t) buying?\n\n\nOffer analysis does the offer fit each segment?\n\n\nTiming analysis does launch timing match buying cycles?\n\n\nRoot-cause diagnosis\n\n\nRedesign\n\n\nRollout with the PM"
+  },
+  {
+    "objectID": "projects/line-promo-package-redesign/index.html#visual-explanation",
+    "href": "projects/line-promo-package-redesign/index.html#visual-explanation",
+    "title": "Redesigning a Promotional Ad Package with Segment & Timing Analysis",
+    "section": "Visual explanation",
+    "text": "Visual explanation\nThree lenses on one problem. No single view explained the underperformance. The answer came from looking at customer segments, offer structure, and timing together:\n\n\nCustomer segment Client groups differ in buying power and buying behavior. Who is the offer actually reaching?\n\n\nOffer structure The incentive has to be relevant to each group. Is the value concentrated where it drives the most incremental purchases?\n\n\nTiming Buying cycles differ by group. Does the launch window match when each group plans and spends?\n\n\nDiagnosis The analysis found two structural design flaws: one in how the offer was distributed across client groups, and one in how launch timing lined up with their buying cycles.\n\n\nThe redesign tailored the offer and its timing to each client group, based on that group’s buying power and past seasonal behavior.\n\n  Package sales (indexed to the original launch = 1×)\n  Original package1×\n  Redesigned package~20×\n\nIndexed visualization. Absolute sales figures omitted."
+  },
+  {
+    "objectID": "projects/line-promo-package-redesign/index.html#business-impact",
+    "href": "projects/line-promo-package-redesign/index.html#business-impact",
+    "title": "Redesigning a Promotional Ad Package with Segment & Timing Analysis",
+    "section": "Business impact",
+    "text": "Business impact\n\nThe redesigned package delivered about 20× the sales of the original launch\nThe analysis was later expanded into a standing framework for clients’ annual deals, used to assess each client’s true spending power rather than relying on past order size alone\nIt showed how cross-channel KPI tracking can reveal structural issues that are hard to see from inside a single team\nThe product manager who championed the revision later moved into a product-lead role and asked their team to keep working with me on key initiatives"
+  },
+  {
+    "objectID": "projects/line-promo-package-redesign/index.html#skills-methods",
+    "href": "projects/line-promo-package-redesign/index.html#skills-methods",
+    "title": "Redesigning a Promotional Ad Package with Segment & Timing Analysis",
+    "section": "Skills & methods",
+    "text": "Skills & methods\nDiagnostic analysis · customer segmentation · offer and discount design · seasonality analysis · cross-channel KPI tracking · Excel · Tableau · influencing without authority\n\nVisualizations are reconstructed for portfolio purposes. Proprietary data, pricing mechanics, and business rules have been omitted or replaced with illustrative examples."
+  },
+  {
+    "objectID": "projects/line-kpi-reporting-automation/index.html",
+    "href": "projects/line-kpi-reporting-automation/index.html",
+    "title": "Automating KPI Reporting with SQL Pipelines & Tableau",
+    "section": "",
+    "text": "~20 hrs / month of team reporting time saved\n\n\n20+ stakeholders on one always-current view\n\n\nWeekly → real-time KPI monitoring and status reporting"
+  },
+  {
+    "objectID": "projects/line-kpi-reporting-automation/index.html#business-context",
+    "href": "projects/line-kpi-reporting-automation/index.html#business-context",
+    "title": "Automating KPI Reporting with SQL Pipelines & Tableau",
+    "section": "Business context",
+    "text": "Business context\nProduct managers and business stakeholders spent a large part of every week pulling data from several platforms by hand and reformatting it in Excel for routine reports. The process was repetitive and error-prone. It also limited how deeply teams could analyze anything, because most of their time went to gathering data rather than interpreting it."
+  },
+  {
+    "objectID": "projects/line-kpi-reporting-automation/index.html#my-role",
+    "href": "projects/line-kpi-reporting-automation/index.html#my-role",
+    "title": "Automating KPI Reporting with SQL Pipelines & Tableau",
+    "section": "My role",
+    "text": "My role\n\nIdentified the reporting gap: the same datasets and calculations were being rebuilt manually every cycle\nMapped the existing workflows and wrote the specification (data sources, business logic, output format)\nPartnered with the engineering and BI teams to design the automated SQL pipelines and Tableau dashboards, then drove adoption across stakeholder teams"
+  },
+  {
+    "objectID": "projects/line-kpi-reporting-automation/index.html#analytical-approach",
+    "href": "projects/line-kpi-reporting-automation/index.html#analytical-approach",
+    "title": "Automating KPI Reporting with SQL Pipelines & Tableau",
+    "section": "Analytical approach",
+    "text": "Analytical approach\nThe goal was not “build a dashboard.” It was to remove repeated manual work, which meant first finding out exactly what was being repeated.\n\n\nMap current workflows who pulls what, how often\n\n\nFind the repeats shared datasets and calculations\n\n\nWrite the spec sources, logic, output\n\n\nBuild with engineering and BI SQL pipelines + Tableau\n\n\nRoll out and adopt 20+ stakeholders"
+  },
+  {
+    "objectID": "projects/line-kpi-reporting-automation/index.html#visual-explanation",
+    "href": "projects/line-kpi-reporting-automation/index.html#visual-explanation",
+    "title": "Automating KPI Reporting with SQL Pipelines & Tableau",
+    "section": "Visual explanation",
+    "text": "Visual explanation\nFrom manual reporting to a single, always-current view\n\n\nBefore\n\nExtract data from several platforms\nReformat it in Excel\nRecalculate the same KPIs by hand\nSend a static report\nRepeat every week\n\n\n\nAfter\n\nAutomated SQL pipelines refresh the data\nKPI logic is defined once, centrally\nOne Tableau dashboard shows current status\nStakeholders serve themselves, in real time\nAnalyst time goes to interpretation"
+  },
+  {
+    "objectID": "projects/line-kpi-reporting-automation/index.html#business-impact",
+    "href": "projects/line-kpi-reporting-automation/index.html#business-impact",
+    "title": "Automating KPI Reporting with SQL Pipelines & Tableau",
+    "section": "Business impact",
+    "text": "Business impact\n\nSaved about 20 team-hours per month, roughly 30 minutes a week for each of about 20 people\nGave 20+ stakeholders real-time KPI monitoring and status reporting instead of weekly static reports\nBuilt a habit of data accessibility: teams that used to depend on manual extracts began using data in their day-to-day decisions\nGrew out of the reporting needs identified in the Official Account pricing work"
+  },
+  {
+    "objectID": "projects/line-kpi-reporting-automation/index.html#skills-methods",
+    "href": "projects/line-kpi-reporting-automation/index.html#skills-methods",
+    "title": "Automating KPI Reporting with SQL Pipelines & Tableau",
+    "section": "Skills & methods",
+    "text": "Skills & methods\nReporting process analysis · requirements and specification writing · SQL data pipelines · Tableau dashboard design · KPI framework design · partnering with engineering and BI · stakeholder adoption\n\nVisualizations are reconstructed for portfolio purposes. Proprietary data, pricing mechanics, and business rules have been omitted or replaced with illustrative examples."
   }
 ]

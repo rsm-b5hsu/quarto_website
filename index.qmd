@@ -22,11 +22,44 @@ B.A in Business Administration | Sep 2012 - June 2016
 
 ## Experience
 
-LINE Plus Corporation | Product Strategy Analyst | Oct 2021 - May 2025
+LINE Plus Corporation | Product Strategy Analyst | Oct 2021 - May 2025\
+*Product strategy, monetization, pricing & experimentation*
 
-Ipsos | Senior Research Executive | Sep 2019 - Sep 2021
+Ipsos | Senior Research Executive | Sep 2019 - Sep 2021\
+*Pricing & brand research, customer decision-making, experimentation*
+
+KPMG – Climate Change & Sustainability | Researcher | Jul 2016 - Apr 2018\
+*Cost-benefit, SROI & investment-case analysis*
+
+- Conducted Social Return on Investment (SROI) analysis for three Taiwan-listed clients
+- Ran a cost-benefit analysis of an environmental-education program; pricing and program recommendations raised its average SROI by ~10%
+- Forecasted the P&L of a smart-city streetlight project and identified an opportunity to expand installation into rural areas
+- [See the SROI & investment-modeling demo →](projects/early-kpmg-sroi-investment/index.qmd)
 
 
 ### What I work on
 
 I work at the intersection of data science and business decision-making. My focus areas include pricing analytics, demand forecasting, experimentation, customer segmentation, and text-based modeling. I care about building models that are interpretable, testable, and deployable under real-world constraints.
+
+### Business impact at LINE
+
+::: {.impact-grid}
+::: {.impact-card}
+[2×]{.num}
+[annual sales growth after a lifecycle-driven pricing redesign. [Case study →](projects/line-oa-lifecycle-pricing/index.qmd)]{.label}
+:::
+::: {.impact-card}
+[~20×]{.num}
+[sales after redesigning an underperforming promo package. [Case study →](projects/line-promo-package-redesign/index.qmd)]{.label}
+:::
+::: {.impact-card}
+[>40% YoY]{.num}
+[growth, with quotes going from weeks to minutes via a pricing framework. [Case study →](projects/line-custom-ad-pricing/index.qmd)]{.label}
+:::
+::: {.impact-card}
+[2× CVR]{.num}
+[in the A/B test I designed for ML ad targeting. [Case study →](projects/line-ad-targeting-experiment/index.qmd)]{.label}
+:::
+:::
+
+See all case studies and technical projects on the [Projects](projects.qmd) page.

@@ -1,0 +1,132 @@
+---
+title: "LINE Official Account: Lifecycle-Driven Pricing Strategy"
+description: "Reframed a nationwide pricing change around the customer lifecycle rather than short-term revenue. I diagnosed where business accounts stalled between free, paid, and higher tiers, and annual sales growth doubled."
+author: "Ben Hsu"
+order: 1
+categories: [pricing, lifecycle-analytics, segmentation, scenario-modeling, LINE]
+---
+
+::: {.impact-grid}
+::: {.impact-card}
+[2×]{.num}
+[annual sales growth after the pricing redesign]{.label}
+:::
+::: {.impact-card}
+[Thousands]{.num}
+[of business accounts analyzed and segmented]{.label}
+:::
+::: {.impact-card}
+[Leadership-approved]{.num}
+[lifecycle-based pricing strategy adopted by senior leadership]{.label}
+:::
+:::
+
+## Business context
+
+LINE Official Account is a subscription product that lets businesses message their customers on LINE. Revenue depends on moving accounts through a lifecycle: from free adoption, to a first paid plan, to higher tiers as usage grows.
+
+Headquarters planned a pricing change to improve monetization. Most accounts were small and medium businesses, which are more price-sensitive and slower to mature. A uniform price increase risked **raising short-term revenue while slowing conversion and long-term growth**.
+
+## My role
+
+- Owned the analytical strategy end to end, partnering with Product, Sales, and Finance
+- Built the behavioral segmentation and lifecycle funnel analysis
+- Developed the pricing scenario framework and presented recommendations to leadership
+- Supported go-to-market rollout with dashboards for Sales and Product
+
+## Analytical approach
+
+Instead of asking *"how much should we charge?"*, I asked **"where in the lifecycle are customers getting stuck, and how does pricing cause it?"**
+
+::: {.flow}
+::: {.flow-step}
+**Behavioral data**
+[usage, upgrades, account maturity]{.small}
+:::
+::: {.flow-step}
+**Lifecycle segmentation**
+[group accounts by stage and behavior]{.small}
+:::
+::: {.flow-step}
+**Funnel diagnosis**
+[measure friction between stages]{.small}
+:::
+::: {.flow-step .accent}
+**Scenario modeling**
+[short- vs. long-term trade-offs]{.small}
+:::
+::: {.flow-step}
+**Recommendation**
+[to leadership]{.small}
+:::
+::: {.flow-step}
+**KPI monitoring**
+[dashboards for Sales and Product]{.small}
+:::
+:::
+
+## Visual explanation
+
+**Where the lifecycle stalled.** The funnel analysis found two main friction points. The segmentation showed that different customer groups hit them in different ways.
+
+::: {.flow}
+::: {.flow-step}
+**Acquisition**
+:::
+::: {.flow-step}
+**Activation**
+:::
+::: {.flow-step}
+**Free usage**
+:::
+::: {.flow-step .accent}
+**First paid plan**
+[⚠ conversion friction]{.small}
+:::
+::: {.flow-step .accent}
+**Expansion**
+[⚠ expansion friction]{.small}
+:::
+::: {.flow-step}
+**Retention**
+:::
+:::
+
+- **Conversion friction:** many engaged accounts had little reason to move from free to paid, which delayed monetization.
+- **Expansion friction:** accounts whose usage kept growing still hesitated to move up a tier.
+
+The recommendation rebalanced the free-to-paid and tier-to-tier transitions, so pricing encourages customers to progress instead of blocking them.
+
+**Why scenario modeling mattered.** The scenario with the highest short-term revenue was not the best long-term strategy. The framework compared pricing options across the whole lifecycle, not just on immediate revenue.
+
+```{=html}
+<div class="index-bars" role="img" aria-label="Illustrative indexed comparison of pricing scenarios">
+  <div class="bar-group-title">Short-term revenue index</div>
+  <div class="bar-row"><span>Baseline</span><span class="bar-track"><span class="bar-fill" style="width:62%"></span></span><span class="bar-value">100</span></div>
+  <div class="bar-row"><span>A · Uniform increase</span><span class="bar-track"><span class="bar-fill" style="width:75%"></span></span><span class="bar-value">120</span></div>
+  <div class="bar-row"><span>B · Lifecycle-balanced</span><span class="bar-track"><span class="bar-fill accent" style="width:69%"></span></span><span class="bar-value">110</span></div>
+  <div class="bar-group-title">Paid-conversion index</div>
+  <div class="bar-row"><span>Baseline</span><span class="bar-track"><span class="bar-fill" style="width:62%"></span></span><span class="bar-value">100</span></div>
+  <div class="bar-row"><span>A · Uniform increase</span><span class="bar-track"><span class="bar-fill" style="width:53%"></span></span><span class="bar-value">85</span></div>
+  <div class="bar-row"><span>B · Lifecycle-balanced</span><span class="bar-track"><span class="bar-fill accent" style="width:78%"></span></span><span class="bar-value">125</span></div>
+  <div class="bar-group-title">Long-term revenue index</div>
+  <div class="bar-row"><span>Baseline</span><span class="bar-track"><span class="bar-fill" style="width:62%"></span></span><span class="bar-value">100</span></div>
+  <div class="bar-row"><span>A · Uniform increase</span><span class="bar-track"><span class="bar-fill" style="width:66%"></span></span><span class="bar-value">105</span></div>
+  <div class="bar-row"><span>B · Lifecycle-balanced</span><span class="bar-track"><span class="bar-fill accent" style="width:100%"></span></span><span class="bar-value">160</span></div>
+</div>
+```
+
+[Illustrative / normalized visualization. Proprietary data and business rules omitted. The values are invented to show the trade-off the framework was built to test.]{.illustrative}
+
+## Business impact
+
+- **Doubled annual sales growth** after the redesigned pricing launched
+- Moved leadership discussion from maximizing immediate subscription revenue to **customer lifetime economics**
+- Dashboards showing lifecycle stage, upgrade readiness, and usage growth helped Sales prioritize accounts and Product support customers affected by the change
+- The analysis became the foundation for a later [KPI reporting automation project](../line-kpi-reporting-automation/index.qmd)
+
+## Skills & methods
+
+Lifecycle and funnel analytics · behavioral segmentation · pricing strategy · scenario modeling · SQL · Tableau · executive storytelling · cross-functional go-to-market
+
+{{< include ../_line-disclosure.md >}}

@@ -1,0 +1,97 @@
+---
+title: "ML Ad Targeting: Business Ownership & A/B Validation"
+description: "Business-side owner for a purchase-prediction ad-targeting model. I framed the problem, set requirements, designed the experiment, and judged commercial value. Pilot campaigns doubled conversion rate against control."
+author: "Ben Hsu"
+order: 4
+categories: [experimentation, A/B-testing, machine-learning, ad-tech, LINE]
+format:
+  html:
+    mermaid:
+      theme: neutral
+---
+
+::: {.impact-grid}
+::: {.impact-card}
+[2× CVR]{.num}
+[conversion rate vs. control in pilot campaigns]{.label}
+:::
+::: {.impact-card}
+[Business owner]{.num}
+[of problem framing, requirements, and experiment design]{.label}
+:::
+::: {.impact-card}
+[Sales-ready]{.num}
+[model outputs usable by sales and account teams]{.label}
+:::
+:::
+
+## Business context
+
+LINE's advertising business had an opportunity to help brands reach users who are more likely to buy. Better targeting means better campaign returns for advertisers and more ad spend on the platform.
+
+The data science team could build a purchase-prediction model. What was missing was a way to **turn campaign objectives into model requirements**, and to prove the model created real commercial value rather than just a good offline score.
+
+## My role
+
+I was the **business-side owner**. The data science team built and validated the model; I owned what it should do and how we would judge it.
+
+::: {.compare}
+::: {.after}
+[Business / Product (my role)]{.compare-title}
+
+- Problem framing and success metrics
+- Customer and campaign context
+- Feature *hypotheses*: which behavioral signals should indicate purchase intent
+- Prioritizing industries with the most revenue potential
+- Experiment design
+- Business evaluation of the results
+:::
+::: {}
+[Data Science team]{.compare-title}
+
+- Feature engineering
+- Model development
+- Model validation
+- Scoring output generation
+:::
+:::
+
+The two sides worked closely at the boundary. I proposed extra data sources that better reflected real purchase intent, and I made sure model scores came out in a form sales and account teams could use directly.
+
+## Analytical approach: experiment design
+
+A model that scores well offline doesn't always move campaign results. I designed the test to **isolate the lift from the new targeting approach**:
+
+```{mermaid}
+flowchart TD
+    A[Eligible audience for pilot campaigns] --> B{Random assignment}
+    B --> C[Control: existing targeting]
+    B --> D[Treatment: model-based segments]
+    C --> E[Compare CTR · CVR · campaign ROI]
+    D --> E
+    E --> F[Statistical check and business read-out]
+    F --> G[Scale-up decision]
+```
+
+## Result
+
+```{=html}
+<div class="index-bars" role="img" aria-label="Indexed conversion rate, control vs treatment">
+  <div class="bar-group-title">Conversion rate (indexed, control = 100)</div>
+  <div class="bar-row"><span>Control</span><span class="bar-track"><span class="bar-fill" style="width:50%"></span></span><span class="bar-value">100</span></div>
+  <div class="bar-row"><span>Model-based targeting</span><span class="bar-track"><span class="bar-fill accent" style="width:100%"></span></span><span class="bar-value">~200</span></div>
+</div>
+```
+
+[Indexed / normalized visualization. Absolute conversion rates omitted.]{.illustrative}
+
+## Business impact
+
+- Pilot campaigns using the new targeting segments achieved about **2× the conversion rate** of the control group
+- The results **directly informed campaign investment decisions** for model-based targeting
+
+## Skills & methods
+
+Experiment design · A/B testing and incrementality · translating business goals into ML requirements · feature hypothesis generation · campaign performance measurement · cross-functional partnership with data science
+
+{{< include ../_line-disclosure.md >}}

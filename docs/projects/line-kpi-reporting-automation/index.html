@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Ben Hsu">
+<meta name="description" content="Found that teams were rebuilding the same reports by hand every week, and scoped an automated SQL + Tableau reporting layer with the engineering and BI teams. It saves ~20 team-hours a month and gives 20+ stakeholders a live view of KPIs.">
 
-<title>Ben Hsu – Ben’s Website</title>
+<title>Automating KPI Reporting with SQL Pipelines &amp; Tableau – Ben’s Website</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,22 +28,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,7 +74,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -81,7 +84,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Ben’s Website</span>
     </a>
   </div>
@@ -92,23 +95,23 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">About me</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./resume.html"> 
+    <a class="nav-link" href="../../resume.html"> 
 <span class="menu-text">Resume</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./projects.html"> 
+    <a class="nav-link" href="../../projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./assignment.html"> 
+    <a class="nav-link" href="../../assignment.html"> 
 <span class="menu-text">Assignments</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./fantasy-championship.html"> 
+    <a class="nav-link" href="../../fantasy-championship.html"> 
 <span class="menu-text">🏆 Fantasy Basketball</span></a>
   </li>  
 </ul>
@@ -125,94 +128,157 @@ ul.task-list li input[type="checkbox"] {
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
+   
   <ul>
-  <li><a href="#education" id="toc-education" class="nav-link active" data-scroll-target="#education">Education</a></li>
-  <li><a href="#experience" id="toc-experience" class="nav-link" data-scroll-target="#experience">Experience</a>
-  <ul class="collapse">
-  <li><a href="#what-i-work-on" id="toc-what-i-work-on" class="nav-link" data-scroll-target="#what-i-work-on">What I work on</a></li>
-  <li><a href="#business-impact-at-line" id="toc-business-impact-at-line" class="nav-link" data-scroll-target="#business-impact-at-line">Business impact at LINE</a></li>
-  </ul></li>
+  <li><a href="#business-context" id="toc-business-context" class="nav-link active" data-scroll-target="#business-context">Business context</a></li>
+  <li><a href="#my-role" id="toc-my-role" class="nav-link" data-scroll-target="#my-role">My role</a></li>
+  <li><a href="#analytical-approach" id="toc-analytical-approach" class="nav-link" data-scroll-target="#analytical-approach">Analytical approach</a></li>
+  <li><a href="#visual-explanation" id="toc-visual-explanation" class="nav-link" data-scroll-target="#visual-explanation">Visual explanation</a></li>
+  <li><a href="#business-impact" id="toc-business-impact" class="nav-link" data-scroll-target="#business-impact">Business impact</a></li>
+  <li><a href="#skills-methods" id="toc-skills-methods" class="nav-link" data-scroll-target="#skills-methods">Skills &amp; methods</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<div class="quarto-about-trestles">
-  <div class="about-entity">
-    <img src="files/IMG_3749.JPG" class="about-image
-  rounded " style="width: 20em;">
+<main class="content" id="quarto-document-content">
+
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Ben Hsu</h1>
-</div>
-<div class="quarto-title-meta">
+<h1 class="title">Automating KPI Reporting with SQL Pipelines &amp; Tableau</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">BI</div>
+    <div class="quarto-category">dashboards</div>
+    <div class="quarto-category">SQL</div>
+    <div class="quarto-category">Tableau</div>
+    <div class="quarto-category">process-automation</div>
+    <div class="quarto-category">LINE</div>
   </div>
-</header>
-    <div class="about-links">
-  <a href="mailto:b5hsu@ucsd.edu" class="about-link" rel="" target="">
-    <i class="bi bi-envelope"></i>
-     <span class="about-link-text"></span>
-  </a>
-  <a href="https://www.linkedin.com/in/benresearcher/" class="about-link" rel="" target="">
-    <i class="bi bi-linkedin"></i>
-     <span class="about-link-text"></span>
-  </a>
-  <a href="https://www.linkedin.com/in/benresearcher/" class="about-link" rel="" target="">
-    <i class="bi bi-line"></i>
-     <span class="about-link-text"></span>
-  </a>
-</div>
   </div>
-  <div class="about-contents"><main class="content" id="quarto-document-content">
 
-<section id="education" class="level2">
-<h2 data-anchor-id="education">Education</h2>
-<p>University of California, San Diego | San Diego, CA | MS Business Analytics | Jul 2025 - Dec 2026</p>
-<p>National Taiwan University | Taipei, Taiwan | B.A in Business Administration | Sep 2012 - June 2016</p>
-</section>
-<section id="experience" class="level2">
-<h2 data-anchor-id="experience">Experience</h2>
-<p>LINE Plus Corporation | Product Strategy Analyst | Oct 2021 - May 2025<br>
-<em>Product strategy, monetization, pricing &amp; experimentation</em></p>
-<p>Ipsos | Senior Research Executive | Sep 2019 - Sep 2021<br>
-<em>Pricing &amp; brand research, customer decision-making, experimentation</em></p>
-<p>KPMG – Climate Change &amp; Sustainability | Researcher | Jul 2016 - Apr 2018<br>
-<em>Cost-benefit, SROI &amp; investment-case analysis</em></p>
-<ul>
-<li>Conducted Social Return on Investment (SROI) analysis for three Taiwan-listed clients</li>
-<li>Ran a cost-benefit analysis of an environmental-education program; pricing and program recommendations raised its average SROI by ~10%</li>
-<li>Forecasted the P&amp;L of a smart-city streetlight project and identified an opportunity to expand installation into rural areas</li>
-<li><a href="./projects/early-kpmg-sroi-investment/index.html">See the SROI &amp; investment-modeling demo →</a></li>
-</ul>
-<section id="what-i-work-on" class="level3">
-<h3 data-anchor-id="what-i-work-on">What I work on</h3>
-<p>I work at the intersection of data science and business decision-making. My focus areas include pricing analytics, demand forecasting, experimentation, customer segmentation, and text-based modeling. I care about building models that are interpretable, testable, and deployable under real-world constraints.</p>
-</section>
-<section id="business-impact-at-line" class="level3">
-<h3 data-anchor-id="business-impact-at-line">Business impact at LINE</h3>
+<div>
+  <div class="description">
+    Found that teams were rebuilding the same reports by hand every week, and scoped an automated SQL + Tableau reporting layer with the engineering and BI teams. It saves ~20 team-hours a month and gives 20+ stakeholders a live view of KPIs.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ben Hsu </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
 <div class="impact-grid">
 <div class="impact-card">
-<p><span class="num">2×</span> <span class="label">annual sales growth after a lifecycle-driven pricing redesign. <a href="./projects/line-oa-lifecycle-pricing/index.html">Case study →</a></span></p>
+<p><span class="num">~20 hrs / month</span> <span class="label">of team reporting time saved</span></p>
 </div>
 <div class="impact-card">
-<p><span class="num">~20×</span> <span class="label">sales after redesigning an underperforming promo package. <a href="./projects/line-promo-package-redesign/index.html">Case study →</a></span></p>
+<p><span class="num">20+</span> <span class="label">stakeholders on one always-current view</span></p>
 </div>
 <div class="impact-card">
-<p><span class="num">&gt;40% YoY</span> <span class="label">growth, with quotes going from weeks to minutes via a pricing framework. <a href="./projects/line-custom-ad-pricing/index.html">Case study →</a></span></p>
-</div>
-<div class="impact-card">
-<p><span class="num">2× CVR</span> <span class="label">in the A/B test I designed for ML ad targeting. <a href="./projects/line-ad-targeting-experiment/index.html">Case study →</a></span></p>
+<p><span class="num">Weekly → real-time</span> <span class="label">KPI monitoring and status reporting</span></p>
 </div>
 </div>
-<p>See all case studies and technical projects on the <a href="./projects.html">Projects</a> page.</p>
+<section id="business-context" class="level2">
+<h2 class="anchored" data-anchor-id="business-context">Business context</h2>
+<p>Product managers and business stakeholders spent a large part of every week <strong>pulling data from several platforms by hand and reformatting it in Excel</strong> for routine reports. The process was repetitive and error-prone. It also limited how deeply teams could analyze anything, because most of their time went to gathering data rather than interpreting it.</p>
+</section>
+<section id="my-role" class="level2">
+<h2 class="anchored" data-anchor-id="my-role">My role</h2>
+<ul>
+<li>Identified the reporting gap: the same datasets and calculations were being rebuilt manually every cycle</li>
+<li>Mapped the existing workflows and wrote the specification (data sources, business logic, output format)</li>
+<li>Partnered with the engineering and BI teams to design the automated SQL pipelines and Tableau dashboards, then drove adoption across stakeholder teams</li>
+</ul>
+</section>
+<section id="analytical-approach" class="level2">
+<h2 class="anchored" data-anchor-id="analytical-approach">Analytical approach</h2>
+<p>The goal was not “build a dashboard.” It was to <strong>remove repeated manual work</strong>, which meant first finding out exactly what was being repeated.</p>
+<div class="flow">
+<div class="flow-step">
+<p><strong>Map current workflows</strong> <span class="small">who pulls what, how often</span></p>
+</div>
+<div class="flow-step">
+<p><strong>Find the repeats</strong> <span class="small">shared datasets and calculations</span></p>
+</div>
+<div class="flow-step accent">
+<p><strong>Write the spec</strong> <span class="small">sources, logic, output</span></p>
+</div>
+<div class="flow-step">
+<p><strong>Build with engineering and BI</strong> <span class="small">SQL pipelines + Tableau</span></p>
+</div>
+<div class="flow-step">
+<p><strong>Roll out and adopt</strong> <span class="small">20+ stakeholders</span></p>
+</div>
+</div>
+</section>
+<section id="visual-explanation" class="level2">
+<h2 class="anchored" data-anchor-id="visual-explanation">Visual explanation</h2>
+<p><strong>From manual reporting to a single, always-current view</strong></p>
+<div class="compare">
+<div>
+<p><span class="compare-title">Before</span></p>
+<ol type="1">
+<li>Extract data from several platforms</li>
+<li>Reformat it in Excel</li>
+<li>Recalculate the same KPIs by hand</li>
+<li>Send a static report</li>
+<li>Repeat every week</li>
+</ol>
+</div>
+<div class="after">
+<p><span class="compare-title">After</span></p>
+<ol type="1">
+<li>Automated SQL pipelines refresh the data</li>
+<li>KPI logic is defined once, centrally</li>
+<li>One Tableau dashboard shows current status</li>
+<li>Stakeholders serve themselves, in real time</li>
+<li>Analyst time goes to interpretation</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="business-impact" class="level2">
+<h2 class="anchored" data-anchor-id="business-impact">Business impact</h2>
+<ul>
+<li>Saved about <strong>20 team-hours per month</strong>, roughly 30 minutes a week for each of about 20 people</li>
+<li>Gave <strong>20+ stakeholders</strong> real-time KPI monitoring and status reporting instead of weekly static reports</li>
+<li>Built a habit of <strong>data accessibility</strong>: teams that used to depend on manual extracts began using data in their day-to-day decisions</li>
+<li>Grew out of the reporting needs identified in the <a href="../../projects/line-oa-lifecycle-pricing/index.html">Official Account pricing work</a></li>
+</ul>
+</section>
+<section id="skills-methods" class="level2">
+<h2 class="anchored" data-anchor-id="skills-methods">Skills &amp; methods</h2>
+<p>Reporting process analysis · requirements and specification writing · SQL data pipelines · Tableau dashboard design · KPI framework design · partnering with engineering and BI · stakeholder adoption</p>
+<div class="disclosure">
+<p>Visualizations are reconstructed for portfolio purposes. Proprietary data, pricing mechanics, and business rules have been omitted or replaced with illustrative examples.</p>
+</div>
 
 
 </section>
-</section>
-</main></div>
-</div>
- <!-- /main -->
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
         if (clz.startsWith('code-annotation-')) {                     

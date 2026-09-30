@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Ben Hsu">
+<meta name="dcterms.date" content="2025-12-15">
+<meta name="description" content="A hybrid fit-prediction model on 192K Rent the Runway reviews that ranks garments by how likely they are to fit each renter — test AUC 0.855 and Precision@1 of 0.979.">
 
-<title>Ben Hsu – Ben’s Website</title>
+<title>Reducing Rental Returns with Fit Prediction – Ben’s Website</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,22 +29,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,7 +75,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -81,7 +85,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Ben’s Website</span>
     </a>
   </div>
@@ -92,23 +96,23 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">About me</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./resume.html"> 
+    <a class="nav-link" href="../../resume.html"> 
 <span class="menu-text">Resume</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./projects.html"> 
+    <a class="nav-link" href="../../projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./assignment.html"> 
+    <a class="nav-link" href="../../assignment.html"> 
 <span class="menu-text">Assignments</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./fantasy-championship.html"> 
+    <a class="nav-link" href="../../fantasy-championship.html"> 
 <span class="menu-text">🏆 Fantasy Basketball</span></a>
   </li>  
 </ul>
@@ -125,94 +129,216 @@ ul.task-list li input[type="checkbox"] {
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
+   
   <ul>
-  <li><a href="#education" id="toc-education" class="nav-link active" data-scroll-target="#education">Education</a></li>
-  <li><a href="#experience" id="toc-experience" class="nav-link" data-scroll-target="#experience">Experience</a>
-  <ul class="collapse">
-  <li><a href="#what-i-work-on" id="toc-what-i-work-on" class="nav-link" data-scroll-target="#what-i-work-on">What I work on</a></li>
-  <li><a href="#business-impact-at-line" id="toc-business-impact-at-line" class="nav-link" data-scroll-target="#business-impact-at-line">Business impact at LINE</a></li>
-  </ul></li>
+  <li><a href="#business-problem" id="toc-business-problem" class="nav-link active" data-scroll-target="#business-problem">Business problem</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#approach" id="toc-approach" class="nav-link" data-scroll-target="#approach">Approach</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#what-id-do-next" id="toc-what-id-do-next" class="nav-link" data-scroll-target="#what-id-do-next">What I’d do next</a></li>
+  <li><a href="#tools" id="toc-tools" class="nav-link" data-scroll-target="#tools">Tools</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<div class="quarto-about-trestles">
-  <div class="about-entity">
-    <img src="files/IMG_3749.JPG" class="about-image
-  rounded " style="width: 20em;">
+<main class="content" id="quarto-document-content">
+
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Ben Hsu</h1>
-</div>
-<div class="quarto-title-meta">
+<h1 class="title">Reducing Rental Returns with Fit Prediction</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">machine-learning</div>
+    <div class="quarto-category">NLP</div>
+    <div class="quarto-category">recommendation</div>
+    <div class="quarto-category">python</div>
+    <div class="quarto-category">UCSD MSBA</div>
   </div>
-</header>
-    <div class="about-links">
-  <a href="mailto:b5hsu@ucsd.edu" class="about-link" rel="" target="">
-    <i class="bi bi-envelope"></i>
-     <span class="about-link-text"></span>
-  </a>
-  <a href="https://www.linkedin.com/in/benresearcher/" class="about-link" rel="" target="">
-    <i class="bi bi-linkedin"></i>
-     <span class="about-link-text"></span>
-  </a>
-  <a href="https://www.linkedin.com/in/benresearcher/" class="about-link" rel="" target="">
-    <i class="bi bi-line"></i>
-     <span class="about-link-text"></span>
-  </a>
-</div>
   </div>
-  <div class="about-contents"><main class="content" id="quarto-document-content">
 
-<section id="education" class="level2">
-<h2 data-anchor-id="education">Education</h2>
-<p>University of California, San Diego | San Diego, CA | MS Business Analytics | Jul 2025 - Dec 2026</p>
-<p>National Taiwan University | Taipei, Taiwan | B.A in Business Administration | Sep 2012 - June 2016</p>
-</section>
-<section id="experience" class="level2">
-<h2 data-anchor-id="experience">Experience</h2>
-<p>LINE Plus Corporation | Product Strategy Analyst | Oct 2021 - May 2025<br>
-<em>Product strategy, monetization, pricing &amp; experimentation</em></p>
-<p>Ipsos | Senior Research Executive | Sep 2019 - Sep 2021<br>
-<em>Pricing &amp; brand research, customer decision-making, experimentation</em></p>
-<p>KPMG – Climate Change &amp; Sustainability | Researcher | Jul 2016 - Apr 2018<br>
-<em>Cost-benefit, SROI &amp; investment-case analysis</em></p>
-<ul>
-<li>Conducted Social Return on Investment (SROI) analysis for three Taiwan-listed clients</li>
-<li>Ran a cost-benefit analysis of an environmental-education program; pricing and program recommendations raised its average SROI by ~10%</li>
-<li>Forecasted the P&amp;L of a smart-city streetlight project and identified an opportunity to expand installation into rural areas</li>
-<li><a href="./projects/early-kpmg-sroi-investment/index.html">See the SROI &amp; investment-modeling demo →</a></li>
-</ul>
-<section id="what-i-work-on" class="level3">
-<h3 data-anchor-id="what-i-work-on">What I work on</h3>
-<p>I work at the intersection of data science and business decision-making. My focus areas include pricing analytics, demand forecasting, experimentation, customer segmentation, and text-based modeling. I care about building models that are interpretable, testable, and deployable under real-world constraints.</p>
-</section>
-<section id="business-impact-at-line" class="level3">
-<h3 data-anchor-id="business-impact-at-line">Business impact at LINE</h3>
+<div>
+  <div class="description">
+    A hybrid fit-prediction model on 192K Rent the Runway reviews that ranks garments by how likely they are to fit each renter — test AUC 0.855 and Precision@1 of 0.979.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ben Hsu </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 15, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
 <div class="impact-grid">
 <div class="impact-card">
-<p><span class="num">2×</span> <span class="label">annual sales growth after a lifecycle-driven pricing redesign. <a href="./projects/line-oa-lifecycle-pricing/index.html">Case study →</a></span></p>
+<p><span class="num">0.855</span> <span class="label">test AUC (hybrid model)</span></p>
 </div>
 <div class="impact-card">
-<p><span class="num">~20×</span> <span class="label">sales after redesigning an underperforming promo package. <a href="./projects/line-promo-package-redesign/index.html">Case study →</a></span></p>
+<p><span class="num">0.979</span> <span class="label">Precision@1: the top-ranked item fits ~98% of the time</span></p>
 </div>
 <div class="impact-card">
-<p><span class="num">&gt;40% YoY</span> <span class="label">growth, with quotes going from weeks to minutes via a pricing framework. <a href="./projects/line-custom-ad-pricing/index.html">Case study →</a></span></p>
-</div>
-<div class="impact-card">
-<p><span class="num">2× CVR</span> <span class="label">in the A/B test I designed for ML ad targeting. <a href="./projects/line-ad-targeting-experiment/index.html">Case study →</a></span></p>
+<p><span class="num">192K</span> <span class="label">reviews from 105K users and 5.8K items</span></p>
 </div>
 </div>
-<p>See all case studies and technical projects on the <a href="./projects.html">Projects</a> page.</p>
+<section id="business-problem" class="level2">
+<h2 class="anchored" data-anchor-id="business-problem">Business problem</h2>
+<p>For a fashion-rental platform, a garment that doesn’t fit is expensive twice. It triggers a return, with shipping and cleaning costs, and it produces an unhappy customer who may not rent again. If the platform can predict <strong>whether a specific item will fit a specific renter</strong>, it can put the best-fitting items at the top of each customer’s results and cut avoidable returns.</p>
+</section>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<p>The data is the public Rent the Runway review dataset: 192,544 reviews from 105,571 users on 5,850 items. Each review records whether the item ran <strong>small</strong>, <strong>large</strong>, or <strong>fit</strong>. I collapsed small and large into <em>not fit</em>, which leaves a 74% / 26% class imbalance. I handled the imbalance with balanced class weights rather than resampling.</p>
+<div class="card-grid-2">
+<div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fit_label_distribution.png" class="img-fluid figure-img"></p>
+<figcaption>Fit label distribution: most rentals fit, and the misses split almost evenly between too small and too large.</figcaption>
+</figure>
+</div>
+</div>
+<div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fit_by_body_type.png" class="img-fluid figure-img"></p>
+<figcaption>Fit rate barely varies by body type, so broad body categories alone can’t predict fit.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="user_fit_rates.png" class="img-fluid figure-img"></p>
+<figcaption>Per-user fit rates are strongly bimodal. Fit is highly personal, which is why user-level signal matters.</figcaption>
+</figure>
+</div>
+</section>
+<section id="approach" class="level2">
+<h2 class="anchored" data-anchor-id="approach">Approach</h2>
+<p>Three feature families feed one scikit-learn pipeline:</p>
+<div class="flow">
+<div class="flow-step">
+<p><strong>Body &amp; item numerics</strong> <span class="small">height, weight, bust, size, age: parsed from raw strings, imputed, scaled</span></p>
+</div>
+<div class="flow-step">
+<p><strong>Categoricals</strong> <span class="small">user, item, category, occasion, body type: one-hot</span></p>
+</div>
+<div class="flow-step">
+<p><strong>Review text</strong> <span class="small">TF-IDF on 1–2-grams, 10K features</span></p>
+</div>
+<div class="flow-step accent">
+<p><strong>ColumnTransformer → Logistic regression</strong> <span class="small">class-balanced</span></p>
+</div>
+<div class="flow-step">
+<p><strong>Rank items per user</strong> <span class="small">by predicted fit probability</span></p>
+</div>
+</div>
+<p><strong>Leakage control.</strong> I split train/validation/test <strong>by user</strong> (70 / 10 / 20). Each renter’s reviews appear in exactly one partition, so the test score reflects performance on customers the model has never seen.</p>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p><strong>Ablation: what each feature source adds (test set)</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th style="text-align: right;">AUC</th>
+<th style="text-align: right;">Balanced accuracy</th>
+<th style="text-align: right;">Macro F1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Majority-class baseline</td>
+<td style="text-align: right;">n/a</td>
+<td style="text-align: right;">0.500</td>
+<td style="text-align: right;">0.424</td>
+</tr>
+<tr class="even">
+<td>Numeric features only</td>
+<td style="text-align: right;">0.643</td>
+<td style="text-align: right;">0.622</td>
+<td style="text-align: right;">0.606</td>
+</tr>
+<tr class="odd">
+<td>Review text only</td>
+<td style="text-align: right;">0.830</td>
+<td style="text-align: right;">0.753</td>
+<td style="text-align: right;">0.735</td>
+</tr>
+<tr class="even">
+<td><strong>Hybrid (all features)</strong></td>
+<td style="text-align: right;"><strong>0.855</strong></td>
+<td style="text-align: right;"><strong>0.775</strong></td>
+<td style="text-align: right;"><strong>0.765</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Recommendation view: Precision@K on test users</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>K</th>
+<th style="text-align: right;">1</th>
+<th style="text-align: right;">3</th>
+<th style="text-align: right;">5</th>
+<th style="text-align: right;">10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean P@K</td>
+<td style="text-align: right;"><strong>0.979</strong></td>
+<td style="text-align: right;">0.929</td>
+<td style="text-align: right;">0.920</td>
+<td style="text-align: right;">0.915</td>
+</tr>
+</tbody>
+</table>
+<p>The hybrid model beats both single-source models, so body measurements and item metadata add signal that review text alone misses. The ranking metric matters most for the business. When the model recommends a single “top fit pick”, that item fits almost 98% of the time, which maps directly onto a <em>recommended size</em> or <em>best fit for you</em> feature.</p>
+</section>
+<section id="what-id-do-next" class="level2">
+<h2 class="anchored" data-anchor-id="what-id-do-next">What I’d do next</h2>
+<ul>
+<li>Replace one-hot user/item IDs with latent factors to handle cold-start users.</li>
+<li>Estimate the <strong>return-cost savings</strong> by pricing the reduction in not-fit rentals among top-ranked items.</li>
+<li>Test a gradient-boosted model against the logistic baseline, keeping the user-level split.</li>
+</ul>
+</section>
+<section id="tools" class="level2">
+<h2 class="anchored" data-anchor-id="tools">Tools</h2>
+<p>Python · pandas · scikit-learn (Pipeline, ColumnTransformer, TF-IDF, LogisticRegression) · matplotlib / seaborn</p>
+<p><span class="note-muted">UCSD MSBA · MGTA 461 Web Mining · Oct–Dec 2025</span></p>
 
 
 </section>
-</section>
-</main></div>
-</div>
- <!-- /main -->
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
         if (clz.startsWith('code-annotation-')) {                     

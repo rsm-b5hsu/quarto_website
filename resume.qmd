@@ -1,5 +1,81 @@
 ---
 title: "My Resume"
+resources:
+  - files/resume.pdf
+  - files/pdfjs/*
 ---
 
-{{< pdf files/resume.pdf width=100% height=800 >}}
+::: {.resume-actions}
+[Download PDF](files/resume.pdf){.btn .btn-primary download="Ben_Hsu_Resume.pdf"}
+[Open in new tab](files/resume.pdf){.btn .btn-outline-secondary target="_blank" rel="noopener"}
+:::
+
+```{=html}
+<div id="resume-viewer" class="resume-viewer" aria-label="Resume preview">
+  <p class="resume-loading">Loading resume preview…</p>
+</div>
+<noscript>
+  <object data="files/resume.pdf" type="application/pdf" width="100%" height="800">
+    <a href="files/resume.pdf">Download the resume (PDF)</a>
+  </object>
+</noscript>
+<script src="files/pdfjs/pdf.min.js"></script>
+<script>
+(function () {
+  var container = document.getElementById("resume-viewer");
+  var url = "files/resume.pdf";
+
+  function fallback() {
+    container.innerHTML =
+      '<object data="' + url + '" type="application/pdf" width="100%" height="800">' +
+      '<p>Preview is unavailable in this browser. <a href="' + url + '">Download the resume (PDF)</a>.</p>' +
+      "</object>";
+  }
+
+  if (!window.pdfjsLib) { fallback(); return; }
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "files/pdfjs/pdf.worker.min.js";
+
+  var pdfDoc = null;
+  function renderAll() {
+    if (!pdfDoc) return;
+    container.innerHTML = "";
+    var width = container.clientWidth;
+    var ratio = window.devicePixelRatio || 1;
+    var chain = Promise.resolve();
+    for (var n = 1; n <= pdfDoc.numPages; n++) {
+      (function (pageNum) {
+        chain = chain.then(function () {
+          return pdfDoc.getPage(pageNum).then(function (page) {
+            var base = page.getViewport({ scale: 1 });
+            var scale = width / base.width;
+            var vp = page.getViewport({ scale: scale * ratio });
+            var canvas = document.createElement("canvas");
+            canvas.className = "resume-page";
+            canvas.width = vp.width;
+            canvas.height = vp.height;
+            canvas.style.width = "100%";
+            canvas.setAttribute("aria-label", "Resume page " + pageNum);
+            container.appendChild(canvas);
+            return page.render({ canvasContext: canvas.getContext("2d"), viewport: vp }).promise;
+          });
+        });
+      })(n);
+    }
+    return chain;
+  }
+
+  var guard = setTimeout(function () { if (!pdfDoc) fallback(); }, 12000);
+  pdfjsLib.getDocument(url).promise.then(function (doc) {
+    clearTimeout(guard);
+    pdfDoc = doc;
+    return renderAll();
+  }).catch(fallback);
+
+  var t;
+  window.addEventListener("resize", function () {
+    clearTimeout(t);
+    t = setTimeout(renderAll, 250);
+  });
+})();
+</script>
+```

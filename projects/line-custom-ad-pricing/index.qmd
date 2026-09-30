@@ -1,0 +1,103 @@
+---
+title: "Structured Pricing Framework for Customized Ad Packages"
+description: "Replaced case-by-case discounting on bespoke ad packages with a pricing framework, clear guardrails, and an approval workflow. Quotes went from weeks to minutes, supporting >40% YoY growth."
+author: "Ben Hsu"
+order: 3
+categories: [pricing, yield-management, process-design, stakeholder-management, LINE]
+---
+
+::: {.impact-grid}
+::: {.impact-card}
+[>40%]{.num}
+[year-over-year sales growth]{.label}
+:::
+::: {.impact-card}
+[Weeks → minutes]{.num}
+[quote turnaround]{.label}
+:::
+::: {.impact-card}
+[Standing reference]{.num}
+[the framework became the team's go-to pricing guide]{.label}
+:::
+:::
+
+## Business context
+
+Customized ad packages are bespoke bundles priced outside the standard rate card. Planners were under heavy pressure from sales to close deals quickly, so they often discounted based on **anecdotal feedback from a few sales reps**.
+
+This created a structural conflict: each deal closed faster, but unstructured discounting **eroded the long-term value** and consistency of the product line.
+
+## My role
+
+As **Product Yield Manager**, I was responsible for pricing consistency and long-term product value on these packages.
+
+- Diagnosed *why* discount pressure kept coming up before trying to control it
+- Designed a pricing framework with flexible options inside clear guardrails
+- Wrote pricing guidelines and an approval workflow to cut per-deal friction
+- Moved planners from anecdotes to **broader sales-channel data** when judging performance
+
+## Analytical approach
+
+Enforcing policy from the top would have made the relationship adversarial. Instead I began with the planners' actual constraints: sales pressure, limited access to data, and a narrow view of the market.
+
+::: {.flow}
+::: {.flow-step}
+**Understand constraints**
+[what drives each discount request?]{.small}
+:::
+::: {.flow-step}
+**Diagnose root cause**
+[anecdote-driven decisions]{.small}
+:::
+::: {.flow-step .accent}
+**Design framework**
+[flexible options within guardrails]{.small}
+:::
+::: {.flow-step}
+**Codify guidelines**
+[approval workflow]{.small}
+:::
+::: {.flow-step}
+**Align stakeholders**
+[sales, planners, product]{.small}
+:::
+:::
+
+## Visual explanation
+
+**From judgment calls to a repeatable decision process**
+
+::: {.compare}
+::: {}
+[Before]{.compare-title}
+
+1. Sales request
+2. Individual judgment
+3. Back-and-forth negotiation
+4. Manual approval
+5. Quote, *weeks later*
+:::
+::: {.after}
+[After]{.compare-title}
+
+1. Sales request
+2. Structured inputs
+3. Pricing framework
+4. Decision guardrails
+5. Quote in *minutes*, or an **exception review** for out-of-policy deals
+:::
+:::
+
+Standard deals now follow a predictable path. Only true exceptions need a pricing conversation, which protects deal speed and product value at the same time.
+
+## Business impact
+
+- Customized ad package sales grew **more than 40% year over year**
+- Quote turnaround fell from **weeks to minutes**
+- The framework became the team's **standing pricing reference**, and cross-team approvals went noticeably more smoothly
+
+## Skills & methods
+
+Pricing and yield management · value-based pricing · process and workflow design · sales-channel analysis · stakeholder management · conflict resolution without formal authority
+
+{{< include ../_line-disclosure.md >}}

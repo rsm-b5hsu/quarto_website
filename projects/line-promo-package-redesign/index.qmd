@@ -1,0 +1,116 @@
+---
+title: "Redesigning a Promotional Ad Package with Segment & Timing Analysis"
+description: "Self-initiated diagnosis of a promotional ad package that had stalled after launch. Analyzing hundreds of clients across segment, offer, and timing uncovered structural design flaws, and the redesign lifted sales about 20×."
+author: "Ben Hsu"
+order: 2
+categories: [pricing, diagnostics, segmentation, KPI-analysis, LINE]
+---
+
+::: {.impact-grid}
+::: {.impact-card}
+[~20×]{.num}
+[sales after the redesign]{.label}
+:::
+::: {.impact-card}
+[Hundreds]{.num}
+[of clients analyzed across sales channels]{.label}
+:::
+::: {.impact-card}
+[Self-initiated]{.num}
+[outside my assigned scope]{.label}
+:::
+:::
+
+## Business context
+
+To drive revenue during a period of low market demand, the product team launched a limited-time promotional ad package with bundles tailored to different client groups. On paper the design was careful and incorporated sales feedback, but after launch it **significantly underperformed**, and senior management started to worry.
+
+The package belonged to another team. My routine KPI tracking across sales channels showed me the performance gap, and I **volunteered to investigate**.
+
+## My role
+
+- Identified the problem and took on the analysis without a formal mandate
+- Analyzed sales results across hundreds of clients and several sales channels (Excel, Tableau)
+- Diagnosed the structural causes and proposed a revised offer and launch timing
+- Partnered with the product manager to refine the plan and win buy-in, presenting it as iteration rather than critique
+
+## Analytical approach
+
+The team's first hypothesis was simply "demand is low." I wanted to know whether the **design of the offer** was part of the problem.
+
+::: {.flow}
+::: {.flow-step}
+**Low adoption**
+[symptom]{.small}
+:::
+::: {.flow-step}
+**Segment analysis**
+[who is (and isn't) buying?]{.small}
+:::
+::: {.flow-step}
+**Offer analysis**
+[does the offer fit each segment?]{.small}
+:::
+::: {.flow-step}
+**Timing analysis**
+[does launch timing match buying cycles?]{.small}
+:::
+::: {.flow-step .accent}
+**Root-cause diagnosis**
+:::
+::: {.flow-step}
+**Redesign**
+:::
+::: {.flow-step}
+**Rollout**
+[with the PM]{.small}
+:::
+:::
+
+## Visual explanation
+
+**Three lenses on one problem.** No single view explained the underperformance. The answer came from looking at customer segments, offer structure, and timing together:
+
+::: {.card-grid-2}
+::: {}
+**Customer segment**<br>
+Client groups differ in buying power and buying behavior. *Who is the offer actually reaching?*
+:::
+::: {}
+**Offer structure**<br>
+The incentive has to be relevant to each group. *Is the value concentrated where it drives the most incremental purchases?*
+:::
+::: {}
+**Timing**<br>
+Buying cycles differ by group. *Does the launch window match when each group plans and spends?*
+:::
+::: {}
+**Diagnosis**<br>
+The analysis found **two structural design flaws**: one in how the offer was distributed across client groups, and one in how launch timing lined up with their buying cycles.
+:::
+:::
+
+The redesign **tailored the offer and its timing to each client group**, based on that group's buying power and past seasonal behavior.
+
+```{=html}
+<div class="index-bars" role="img" aria-label="Indexed sales before and after redesign">
+  <div class="bar-group-title">Package sales (indexed to the original launch = 1×)</div>
+  <div class="bar-row"><span>Original package</span><span class="bar-track"><span class="bar-fill" style="width:5%"></span></span><span class="bar-value">1×</span></div>
+  <div class="bar-row"><span>Redesigned package</span><span class="bar-track"><span class="bar-fill accent" style="width:100%"></span></span><span class="bar-value">~20×</span></div>
+</div>
+```
+
+[Indexed visualization. Absolute sales figures omitted.]{.illustrative}
+
+## Business impact
+
+- The redesigned package delivered **about 20× the sales** of the original launch
+- The analysis was later **expanded into a standing framework for clients' annual deals**, used to assess each client's true spending power rather than relying on past order size alone
+- It showed how cross-channel KPI tracking can reveal structural issues that are hard to see from inside a single team
+- The product manager who championed the revision later moved into a product-lead role and asked their team to keep working with me on key initiatives
+
+## Skills & methods
+
+Diagnostic analysis · customer segmentation · offer and discount design · seasonality analysis · cross-channel KPI tracking · Excel · Tableau · influencing without authority
+
+{{< include ../_line-disclosure.md >}}

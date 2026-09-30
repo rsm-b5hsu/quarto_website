@@ -1,0 +1,139 @@
+---
+title: "Dallas Trinity FC: Fan Growth, Retention & Propensity Models"
+description: "MSBA consulting capstone for a 2024 expansion women's soccer club: a Brand Affinity Score plus predictive models that score the full fan CRM for upgrade, downgrade, ticket-purchase and loyalty potential, handed off as marketing-ready segments."
+author: "Ben Hsu"
+date: "2026-06-15"
+categories: [consulting, churn, propensity-modeling, XGBoost, SHAP, python, UCSD MSBA]
+---
+
+::: {.impact-grid}
+::: {.impact-card}
+[0.91 / 0.95]{.num}
+[AUC for predicting fan upgrade / downgrade]{.label}
+:::
+::: {.impact-card}
+[4.3×]{.num}
+[lift in the top 15% of the ticket-propensity model]{.label}
+:::
+::: {.impact-card}
+[Full CRM]{.num}
+[scored and handed off with an analytical guide for marketing]{.label}
+:::
+:::
+
+## Objective & data
+
+::: {.card-grid-2}
+::: {}
+**Organization background**<br>
+Dallas Trinity FC is a professional women's soccer club that launched as an expansion team in 2024, so it had only **limited historical fan data** to work with.
+:::
+::: {}
+**Objective & data provided**<br>
+Create a **Brand Affinity Score (BAS)** from **ticket and merchandise sales** over the club's first two seasons.
+:::
+:::
+
+## Key business questions
+
+At its core, the club wanted to answer one question: ***what is a fan?***
+
+::: {.card-grid-2}
+::: {}
+**Connection**<br>
+Which fans are building the strongest connection to DTFC?
+:::
+::: {}
+**Engagement**<br>
+How do we measure and understand fan engagement?
+:::
+::: {}
+**Loyalty**<br>
+How do we keep fans coming back over time?
+:::
+:::
+
+## How the models work together
+
+The BAS was the core deliverable. I paired it with predictive models so that each business question has a score behind it:
+
+::: {.card-grid-2}
+::: {}
+**Brand Affinity Score (Fan+)** · *Connection*<br>
+*Who is this fan today?* Scores each fan's connection to the club from ticket and merchandise behavior, used to prioritize loyalty-program outreach.
+:::
+::: {}
+**Segment change** · *Loyalty*<br>
+*Where is the relationship heading?* Probability that a fan upgrades or downgrades over the next four home games.
+:::
+::: {}
+**Ticket propensity** · *Engagement*<br>
+*How likely are they to buy right now?* Probability of buying at least one ticket for the next four home games.
+:::
+::: {}
+**Growth & retention** · *Engagement & loyalty*<br>
+*How many games will they attend?* Expected attendance compared with the fan's own recent baseline.
+:::
+:::
+
+## Pipeline
+
+::: {.flow}
+::: {.flow-step}
+**Fan data**
+[core: tickets & merchandise (2 seasons); enrichment: email, YouTube, TV, schedule]{.small}
+:::
+::: {.flow-step}
+**Feature engineering**
+[time-aligned to a snapshot date to prevent leakage]{.small}
+:::
+::: {.flow-step}
+**Rolling time-based CV**
+[train on past windows, test on the next]{.small}
+:::
+::: {.flow-step .accent}
+**Models**
+[XGBoost vs. logistic and heuristic baselines]{.small}
+:::
+::: {.flow-step}
+**Explainability**
+[SHAP and permutation importance]{.small}
+:::
+::: {.flow-step}
+**CRM master file**
+[scores → action segments]{.small}
+:::
+:::
+
+**Validating honestly.** Fan behavior is seasonal and the data spans two seasons, so a random split would leak future information into training. I validated with **rolling-origin folds** instead: each model trains on earlier home-game windows and is tested on the next window. For the segment-change model, XGBoost beat both a rules-based heuristic and regularized logistic regression on AUC in every fold.
+
+## Results
+
+Headline validation, taken from the final client deliverable:
+
+| Model | Question | Validation |
+|---|---|---|
+| Segment change | Upgrade or downgrade in the next 4 games? | Upgrade AUC 0.91 (43% upgrade rate in the top 10%); downgrade AUC 0.95 (~20× lift in the top 5%) |
+| Ticket propensity | Buy ≥ 1 ticket in the next 4 games? | AUC 0.833; 4.3× lift in the top 15% |
+| Growth & retention | Attend more or fewer games than baseline? | AUC 0.715; 5.5× lift for fans attending 2+ games |
+
+## From scores to action
+
+A model only creates value if the marketing team can use it. I translated the probability scores into **plain-language segments**, such as *Upgrade Candidate*, *Retention Watchlist*, and *Stable / Low-Touch*, and wrote them into a single CRM master file. The handoff package included:
+
+- an **Analytical Guide** that explains each model, its intended use, and its limits in non-technical language
+- a navigation guide to the deliverables and model-specific methodology notes
+- a reproducible **refresh script**, so the club can re-score fans each season without the project team
+- an executive presentation to the club's senior marketing and data-strategy leadership
+
+## Lessons
+
+- **Handoff design is part of the model.** Documentation, segment labels, and a refresh path mattered as much as AUC.
+- **Explainability builds trust.** SHAP and permutation importance let non-technical stakeholders see *why* a fan was flagged.
+- **Time alignment is the hardest part.** Joining six sources with different grains and horizons required explicit snapshot logic to avoid leakage.
+
+## Tools
+
+Python · pandas · scikit-learn · XGBoost · pyrsm · SHAP · SQL · Jupyter
+
+[UCSD MSBA consulting capstone · Apr–Jun 2026. Only aggregate validation metrics are shown; fan-level data and client materials are not published.]{.note-muted}

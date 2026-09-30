@@ -75,20 +75,104 @@ ul.task-list li input[type="checkbox"] {
 <script>
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    const listingTargetEl = window.document.querySelector('#listing-line-listing .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
       return; 
     }
 
     const options = {
-      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-line-listing'] = new List('listing-line-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-early-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-early-listing'] = new List('listing-early-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-ucsd-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-image','listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
       searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+    window['quarto-listings']['listing-ucsd-listing'] = new List('listing-ucsd-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-side-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-image','listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-side-listing'] = new List('listing-side-listing', options);
 
     if (window['quarto-listing-loaded']) {
       window['quarto-listing-loaded']();
@@ -183,8 +267,17 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#professional-case-studies-line-plus-20212025" id="toc-professional-case-studies-line-plus-20212025" class="nav-link active" data-scroll-target="#professional-case-studies-line-plus-20212025">Professional Case Studies · LINE Plus (2021–2025)</a></li>
+  <li><a href="#earlier-experience-ipsos-kpmg-20162021" id="toc-earlier-experience-ipsos-kpmg-20162021" class="nav-link" data-scroll-target="#earlier-experience-ipsos-kpmg-20162021">Earlier Experience · Ipsos &amp; KPMG (2016–2021)</a></li>
+  <li><a href="#technical-projects-ucsd-msba-20252026" id="toc-technical-projects-ucsd-msba-20252026" class="nav-link" data-scroll-target="#technical-projects-ucsd-msba-20252026">Technical Projects · UCSD MSBA (2025–2026)</a></li>
+  <li><a href="#side-projects" id="toc-side-projects" class="nav-link" data-scroll-target="#side-projects">Side Projects</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -208,13 +301,284 @@ window.Quarto = {
 </header>
 
 
+<p>Selected work across my career, from business cases and pricing research to product strategy and machine learning. Each project starts from a business question and ends with a decision or a measurable result.</p>
+<section id="professional-case-studies-line-plus-20212025" class="level2">
+<h2 class="anchored" data-anchor-id="professional-case-studies-line-plus-20212025">Professional Case Studies · LINE Plus (2021–2025)</h2>
+<p><span class="section-intro">Product strategy, monetization, pricing, and experimentation.</span></p>
+<div id="listing-line-listing" class="quarto-listing quarto-listing-container-grid">
+<div class="list grid quarto-listing-cols-2">
+<div class="g-col-1" data-index="0" data-categories="cHJpY2luZyUyQ2xpZmVjeWNsZS1hbmFseXRpY3MlMkNzZWdtZW50YXRpb24lMkNzY2VuYXJpby1tb2RlbGluZyUyQ0xJTkU=" data-listing-file-modified-sort="1790790969997" data-listing-reading-time-sort="3" data-listing-word-count-sort="522">
+<a href="./projects/line-oa-lifecycle-pricing/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+LINE Official Account: Lifecycle-Driven Pricing Strategy
+</h5>
+<div class="listing-categories">
 
+<div class="listing-category" onclick="window.quartoListingCategory('cHJpY2luZw=='); return false;">pricing</div>
 
+<div class="listing-category" onclick="window.quartoListingCategory('bGlmZWN5Y2xlLWFuYWx5dGljcw=='); return false;">lifecycle-analytics</div>
 
+<div class="listing-category" onclick="window.quartoListingCategory('c2VnbWVudGF0aW9u'); return false;">segmentation</div>
 
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
+<div class="listing-category" onclick="window.quartoListingCategory('c2NlbmFyaW8tbW9kZWxpbmc='); return false;">scenario-modeling</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('TElORQ=='); return false;">LINE</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Reframed a nationwide pricing change around the customer lifecycle rather than short-term revenue. I diagnosed where business accounts stalled between free, paid, and higher…</p>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="cHJpY2luZyUyQ2RpYWdub3N0aWNzJTJDc2VnbWVudGF0aW9uJTJDS1BJLWFuYWx5c2lzJTJDTElORQ==" data-listing-file-modified-sort="1790790978583" data-listing-reading-time-sort="3" data-listing-word-count-sort="486">
+<a href="./projects/line-promo-package-redesign/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Redesigning a Promotional Ad Package with Segment &amp; Timing Analysis
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cHJpY2luZw=='); return false;">pricing</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZGlhZ25vc3RpY3M='); return false;">diagnostics</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('c2VnbWVudGF0aW9u'); return false;">segmentation</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('S1BJLWFuYWx5c2lz'); return false;">KPI-analysis</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('TElORQ=='); return false;">LINE</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Self-initiated diagnosis of a promotional ad package that had stalled after launch. Analyzing hundreds of clients across segment, offer, and timing uncovered structural…</p>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="2" data-categories="cHJpY2luZyUyQ3lpZWxkLW1hbmFnZW1lbnQlMkNwcm9jZXNzLWRlc2lnbiUyQ3N0YWtlaG9sZGVyLW1hbmFnZW1lbnQlMkNMSU5F" data-listing-file-modified-sort="1790789843034" data-listing-reading-time-sort="2" data-listing-word-count-sort="322">
+<a href="./projects/line-custom-ad-pricing/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Structured Pricing Framework for Customized Ad Packages
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cHJpY2luZw=='); return false;">pricing</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('eWllbGQtbWFuYWdlbWVudA=='); return false;">yield-management</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('cHJvY2Vzcy1kZXNpZ24='); return false;">process-design</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('c3Rha2Vob2xkZXItbWFuYWdlbWVudA=='); return false;">stakeholder-management</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('TElORQ=='); return false;">LINE</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Replaced case-by-case discounting on bespoke ad packages with a pricing framework, clear guardrails, and an approval workflow. Quotes went from weeks to minutes, supporting…</p>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="3" data-categories="ZXhwZXJpbWVudGF0aW9uJTJDQSUyRkItdGVzdGluZyUyQ21hY2hpbmUtbGVhcm5pbmclMkNhZC10ZWNoJTJDTElORQ==" data-listing-file-modified-sort="1790789849264" data-listing-reading-time-sort="2" data-listing-word-count-sort="399">
+<a href="./projects/line-ad-targeting-experiment/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+ML Ad Targeting: Business Ownership &amp; A/B Validation
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZXhwZXJpbWVudGF0aW9u'); return false;">experimentation</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('QSUyRkItdGVzdGluZw=='); return false;">A/B-testing</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">machine-learning</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YWQtdGVjaA=='); return false;">ad-tech</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('TElORQ=='); return false;">LINE</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Business-side owner for a purchase-prediction ad-targeting model. I framed the problem, set requirements, designed the experiment, and judged commercial value. Pilot…</p>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="4" data-categories="QkklMkNkYXNoYm9hcmRzJTJDU1FMJTJDVGFibGVhdSUyQ3Byb2Nlc3MtYXV0b21hdGlvbiUyQ0xJTkU=" data-listing-file-modified-sort="1790790991107" data-listing-reading-time-sort="2" data-listing-word-count-sort="351">
+<a href="./projects/line-kpi-reporting-automation/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Automating KPI Reporting with SQL Pipelines &amp; Tableau
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('Qkk='); return false;">BI</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZGFzaGJvYXJkcw=='); return false;">dashboards</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('U1FM'); return false;">SQL</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('VGFibGVhdQ=='); return false;">Tableau</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('cHJvY2Vzcy1hdXRvbWF0aW9u'); return false;">process-automation</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('TElORQ=='); return false;">LINE</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Found that teams were rebuilding the same reports by hand every week, and scoped an automated SQL + Tableau reporting layer with the engineering and BI teams. It saves ~20…</p>
+</div>
+</div>
+</div></a>
+</div>
+</div>
+<div class="listing-no-matching d-none">No matching items</div>
+</div>
+<p><span class="note-muted">Visualizations on LINE case studies are reconstructed for portfolio purposes. Proprietary data, pricing mechanics, and business rules have been omitted or replaced with illustrative examples.</span></p>
+</section>
+<section id="earlier-experience-ipsos-kpmg-20162021" class="level2">
+<h2 class="anchored" data-anchor-id="earlier-experience-ipsos-kpmg-20162021">Earlier Experience · Ipsos &amp; KPMG (2016–2021)</h2>
+<p><span class="section-intro">Customer and pricing research, and financial and investment-case analysis. Each page pairs a short experience summary with a method demo built on synthetic data.</span></p>
+<div id="listing-early-listing" class="quarto-listing quarto-listing-container-grid">
+<div class="list grid quarto-listing-cols-2">
+<div class="g-col-1" data-index="0" data-categories="cHJpY2luZy1yZXNlYXJjaCUyQ2NvbmpvaW50JTJDVmFuLVdlc3RlbmRvcnAlMkNleHBlcmltZW50YXRpb24lMkNJcHNvcw==" data-listing-file-modified-sort="1790789998904" data-listing-reading-time-sort="4" data-listing-word-count-sort="697">
+<a href="./projects/early-ipsos-pricing-research/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Ipsos: Pricing &amp; Brand Research Methods
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cHJpY2luZy1yZXNlYXJjaA=='); return false;">pricing-research</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Y29uam9pbnQ='); return false;">conjoint</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('VmFuLVdlc3RlbmRvcnA='); return false;">Van-Westendorp</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZXhwZXJpbWVudGF0aW9u'); return false;">experimentation</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('SXBzb3M='); return false;">Ipsos</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Before LINE I designed pricing and brand research for enterprise clients at Ipsos. This demo uses a fictional product to show how price sensitivity, conjoint trade-offs, and…</p>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="U1JPSSUyQ2Nvc3QtYmVuZWZpdCUyQ2ZpbmFuY2lhbC1tb2RlbGluZyUyQ3NjZW5hcmlvLWFuYWx5c2lzJTJDS1BNRw==" data-listing-file-modified-sort="1790789998933" data-listing-reading-time-sort="3" data-listing-word-count-sort="565">
+<a href="./projects/early-kpmg-sroi-investment/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+KPMG: SROI &amp; Investment Decision Modeling
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('U1JPSQ=='); return false;">SROI</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Y29zdC1iZW5lZml0'); return false;">cost-benefit</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZmluYW5jaWFsLW1vZGVsaW5n'); return false;">financial-modeling</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('c2NlbmFyaW8tYW5hbHlzaXM='); return false;">scenario-analysis</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('S1BNRw=='); return false;">KPMG</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Early-career work at KPMG using Social Return on Investment and P&amp;L forecasting to link sustainability projects to business decisions. This demo uses fictional projects to…</p>
+</div>
+</div>
+</div></a>
+</div>
+</div>
+<div class="listing-no-matching d-none">No matching items</div>
+</div>
+</section>
+<section id="technical-projects-ucsd-msba-20252026" class="level2">
+<h2 class="anchored" data-anchor-id="technical-projects-ucsd-msba-20252026">Technical Projects · UCSD MSBA (2025–2026)</h2>
+<p><span class="section-intro">Predictive modeling, machine learning, and customer analytics.</span></p>
+<div id="listing-ucsd-listing" class="quarto-listing quarto-listing-container-grid">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="cHl0aG9uJTJDZmFudGFzeS1zcG9ydHMlMkNkYXRhLXBpcGVsaW5lJTJDYXV0b21hdGlvbg==" data-listing-date-sort="1779001200000" data-listing-file-modified-sort="1777076782843" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1366">
+<div class="g-col-1" data-index="0" data-categories="Y29uc3VsdGluZyUyQ2NodXJuJTJDcHJvcGVuc2l0eS1tb2RlbGluZyUyQ1hHQm9vc3QlMkNTSEFQJTJDcHl0aG9uJTJDVUNTRCUyME1TQkE=" data-listing-date-sort="1781506800000" data-listing-file-modified-sort="1790788243493" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="635">
+<a href="./projects/ucsd-dtfc-fan-intelligence/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Dallas Trinity FC: Fan Growth, Retention &amp; Propensity Models
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('Y29uc3VsdGluZw=='); return false;">consulting</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Y2h1cm4='); return false;">churn</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('cHJvcGVuc2l0eS1tb2RlbGluZw=='); return false;">propensity-modeling</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('WEdCb29zdA=='); return false;">XGBoost</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('U0hBUA=='); return false;">SHAP</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">python</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('VUNTRCUyME1TQkE='); return false;">UCSD MSBA</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>MSBA consulting capstone for a 2024 expansion women’s soccer club: a Brand Affinity Score plus predictive models that score the full fan CRM for upgrade, downgrade…</p>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="bWFjaGluZS1sZWFybmluZyUyQ05MUCUyQ3JlY29tbWVuZGF0aW9uJTJDcHl0aG9uJTJDVUNTRCUyME1TQkE=" data-listing-date-sort="1765785600000" data-listing-file-modified-sort="1790787666250" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="471">
+<a href="./projects/ucsd-fashion-fit/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="./projects/ucsd-fashion-fit/fit_label_distribution.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Reducing Rental Returns with Fit Prediction
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">machine-learning</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('TkxQ'); return false;">NLP</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVjb21tZW5kYXRpb24='); return false;">recommendation</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">python</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('VUNTRCUyME1TQkE='); return false;">UCSD MSBA</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>A hybrid fit-prediction model on 192K Rent the Runway reviews that ranks garments by how likely they are to fit each renter — test AUC 0.855 and Precision@1 of 0.979.</p>
+</div>
+</div>
+</div></a>
+</div>
+</div>
+<div class="listing-no-matching d-none">No matching items</div>
+</div>
+</section>
+<section id="side-projects" class="level2">
+<h2 class="anchored" data-anchor-id="side-projects">Side Projects</h2>
+<div id="listing-side-listing" class="quarto-listing quarto-listing-container-grid">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-categories="cHl0aG9uJTJDZmFudGFzeS1zcG9ydHMlMkNkYXRhLXBpcGVsaW5lJTJDYXV0b21hdGlvbg==" data-listing-date-sort="1790751600000" data-listing-file-modified-sort="1777076782843" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1366">
 <a href="./projects/codex-nba-fantasy-analytics/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -224,23 +588,32 @@ window.Quarto = {
 <h5 class="no-anchor card-title listing-title">
 Codex NBA Fantasy — Agentic Matchup Analytics
 </h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">python</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZmFudGFzeS1zcG9ydHM='); return false;">fantasy-sports</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZGF0YS1waXBlbGluZQ=='); return false;">data-pipeline</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YXV0b21hdGlvbg=='); return false;">automation</div>
+
+</div>
 <div class="card-text listing-description delink">
 <p>An agentic Python pipeline that pulls live Yahoo NBA Fantasy data, projects end-of-week category outcomes against the scheduled opponent, surfaces high-leverage free agents…</p>
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Ben Hsu
-</div>
-<div class="listing-date">
-May 17, 2026
-</div>
 </div>
 </div>
 </div></a>
 </div>
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</div>
+
+
+
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

@@ -1,7 +1,55 @@
-
 ---
 title: "My Projects"
 listing:
-  contents: projects
-  type: grid          # <-- my preferred layout type
+  - id: line-listing
+    contents: "projects/line-*/index.qmd"
+    type: grid
+    grid-columns: 2
+    sort: "order"
+    fields: [title, description, categories]
+  - id: early-listing
+    contents: "projects/early-*/index.qmd"
+    type: grid
+    grid-columns: 2
+    sort: "order"
+    fields: [title, description, categories]
+  - id: ucsd-listing
+    contents: "projects/ucsd-*/index.qmd"
+    type: grid          # <-- my preferred layout type
+    sort: "date desc"
+    fields: [image, title, description, categories]
+  - id: side-listing
+    contents: "projects/codex-nba-fantasy-analytics/index.qmd"
+    type: grid
+    fields: [image, title, description, categories]
 ---
+
+Selected work across my career, from business cases and pricing research to product strategy and machine learning. Each project starts from a business question and ends with a decision or a measurable result.
+
+## Professional Case Studies · LINE Plus (2021–2025)
+
+[Product strategy, monetization, pricing, and experimentation.]{.section-intro}
+
+::: {#line-listing}
+:::
+
+[Visualizations on LINE case studies are reconstructed for portfolio purposes. Proprietary data, pricing mechanics, and business rules have been omitted or replaced with illustrative examples.]{.note-muted}
+
+## Earlier Experience · Ipsos & KPMG (2016–2021)
+
+[Customer and pricing research, and financial and investment-case analysis. Each page pairs a short experience summary with a method demo built on synthetic data.]{.section-intro}
+
+::: {#early-listing}
+:::
+
+## Technical Projects · UCSD MSBA (2025–2026)
+
+[Predictive modeling, machine learning, and customer analytics.]{.section-intro}
+
+::: {#ucsd-listing}
+:::
+
+## Side Projects
+
+::: {#side-listing}
+:::

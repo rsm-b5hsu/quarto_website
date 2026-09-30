@@ -2,6 +2,15 @@
   {
     "listing": "/projects.html",
     "items": [
+      "/projects/line-oa-lifecycle-pricing/index.html",
+      "/projects/line-promo-package-redesign/index.html",
+      "/projects/line-custom-ad-pricing/index.html",
+      "/projects/line-ad-targeting-experiment/index.html",
+      "/projects/line-kpi-reporting-automation/index.html",
+      "/projects/early-ipsos-pricing-research/index.html",
+      "/projects/early-kpmg-sroi-investment/index.html",
+      "/projects/ucsd-dtfc-fan-intelligence/index.html",
+      "/projects/ucsd-fashion-fit/index.html",
       "/projects/codex-nba-fantasy-analytics/index.html"
     ]
   }
