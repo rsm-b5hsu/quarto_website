@@ -12,6 +12,10 @@ about:
       href: https://www.linkedin.com/in/benresearcher/
 ---
 
+### What I work on
+
+I work at the intersection of data science and business decision-making. My focus areas include pricing analytics, demand forecasting, experimentation, customer segmentation, and text-based modeling. I care about building models that are interpretable, testable, and deployable under real-world constraints.
+
 ## Education
 
 University of California, San Diego | San Diego, CA |
@@ -26,20 +30,10 @@ LINE Plus Corporation | Product Strategy Analyst | Oct 2021 - May 2025\
 *Product strategy, monetization, pricing & experimentation*
 
 Ipsos | Senior Research Executive | Sep 2019 - Sep 2021\
-*Pricing & brand research, customer decision-making, experimentation*
+- [Pricing & brand research, customer decision-making, experimentation →](projects/early-ipsos-pricing-research/index.qmd)
 
 KPMG – Climate Change & Sustainability | Researcher | Jul 2016 - Apr 2018\
-*Cost-benefit, SROI & investment-case analysis*
-
-- Conducted Social Return on Investment (SROI) analysis for three Taiwan-listed clients
-- Ran a cost-benefit analysis of an environmental-education program; pricing and program recommendations raised its average SROI by ~10%
-- Forecasted the P&L of a smart-city streetlight project and identified an opportunity to expand installation into rural areas
-- [See the SROI & investment-modeling demo →](projects/early-kpmg-sroi-investment/index.qmd)
-
-
-### What I work on
-
-I work at the intersection of data science and business decision-making. My focus areas include pricing analytics, demand forecasting, experimentation, customer segmentation, and text-based modeling. I care about building models that are interpretable, testable, and deployable under real-world constraints.
+- [Cost-benefit, SROI & investment-case analysis →](projects/early-kpmg-sroi-investment/index.qmd)
 
 ### Business impact at LINE
 

@@ -53,21 +53,21 @@
     "href": "index.html",
     "title": "Ben Hsu",
     "section": "",
-    "text": "University of California, San Diego | San Diego, CA | MS Business Analytics | Jul 2025 - Dec 2026\nNational Taiwan University | Taipei, Taiwan | B.A in Business Administration | Sep 2012 - June 2016"
+    "text": "I work at the intersection of data science and business decision-making. My focus areas include pricing analytics, demand forecasting, experimentation, customer segmentation, and text-based modeling. I care about building models that are interpretable, testable, and deployable under real-world constraints."
   },
   {
     "objectID": "index.html#education",
     "href": "index.html#education",
     "title": "Ben Hsu",
-    "section": "",
-    "text": "University of California, San Diego | San Diego, CA | MS Business Analytics | Jul 2025 - Dec 2026\nNational Taiwan University | Taipei, Taiwan | B.A in Business Administration | Sep 2012 - June 2016"
+    "section": "Education",
+    "text": "Education\nUniversity of California, San Diego | San Diego, CA | MS Business Analytics | Jul 2025 - Dec 2026\nNational Taiwan University | Taipei, Taiwan | B.A in Business Administration | Sep 2012 - June 2016"
   },
   {
     "objectID": "index.html#experience",
     "href": "index.html#experience",
     "title": "Ben Hsu",
     "section": "Experience",
-    "text": "Experience\nLINE Plus Corporation | Product Strategy Analyst | Oct 2021 - May 2025\nProduct strategy, monetization, pricing & experimentation\nIpsos | Senior Research Executive | Sep 2019 - Sep 2021\nPricing & brand research, customer decision-making, experimentation\nKPMG – Climate Change & Sustainability | Researcher | Jul 2016 - Apr 2018\nCost-benefit, SROI & investment-case analysis\n\nConducted Social Return on Investment (SROI) analysis for three Taiwan-listed clients\nRan a cost-benefit analysis of an environmental-education program; pricing and program recommendations raised its average SROI by ~10%\nForecasted the P&L of a smart-city streetlight project and identified an opportunity to expand installation into rural areas\nSee the SROI & investment-modeling demo →\n\n\nWhat I work on\nI work at the intersection of data science and business decision-making. My focus areas include pricing analytics, demand forecasting, experimentation, customer segmentation, and text-based modeling. I care about building models that are interpretable, testable, and deployable under real-world constraints.\n\n\nBusiness impact at LINE\n\n\n2× annual sales growth after a lifecycle-driven pricing redesign. Case study →\n\n\n~20× sales after redesigning an underperforming promo package. Case study →\n\n\n&gt;40% YoY growth, with quotes going from weeks to minutes via a pricing framework. Case study →\n\n\n2× CVR in the A/B test I designed for ML ad targeting. Case study →\n\n\nSee all case studies and technical projects on the Projects page."
+    "text": "Experience\nLINE Plus Corporation | Product Strategy Analyst | Oct 2021 - May 2025\nProduct strategy, monetization, pricing & experimentation\nIpsos | Senior Research Executive | Sep 2019 - Sep 2021\n- Pricing & brand research, customer decision-making, experimentation →\nKPMG – Climate Change & Sustainability | Researcher | Jul 2016 - Apr 2018\n- Cost-benefit, SROI & investment-case analysis →\n\nBusiness impact at LINE\n\n\n2× annual sales growth after a lifecycle-driven pricing redesign. Case study →\n\n\n~20× sales after redesigning an underperforming promo package. Case study →\n\n\n&gt;40% YoY growth, with quotes going from weeks to minutes via a pricing framework. Case study →\n\n\n2× CVR in the A/B test I designed for ML ad targeting. Case study →\n\n\nSee all case studies and technical projects on the Projects page."
   },
   {
     "objectID": "projects/codex-nba-fantasy-analytics/index.html#why-i-built-this",
