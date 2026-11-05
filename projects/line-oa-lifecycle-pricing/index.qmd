@@ -1,6 +1,6 @@
 ---
 title: "LINE Official Account: Lifecycle-Driven Pricing Strategy"
-description: "Reframed a nationwide pricing change around the customer lifecycle rather than short-term revenue. I diagnosed where business accounts stalled between free, paid, and higher tiers, and annual sales growth doubled."
+description: "Applied lifecycle analytics, merchant segmentation, and scenario evaluation to a major subscription pricing initiative, and brought recommendations to product and commercial leadership."
 author: "Ben Hsu"
 order: 1
 categories: [pricing, lifecycle-analytics, segmentation, scenario-modeling, LINE]
@@ -8,122 +8,115 @@ categories: [pricing, lifecycle-analytics, segmentation, scenario-modeling, LINE
 
 ::: {.impact-grid}
 ::: {.impact-card}
-[2×]{.num}
-[annual sales growth after the pricing redesign]{.label}
+[End to end]{.num}
+[ownership of the analytical strategy]{.label}
 :::
 ::: {.impact-card}
-[Thousands]{.num}
-[of business accounts analyzed and segmented]{.label}
+[Lifecycle view]{.num}
+[pricing options judged across the whole customer journey]{.label}
 :::
 ::: {.impact-card}
-[Leadership-approved]{.num}
-[lifecycle-based pricing strategy adopted by senior leadership]{.label}
+[Cross-functional]{.num}
+[work with Product, Sales, and Finance]{.label}
 :::
 :::
 
-## Business context
+## Executive summary
 
-LINE Official Account is a subscription product that lets businesses message their customers on LINE. Revenue depends on moving accounts through a lifecycle: from free adoption, to a first paid plan, to higher tiers as usage grows.
+I led the analysis behind a major subscription pricing initiative. Rather than treating pricing as a single revenue decision, I evaluated how pricing options could support customers at each stage, from adoption to paid conversion and account expansion.
 
-Headquarters planned a pricing change to improve monetization. Most accounts were small and medium businesses, which are more price-sensitive and slower to mature. A uniform price increase risked **raising short-term revenue while slowing conversion and long-term growth**.
+## Business challenge
+
+A subscription-based digital advertising product sought to improve customer progression from adoption to paid conversion and account expansion. I evaluated opportunities to support sustainable subscription growth through customer analytics and pricing strategy.
 
 ## My role
 
 - Owned the analytical strategy end to end, partnering with Product, Sales, and Finance
 - Built the behavioral segmentation and lifecycle funnel analysis
-- Developed the pricing scenario framework and presented recommendations to leadership
+- Developed the pricing scenario framework and presented recommendations to product and commercial leadership
 - Supported go-to-market rollout with dashboards for Sales and Product
 
 ## Analytical approach
 
-Instead of asking *"how much should we charge?"*, I asked **"where in the lifecycle are customers getting stuck, and how does pricing cause it?"**
+I analyzed lifecycle behavior and merchant segments, then assessed alternative pricing scenarios against adoption and revenue objectives. Instead of asking only *"how much should we charge?"*, I asked **"how does each pricing option affect customers' progress through the lifecycle?"**
+
+## Illustrative decision framework
+
+**The questions I ask at each lifecycle stage**
+
+[Illustrative framework]{.provenance .provenance-illustrative}
 
 ::: {.flow}
 ::: {.flow-step}
-**Behavioral data**
-[usage, upgrades, account maturity]{.small}
-:::
-::: {.flow-step}
-**Lifecycle segmentation**
-[group accounts by stage and behavior]{.small}
-:::
-::: {.flow-step}
-**Funnel diagnosis**
-[measure friction between stages]{.small}
-:::
-::: {.flow-step .accent}
-**Scenario modeling**
-[short- vs. long-term trade-offs]{.small}
-:::
-::: {.flow-step}
-**Recommendation**
-[to leadership]{.small}
-:::
-::: {.flow-step}
-**KPI monitoring**
-[dashboards for Sales and Product]{.small}
-:::
-:::
-
-## Visual explanation
-
-**Where the lifecycle stalled.** The funnel analysis found two main friction points. The segmentation showed that different customer groups hit them in different ways.
-
-::: {.flow}
-::: {.flow-step}
-**Acquisition**
+**Adoption**
+[Who is joining, and what do they need?]{.small}
 :::
 ::: {.flow-step}
 **Activation**
+[What signals early value?]{.small}
 :::
 ::: {.flow-step}
-**Free usage**
+**Paid conversion**
+[What makes paying worthwhile?]{.small}
 :::
-::: {.flow-step .accent}
-**First paid plan**
-[⚠ conversion friction]{.small}
-:::
-::: {.flow-step .accent}
+::: {.flow-step}
 **Expansion**
-[⚠ expansion friction]{.small}
+[What supports growth over time?]{.small}
+:::
+:::
+
+[Illustrative framework: analytical questions only. Not LINE's actual funnel, findings, or results.]{.illustrative}
+
+**How I compare pricing trade-offs**
+
+[Illustrative framework]{.provenance .provenance-illustrative}
+
+| Hypothetical scenario | Conversion potential | Revenue sustainability | Implementation complexity |
+|---|---|---|---|
+| A · Simple price adjustment | Medium | Low | Low |
+| B · Segment-targeted offer | High | Medium | High |
+| C · Packaging redesign | Medium | High | Medium |
+
+[Illustrative decision framework: the scenarios and ratings are invented to show the method. They are not LINE's actual pricing options, rules, or results.]{.illustrative}
+
+No option wins on every dimension, which is the point of the exercise: the matrix makes the trade-offs explicit so that stakeholders can decide against shared objectives.
+
+**How the decision process runs**
+
+[Illustrative framework]{.provenance .provenance-illustrative}
+
+::: {.flow}
+::: {.flow-step}
+**Define objective**
 :::
 ::: {.flow-step}
-**Retention**
+**Segment customers**
+[my responsibility]{.small}
+:::
+::: {.flow-step .accent}
+**Evaluate scenarios**
+[my responsibility]{.small}
+:::
+::: {.flow-step}
+**Test risks**
+:::
+::: {.flow-step}
+**Align stakeholders**
 :::
 :::
 
-- **Conversion friction:** many engaged accounts had little reason to move from free to paid, which delayed monetization.
-- **Expansion friction:** accounts whose usage kept growing still hesitated to move up a tier.
+## Outcome
 
-The recommendation rebalanced the free-to-paid and tier-to-tier transitions, so pricing encourages customers to progress instead of blocking them.
-
-**Why scenario modeling mattered.** The scenario with the highest short-term revenue was not the best long-term strategy. The framework compared pricing options across the whole lifecycle, not just on immediate revenue.
-
-```{=html}
-<div class="index-bars" role="img" aria-label="Illustrative indexed comparison of pricing scenarios">
-  <div class="bar-group-title">Short-term revenue index</div>
-  <div class="bar-row"><span>Baseline</span><span class="bar-track"><span class="bar-fill" style="width:62%"></span></span><span class="bar-value">100</span></div>
-  <div class="bar-row"><span>A · Uniform increase</span><span class="bar-track"><span class="bar-fill" style="width:75%"></span></span><span class="bar-value">120</span></div>
-  <div class="bar-row"><span>B · Lifecycle-balanced</span><span class="bar-track"><span class="bar-fill accent" style="width:69%"></span></span><span class="bar-value">110</span></div>
-  <div class="bar-group-title">Paid-conversion index</div>
-  <div class="bar-row"><span>Baseline</span><span class="bar-track"><span class="bar-fill" style="width:62%"></span></span><span class="bar-value">100</span></div>
-  <div class="bar-row"><span>A · Uniform increase</span><span class="bar-track"><span class="bar-fill" style="width:53%"></span></span><span class="bar-value">85</span></div>
-  <div class="bar-row"><span>B · Lifecycle-balanced</span><span class="bar-track"><span class="bar-fill accent" style="width:78%"></span></span><span class="bar-value">125</span></div>
-  <div class="bar-group-title">Long-term revenue index</div>
-  <div class="bar-row"><span>Baseline</span><span class="bar-track"><span class="bar-fill" style="width:62%"></span></span><span class="bar-value">100</span></div>
-  <div class="bar-row"><span>A · Uniform increase</span><span class="bar-track"><span class="bar-fill" style="width:66%"></span></span><span class="bar-value">105</span></div>
-  <div class="bar-row"><span>B · Lifecycle-balanced</span><span class="bar-track"><span class="bar-fill accent" style="width:100%"></span></span><span class="bar-value">160</span></div>
-</div>
-```
-
-[Illustrative / normalized visualization. Proprietary data and business rules omitted. The values are invented to show the trade-off the framework was built to test.]{.illustrative}
-
-## Business impact
-
-- **Doubled annual sales growth** after the redesigned pricing launched
-- Moved leadership discussion from maximizing immediate subscription revenue to **customer lifetime economics**
-- Dashboards showing lifecycle stage, upgrade readiness, and usage growth helped Sales prioritize accounts and Product support customers affected by the change
+- Contributed to a major subscription pricing initiative supporting stronger paid-customer growth and business performance
+- Helped frame the leadership discussion around the full customer lifecycle as well as immediate revenue
+- Dashboards helped Sales and Product support the rollout
 - The analysis became the foundation for a later [KPI reporting automation project](../line-kpi-reporting-automation/index.qmd)
+
+## Lessons learned
+
+- **Judge pricing across the lifecycle.** An option can look different once its effect on later stages is considered alongside immediate revenue.
+- **Segment before you decide.** Different customer groups can respond differently to the same pricing option.
+- **Plan for the rollout.** Giving Sales and Product the right view of customers is part of making a pricing change work.
 
 ## Skills & methods
 

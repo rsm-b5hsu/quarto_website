@@ -130,11 +130,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#business-context" id="toc-business-context" class="nav-link active" data-scroll-target="#business-context">Business context</a></li>
+  <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link active" data-scroll-target="#executive-summary">Executive summary</a></li>
+  <li><a href="#business-challenge" id="toc-business-challenge" class="nav-link" data-scroll-target="#business-challenge">Business challenge</a></li>
   <li><a href="#my-role" id="toc-my-role" class="nav-link" data-scroll-target="#my-role">My role</a></li>
   <li><a href="#analytical-approach" id="toc-analytical-approach" class="nav-link" data-scroll-target="#analytical-approach">Analytical approach</a></li>
-  <li><a href="#visual-explanation" id="toc-visual-explanation" class="nav-link" data-scroll-target="#visual-explanation">Visual explanation</a></li>
-  <li><a href="#business-impact" id="toc-business-impact" class="nav-link" data-scroll-target="#business-impact">Business impact</a></li>
+  <li><a href="#illustrative-decision-framework" id="toc-illustrative-decision-framework" class="nav-link" data-scroll-target="#illustrative-decision-framework">Illustrative decision framework</a></li>
+  <li><a href="#outcome" id="toc-outcome" class="nav-link" data-scroll-target="#outcome">Outcome</a></li>
+  <li><a href="#lessons-learned" id="toc-lessons-learned" class="nav-link" data-scroll-target="#lessons-learned">Lessons learned</a></li>
   <li><a href="#skills-methods" id="toc-skills-methods" class="nav-link" data-scroll-target="#skills-methods">Skills &amp; methods</a></li>
   </ul>
 </nav>
@@ -191,8 +193,13 @@ ul.task-list li input[type="checkbox"] {
 <p><span class="num">Weekly → real-time</span> <span class="label">KPI monitoring and status reporting</span></p>
 </div>
 </div>
-<section id="business-context" class="level2">
-<h2 class="anchored" data-anchor-id="business-context">Business context</h2>
+<p><span class="provenance provenance-result">Self-reported result</span></p>
+<section id="executive-summary" class="level2">
+<h2 class="anchored" data-anchor-id="executive-summary">Executive summary</h2>
+<p>I noticed teams were rebuilding the same reports by hand every week, so I scoped an automated reporting layer with the engineering and BI teams. It saves about 20 team-hours a month and gives 20+ stakeholders a current view of KPIs.</p>
+</section>
+<section id="business-challenge" class="level2">
+<h2 class="anchored" data-anchor-id="business-challenge">Business challenge</h2>
 <p>Product managers and business stakeholders spent a large part of every week <strong>pulling data from several platforms by hand and reformatting it in Excel</strong> for routine reports. The process was repetitive and error-prone. It also limited how deeply teams could analyze anything, because most of their time went to gathering data rather than interpreting it.</p>
 </section>
 <section id="my-role" class="level2">
@@ -206,6 +213,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="analytical-approach" class="level2">
 <h2 class="anchored" data-anchor-id="analytical-approach">Analytical approach</h2>
 <p>The goal was not “build a dashboard.” It was to <strong>remove repeated manual work</strong>, which meant first finding out exactly what was being repeated.</p>
+<p><span class="provenance provenance-illustrative">Illustrative framework</span></p>
 <div class="flow">
 <div class="flow-step">
 <p><strong>Map current workflows</strong> <span class="small">who pulls what, how often</span></p>
@@ -220,13 +228,14 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Build with engineering and BI</strong> <span class="small">SQL pipelines + Tableau</span></p>
 </div>
 <div class="flow-step">
-<p><strong>Roll out and adopt</strong> <span class="small">20+ stakeholders</span></p>
+<p><strong>Roll out and adopt</strong> <span class="small">stakeholder teams</span></p>
 </div>
 </div>
 </section>
-<section id="visual-explanation" class="level2">
-<h2 class="anchored" data-anchor-id="visual-explanation">Visual explanation</h2>
+<section id="illustrative-decision-framework" class="level2">
+<h2 class="anchored" data-anchor-id="illustrative-decision-framework">Illustrative decision framework</h2>
 <p><strong>From manual reporting to a single, always-current view</strong></p>
+<p><span class="provenance provenance-illustrative">Illustrative framework</span></p>
 <div class="compare">
 <div>
 <p><span class="compare-title">Before</span></p>
@@ -249,9 +258,10 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 </div>
 </div>
+<p><span class="illustrative">Illustrative framework: a general description of the change. It does not show LINE’s actual dashboards, schemas, or KPI rules.</span></p>
 </section>
-<section id="business-impact" class="level2">
-<h2 class="anchored" data-anchor-id="business-impact">Business impact</h2>
+<section id="outcome" class="level2">
+<h2 class="anchored" data-anchor-id="outcome">Outcome</h2>
 <ul>
 <li>Saved about <strong>20 team-hours per month</strong>, roughly 30 minutes a week for each of about 20 people</li>
 <li>Gave <strong>20+ stakeholders</strong> real-time KPI monitoring and status reporting instead of weekly static reports</li>
@@ -259,11 +269,19 @@ ul.task-list li input[type="checkbox"] {
 <li>Grew out of the reporting needs identified in the <a href="../../projects/line-oa-lifecycle-pricing/index.html">Official Account pricing work</a></li>
 </ul>
 </section>
+<section id="lessons-learned" class="level2">
+<h2 class="anchored" data-anchor-id="lessons-learned">Lessons learned</h2>
+<ul>
+<li><strong>Find the repetition first.</strong> Knowing exactly what is rebuilt each cycle defines what is worth automating.</li>
+<li><strong>Write the spec before building.</strong> Agreeing on sources, logic, and outputs up front gives engineering and BI a clear target.</li>
+<li><strong>Adoption is part of the project.</strong> Time is only saved once stakeholders actually use the new view.</li>
+</ul>
+</section>
 <section id="skills-methods" class="level2">
 <h2 class="anchored" data-anchor-id="skills-methods">Skills &amp; methods</h2>
 <p>Reporting process analysis · requirements and specification writing · SQL data pipelines · Tableau dashboard design · KPI framework design · partnering with engineering and BI · stakeholder adoption</p>
 <div class="disclosure">
-<p>Visualizations are reconstructed for portfolio purposes. Proprietary data, pricing mechanics, and business rules have been omitted or replaced with illustrative examples.</p>
+<p>Frameworks on this page are illustrative and do not describe LINE’s actual pricing rules, workflows, or results. Confidential assumptions, customer metrics, and decision rules are excluded.</p>
 </div>
 
 

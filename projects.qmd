@@ -24,7 +24,7 @@ listing:
     fields: [image, title, description, categories]
 ---
 
-Selected work across my career, from business cases and pricing research to product strategy and machine learning. Each project starts from a business question and ends with a decision or a measurable result.
+Selected work across my career, from business cases and pricing research to product strategy and machine learning. Each project starts from a business question and ends with a decision or recommendation.
 
 ## Professional Case Studies · LINE Plus (2021–2025)
 
@@ -33,7 +33,7 @@ Selected work across my career, from business cases and pricing research to prod
 ::: {#line-listing}
 :::
 
-[Visualizations on LINE case studies are reconstructed for portfolio purposes. Proprietary data, pricing mechanics, and business rules have been omitted or replaced with illustrative examples.]{.note-muted}
+[Frameworks on LINE case studies are illustrative and do not describe LINE's actual pricing rules, workflows, or results. Confidential assumptions, customer metrics, and decision rules are excluded.]{.note-muted}
 
 ## Earlier Experience · Ipsos & KPMG (2016–2021)
 

@@ -1,6 +1,6 @@
 ---
-title: "Redesigning a Promotional Ad Package with Segment & Timing Analysis"
-description: "Self-initiated diagnosis of a promotional ad package that had stalled after launch. Analyzing hundreds of clients across segment, offer, and timing uncovered structural design flaws, and the redesign lifted sales about 20×."
+title: "Diagnosing a Promotional Ad Package with Segment & Timing Analysis"
+description: "A self-initiated performance diagnostic that compared results across customer segments and promotional periods, then turned the findings into product and go-to-market recommendations."
 author: "Ben Hsu"
 order: 2
 categories: [pricing, diagnostics, segmentation, KPI-analysis, LINE]
@@ -8,109 +8,68 @@ categories: [pricing, diagnostics, segmentation, KPI-analysis, LINE]
 
 ::: {.impact-grid}
 ::: {.impact-card}
-[~20×]{.num}
-[sales after the redesign]{.label}
-:::
-::: {.impact-card}
-[Hundreds]{.num}
-[of clients analyzed across sales channels]{.label}
-:::
-::: {.impact-card}
 [Self-initiated]{.num}
-[outside my assigned scope]{.label}
+[diagnostic, started from routine KPI tracking]{.label}
+:::
+::: {.impact-card}
+[Segment + timing]{.num}
+[compared across customer groups and promotional periods]{.label}
+:::
+::: {.impact-card}
+[Cross-functional]{.num}
+[recommendations developed with product and commercial stakeholders]{.label}
 :::
 :::
 
-## Business context
+## Executive summary
 
-To drive revenue during a period of low market demand, the product team launched a limited-time promotional ad package with bundles tailored to different client groups. On paper the design was careful and incorporated sales feedback, but after launch it **significantly underperformed**, and senior management started to worry.
+Routine KPI tracking showed me an opportunity to understand a promotion better, so I started a structured diagnostic on my own initiative. I then worked with stakeholders to turn what I found into product and go-to-market recommendations.
 
-The package belonged to another team. My routine KPI tracking across sales channels showed me the performance gap, and I **volunteered to investigate**.
+## Business challenge
+
+An advertising promotion presented an opportunity to improve commercial performance through more structured measurement and customer understanding.
 
 ## My role
 
-- Identified the problem and took on the analysis without a formal mandate
-- Analyzed sales results across hundreds of clients and several sales channels (Excel, Tableau)
-- Diagnosed the structural causes and proposed a revised offer and launch timing
-- Partnered with the product manager to refine the plan and win buy-in, presenting it as iteration rather than critique
+- Spotted the opportunity through cross-channel KPI tracking and took on the analysis without a formal mandate
+- Analyzed sales results across customer segments, sales channels, and promotional periods (Excel, Tableau)
+- Developed product and go-to-market recommendations
+- Partnered with cross-functional stakeholders to refine the plan and build buy-in
 
 ## Analytical approach
 
-The team's first hypothesis was simply "demand is low." I wanted to know whether the **design of the offer** was part of the problem.
+I initiated a performance diagnostic, compared results across customer segments and promotional periods, and translated findings into recommendations. I treated each possible explanation as a hypothesis to test, so that the evidence decided the next step.
 
-::: {.flow}
-::: {.flow-step}
-**Low adoption**
-[symptom]{.small}
-:::
-::: {.flow-step}
-**Segment analysis**
-[who is (and isn't) buying?]{.small}
-:::
-::: {.flow-step}
-**Offer analysis**
-[does the offer fit each segment?]{.small}
-:::
-::: {.flow-step}
-**Timing analysis**
-[does launch timing match buying cycles?]{.small}
-:::
-::: {.flow-step .accent}
-**Root-cause diagnosis**
-:::
-::: {.flow-step}
-**Redesign**
-:::
-::: {.flow-step}
-**Rollout**
-[with the PM]{.small}
-:::
-:::
+## Illustrative decision framework
 
-## Visual explanation
+**How I structure a promotion diagnostic**
 
-**Three lenses on one problem.** No single view explained the underperformance. The answer came from looking at customer segments, offer structure, and timing together:
+[Illustrative framework]{.provenance .provenance-illustrative}
 
-::: {.card-grid-2}
-::: {}
-**Customer segment**<br>
-Client groups differ in buying power and buying behavior. *Who is the offer actually reaching?*
-:::
-::: {}
-**Offer structure**<br>
-The incentive has to be relevant to each group. *Is the value concentrated where it drives the most incremental purchases?*
-:::
-::: {}
-**Timing**<br>
-Buying cycles differ by group. *Does the launch window match when each group plans and spends?*
-:::
-::: {}
-**Diagnosis**<br>
-The analysis found **two structural design flaws**: one in how the offer was distributed across client groups, and one in how launch timing lined up with their buying cycles.
-:::
-:::
+| Hypothesis considered | Evidence required | Potential action |
+|---|---|---|
+| **Audience fit:** is the offer reaching the right customers? | Adoption by customer segment | Refine who the offer targets |
+| **Offer design:** is the incentive relevant to each group? | Response across offer types and segments | Adjust the structure of the offer |
+| **Timing:** does the window match when customers plan and spend? | Results across periods and buying cycles | Change when the promotion runs |
+| **Channel execution:** is the offer being sold consistently? | Performance across sales channels | Improve enablement or channel focus |
 
-The redesign **tailored the offer and its timing to each client group**, based on that group's buying power and past seasonal behavior.
+[Illustrative decision framework: hypotheses a diagnostic could consider, not confirmed findings. It does not describe LINE's actual campaigns, rules, or results.]{.illustrative}
 
-```{=html}
-<div class="index-bars" role="img" aria-label="Indexed sales before and after redesign">
-  <div class="bar-group-title">Package sales (indexed to the original launch = 1×)</div>
-  <div class="bar-row"><span>Original package</span><span class="bar-track"><span class="bar-fill" style="width:5%"></span></span><span class="bar-value">1×</span></div>
-  <div class="bar-row"><span>Redesigned package</span><span class="bar-track"><span class="bar-fill accent" style="width:100%"></span></span><span class="bar-value">~20×</span></div>
-</div>
-```
+## Outcome
 
-[Indexed visualization. Absolute sales figures omitted.]{.illustrative}
+- Recommendations informed improvements to promotional execution and contributed to stronger sales performance
+- The work showed how cross-channel KPI tracking can surface questions that are hard to see from inside a single team
 
-## Business impact
+## Lessons learned
 
-- The redesigned package delivered **about 20× the sales** of the original launch
-- The analysis was later **expanded into a standing framework for clients' annual deals**, used to assess each client's true spending power rather than relying on past order size alone
-- It showed how cross-channel KPI tracking can reveal structural issues that are hard to see from inside a single team
-- The product manager who championed the revision later moved into a product-lead role and asked their team to keep working with me on key initiatives
+- **Test the obvious explanation.** Writing down competing hypotheses keeps a diagnostic from stopping at the first plausible answer.
+- **Look at several lenses together.** Segment, offer, and timing can explain more in combination than any one view does alone.
+- **Frame findings as iteration.** Recommendations are easier to act on when they build on a team's work rather than critique it.
 
 ## Skills & methods
 
-Diagnostic analysis · customer segmentation · offer and discount design · seasonality analysis · cross-channel KPI tracking · Excel · Tableau · influencing without authority
+Diagnostic analysis · customer segmentation · promotional effectiveness analysis · seasonality analysis · cross-channel KPI tracking · Excel · Tableau · influencing without authority
+
+[Specific campaign mechanics, internal discussions, and customer-level outcomes are omitted.]{.note-muted}
 
 {{< include ../_line-disclosure.md >}}

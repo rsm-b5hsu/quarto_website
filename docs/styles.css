@@ -156,6 +156,33 @@
   transform: translate(50%, 50%);
 }
 
+/* Provenance badge: sits directly above or beside each figure */
+.provenance {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border: 1px solid #ced4da;
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  color: #495057;
+  background: #f8f9fa;
+}
+.provenance-illustrative { border-color: #2780e3; color: #1b5faa; background: #eef5fd; }
+.provenance-synthetic { border-color: #9954bb; color: #6f3a8a; background: #f6f0fa; }
+.provenance-result { border-color: #3f8f5b; color: #2b6a41; background: #eef7f1; }
+
+/* Keep wide tables inside the page on phones */
+@media (max-width: 640px) {
+  main table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    font-size: 0.85rem;
+  }
+}
+
 /* Captions and disclosures */
 .illustrative {
   display: block;

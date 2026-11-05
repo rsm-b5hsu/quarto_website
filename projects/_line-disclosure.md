@@ -1,3 +1,3 @@
 ::: {.disclosure}
-Visualizations are reconstructed for portfolio purposes. Proprietary data, pricing mechanics, and business rules have been omitted or replaced with illustrative examples.
+Frameworks on this page are illustrative and do not describe LINE's actual pricing rules, workflows, or results. Confidential assumptions, customer metrics, and decision rules are excluded.
 :::

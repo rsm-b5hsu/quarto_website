@@ -21,7 +21,13 @@ categories: [BI, dashboards, SQL, Tableau, process-automation, LINE]
 :::
 :::
 
-## Business context
+[Self-reported result]{.provenance .provenance-result}
+
+## Executive summary
+
+I noticed teams were rebuilding the same reports by hand every week, so I scoped an automated reporting layer with the engineering and BI teams. It saves about 20 team-hours a month and gives 20+ stakeholders a current view of KPIs.
+
+## Business challenge
 
 Product managers and business stakeholders spent a large part of every week **pulling data from several platforms by hand and reformatting it in Excel** for routine reports. The process was repetitive and error-prone. It also limited how deeply teams could analyze anything, because most of their time went to gathering data rather than interpreting it.
 
@@ -34,6 +40,8 @@ Product managers and business stakeholders spent a large part of every week **pu
 ## Analytical approach
 
 The goal was not "build a dashboard." It was to **remove repeated manual work**, which meant first finding out exactly what was being repeated.
+
+[Illustrative framework]{.provenance .provenance-illustrative}
 
 ::: {.flow}
 ::: {.flow-step}
@@ -54,13 +62,15 @@ The goal was not "build a dashboard." It was to **remove repeated manual work**,
 :::
 ::: {.flow-step}
 **Roll out and adopt**
-[20+ stakeholders]{.small}
+[stakeholder teams]{.small}
 :::
 :::
 
-## Visual explanation
+## Illustrative decision framework
 
 **From manual reporting to a single, always-current view**
+
+[Illustrative framework]{.provenance .provenance-illustrative}
 
 ::: {.compare}
 ::: {}
@@ -83,12 +93,20 @@ The goal was not "build a dashboard." It was to **remove repeated manual work**,
 :::
 :::
 
-## Business impact
+[Illustrative framework: a general description of the change. It does not show LINE's actual dashboards, schemas, or KPI rules.]{.illustrative}
+
+## Outcome
 
 - Saved about **20 team-hours per month**, roughly 30 minutes a week for each of about 20 people
 - Gave **20+ stakeholders** real-time KPI monitoring and status reporting instead of weekly static reports
 - Built a habit of **data accessibility**: teams that used to depend on manual extracts began using data in their day-to-day decisions
 - Grew out of the reporting needs identified in the [Official Account pricing work](../line-oa-lifecycle-pricing/index.qmd)
+
+## Lessons learned
+
+- **Find the repetition first.** Knowing exactly what is rebuilt each cycle defines what is worth automating.
+- **Write the spec before building.** Agreeing on sources, logic, and outputs up front gives engineering and BI a clear target.
+- **Adoption is part of the project.** Time is only saved once stakeholders actually use the new view.
 
 ## Skills & methods
 

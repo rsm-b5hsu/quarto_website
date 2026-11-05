@@ -1,0 +1,96 @@
+---
+title: "Fan CRM Analytics: Predictive Models for Audience Prioritization"
+description: "MSBA consulting capstone for a professional sports organization: a predictive analytics workflow with time-aware validation and SHAP explanations that translates model scores into CRM prioritization."
+author: "Ben Hsu"
+date: "2026-06-15"
+categories: [consulting, propensity-modeling, XGBoost, SHAP, python, UCSD MSBA]
+---
+
+::: {.impact-grid}
+::: {.impact-card}
+[Time-aware]{.num}
+[validation built to reflect how fan behavior changes over time]{.label}
+:::
+::: {.impact-card}
+[Explainable]{.num}
+[SHAP used to turn predictions into interpretable insights]{.label}
+:::
+::: {.impact-card}
+[CRM-ready]{.num}
+[a framework for audience prioritization and targeted engagement]{.label}
+:::
+:::
+
+## Executive summary
+
+For my MSBA consulting capstone, I built a predictive analytics workflow for a professional sports organization and turned its output into a framework that marketing teams could use to prioritize outreach.
+
+## Business challenge
+
+A professional sports organization sought a more systematic approach to understanding fan engagement and prioritizing customer outreach.
+
+## My role
+
+- Prepared the data and engineered time-aligned features
+- Built and evaluated XGBoost models with time-aware validation
+- Used SHAP to interpret the models and explain the results
+- Translated model scores into CRM decisions a marketing team could act on
+
+## Analytical approach
+
+I built a predictive analytics workflow using historical engagement and transaction signals, evaluated models with time-aware validation, and used SHAP to translate predictions into interpretable business insights.
+
+**Validating honestly.** Fan behavior changes over time, so a random split would leak future information into training. I validated with **rolling-origin folds** instead: each model trains on earlier windows and is tested on the next one, and I compared XGBoost against simpler baselines.
+
+**Explaining the model.** SHAP breaks each prediction into the contribution of each input. In general terms, that lets a non-technical stakeholder see *why* a customer received a score, as well as the score itself.
+
+## Illustrative decision framework
+
+**From raw data to CRM prioritization**
+
+[Illustrative framework]{.provenance .provenance-illustrative}
+
+::: {.flow}
+::: {.flow-step}
+**Data preparation**
+[align features to a snapshot date]{.small}
+:::
+::: {.flow-step}
+**Time-based split**
+[train on past windows, test on the next]{.small}
+:::
+::: {.flow-step .accent}
+**XGBoost**
+[compared with simpler baselines]{.small}
+:::
+::: {.flow-step}
+**Evaluation**
+[time-aware validation]{.small}
+:::
+::: {.flow-step}
+**SHAP**
+[explain what drives each score]{.small}
+:::
+::: {.flow-step}
+**CRM prioritization**
+[scores → outreach decisions]{.small}
+:::
+:::
+
+[Illustrative framework: a general modeling pipeline. It does not show client data, model performance, or recommendations.]{.illustrative}
+
+## Outcome
+
+Delivered a framework for audience prioritization and more targeted CRM engagement.
+
+## Lessons learned
+
+- **Handoff design is part of the model.** Documentation and clear labels mattered as much as model performance.
+- **Explainability builds trust.** SHAP helped non-technical stakeholders see *why* a customer was flagged.
+- **Time alignment is the hardest part.** Combining sources with different grains and horizons required explicit snapshot logic to avoid leakage.
+
+## Tools
+
+Python · pandas · scikit-learn · XGBoost · pyrsm · SHAP · SQL · Jupyter
+
+[UCSD MSBA consulting capstone · Apr–Jun 2026. Client-specific data, model performance, and commercial recommendations are not disclosed.]{.note-muted}
