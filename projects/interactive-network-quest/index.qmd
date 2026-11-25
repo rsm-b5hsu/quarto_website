@@ -165,8 +165,6 @@ The week review shows what built each meter, the stronger option skipped, and wh
 
 The story, characters, companies and offers are fictional. Evidence is never verified, the weekly email is a preview only, and your progress stays in your own browser.
 
-**AI disclosure:** I designed the game, its missions, key concepts and ideas (from course content). AI helped with feasibility testing, the detailed script and the UI; Claude Code helped build the game and wrote detailed conversations and avatars.
-
 **Tools:** HTML · CSS · JavaScript (ES modules) · no frameworks, backend or API calls
 
 [UCSD MSBA · MGTA 459 Managerial Decision Making · Fall 2026]{.note-muted}
