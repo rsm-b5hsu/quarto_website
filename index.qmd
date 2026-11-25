@@ -16,6 +16,14 @@ about:
 
 I work at the intersection of data science and business decision-making. My focus areas include pricing analytics, demand forecasting, experimentation, customer segmentation, and text-based modeling. I care about building models that are interpretable, testable, and deployable under real-world constraints.
 
+### Try it: Network Quest
+
+::: {.play-card}
+[![Network Quest game screen](projects/interactive-network-quest/images/play.jpg){fig-alt="Network Quest game screen"}](projects/interactive-network-quest/index.qmd)
+
+A career strategy RPG I designed, where real-world networking unlocks the story. Land an offer, build support across teams, then lead one. [Play it and see how it works →](projects/interactive-network-quest/index.qmd)
+:::
+
 ## Education
 
 University of California, San Diego | San Diego, CA |

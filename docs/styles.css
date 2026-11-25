@@ -211,3 +211,41 @@
   background: #fff;
 }
 .resume-loading { color: #6c757d; font-style: italic; }
+
+/* ---- Interactive projects ---- */
+.play-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; }
+.game-embed { border: 1px solid #dee2e6; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; background: #0e1a33; }
+.game-embed iframe { display: block; width: 100%; height: min(820px, 88vh); border: 0; }
+.game-poster { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
+.game-poster img { display: block; width: 100%; height: auto; opacity: 0.6; transition: opacity 0.2s; }
+.game-poster:hover img, .game-poster:focus-visible img { opacity: 0.8; }
+.game-poster span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  background: #2780e3;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+img.game-shot { display: block; max-width: min(100%, 620px); margin: 0.5rem auto; border: 1px solid #dee2e6; border-radius: 8px; }
+.play-card {
+  display: grid;
+  grid-template-columns: minmax(140px, 2fr) 3fr;
+  gap: 1rem;
+  align-items: center;
+  border: 1px solid #dee2e6;
+  border-left: 4px solid #2780e3;
+  border-radius: 6px;
+  padding: 0.9rem 1rem;
+  margin: 1rem 0 1.75rem;
+  background: #f8f9fa;
+}
+.play-card p, .play-card figure { margin: 0; }
+.play-card img { display: block; width: 100%; border-radius: 4px; }
+.play-card figcaption { display: none; }
+@media (max-width: 640px) { .play-card { grid-template-columns: 1fr; } }

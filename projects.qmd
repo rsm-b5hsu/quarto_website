@@ -1,6 +1,12 @@
 ---
 title: "My Projects"
 listing:
+  - id: interactive-listing
+    contents: "projects/interactive-*/index.qmd"
+    type: grid
+    grid-columns: 2
+    sort: "date desc"
+    fields: [image, title, description, categories]
   - id: line-listing
     contents: "projects/line-*/index.qmd"
     type: grid
@@ -25,6 +31,13 @@ listing:
 ---
 
 Selected work across my career, from business cases and pricing research to product strategy and machine learning. Each project starts from a business question and ends with a decision or recommendation.
+
+## Interactive Projects
+
+[Playable in your browser. Nothing to install.]{.section-intro}
+
+::: {#interactive-listing}
+:::
 
 ## Professional Case Studies · LINE Plus (2021–2025)
 
